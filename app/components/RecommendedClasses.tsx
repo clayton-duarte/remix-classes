@@ -27,7 +27,7 @@ export function RecommendedClasses({
   if (classList.length === 1) {
     return (
       <>
-        <h1>Recommended class: {classList[0].name}</h1>
+        <h3>Recommended class: {classList[0].name}</h3>
         <Link to={`/`}>or try a different combination</Link>
       </>
     );
@@ -35,7 +35,7 @@ export function RecommendedClasses({
 
   return (
     <>
-      <h1>Recommended classes:</h1>
+      <h3>Recommended classes:</h3>
       <ul>
         {classList.map(({ name }) => (
           <li key={name}>
