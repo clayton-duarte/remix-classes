@@ -1,4 +1,4 @@
-import { useLoaderData, useParams, Outlet, json } from "remix";
+import { useLoaderData, useParams, json } from "remix";
 
 import Selector from "~/components/Selector";
 import { fetchCharacterPowerSources } from "~/helpers/dataFetch";
@@ -8,6 +8,10 @@ type LoaderResponse = {
   powerList: PowerSource[];
 };
 
+type RouteParams = {
+  characterRole: CharacterRole;
+};
+
 export const loader = async () => {
   return json<LoaderResponse>({
     powerList: fetchCharacterPowerSources(),
@@ -15,20 +19,20 @@ export const loader = async () => {
 };
 
 export default function Page() {
-  const { role } = useParams<{ role: CharacterRole }>();
+  const { characterRole } = useParams<RouteParams>();
   const { powerList } = useLoaderData<LoaderResponse>();
 
   return (
     <>
       <Selector
         area="power"
-        data={powerList.map((powerName) => ({
-          link: `/${role}/${powerName}`,
-          label: powerName,
-          id: powerName,
+        data={powerList.map((power) => ({
+          link: `/${characterRole}/${power}`,
+          label: power,
+          id: power,
         }))}
       />
-      <Outlet />
+      {characterRole} data
     </>
   );
 }

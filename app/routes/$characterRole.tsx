@@ -8,23 +8,27 @@ type LoaderResponse = {
   roleList: CharacterRole[];
 };
 
+type RouteParams = {
+  characterRole: CharacterRole;
+  characterPower?: PowerSource;
+};
+
 export const loader = async () => {
   return json({ roleList: fetchCharacterRoles() });
 };
 
 export default function Page() {
-  const { role, power = "" } =
-    useParams<{ role: CharacterRole; power: PowerSource }>();
+  const { characterRole, characterPower = "" } = useParams<RouteParams>();
   const { roleList } = useLoaderData<LoaderResponse>();
   return (
     <>
       <Selector
         area="role"
-        active={role}
-        data={roleList.map((roleName) => ({
-          link: `/${roleName}/${power}`,
-          label: roleName,
-          id: roleName,
+        active={characterRole}
+        data={roleList.map((role) => ({
+          link: `/${role}/${characterPower}`,
+          label: role,
+          id: role,
         }))}
       />
       <Outlet />

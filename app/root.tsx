@@ -5,6 +5,7 @@ import {
   Scripts,
   Outlet,
   Links,
+  Link,
   Meta,
 } from "remix";
 import { Theme, ThemeProvider, Global, css } from "@emotion/react";
@@ -64,9 +65,10 @@ const ContentLayout = styled.article`
   display: grid;
   gap: 1rem;
   grid-template-areas:
-    "role race race race race"
-    "power race race race race"
-    "class race race race race";
+    "role data"
+    "power data"
+    "class data"
+    "race data";
 `;
 
 export default function App() {
@@ -82,7 +84,9 @@ export default function App() {
         <ThemeProvider theme={theme}>
           <PageLayout>
             <HeaderLayout>
-              <h1>Character Builder</h1>
+              <Link to="/">
+                <h1>Character Builder</h1>
+              </Link>
             </HeaderLayout>
             <ContentLayout>
               <Outlet />

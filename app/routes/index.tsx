@@ -1,4 +1,4 @@
-import { json, useLoaderData, Outlet } from "remix";
+import { json, useLoaderData } from "remix";
 
 import { fetchCharacterRoles } from "~/helpers/dataFetch";
 import Selector from "~/components/Selector";
@@ -25,7 +25,7 @@ export default function Page() {
           id: roleName,
         }))}
       />
-      <Outlet />
+      index data
     </>
   );
 }
