@@ -1,8 +1,8 @@
 import { useLoaderData, useParams, Outlet, json } from "remix";
 
-import Selector from "~/components/Selector";
 import { fetchCharacterPowerSources } from "~/helpers/dataFetch";
 import { PowerSource, CharacterRole } from "~/helpers/data";
+import Selector from "~/components/Selector";
 
 type LoaderResponse = {
   powerList: PowerSource[];
@@ -21,14 +21,14 @@ export default function Page() {
 
   return (
     <>
-      <h2>power:</h2>
       <Selector
+        area="power"
+        active={power}
         data={powerList.map((powerName) => ({
           link: `/${role}/${powerName}`,
           label: powerName,
           id: powerName,
         }))}
-        active={power}
       />
       <Outlet />
     </>

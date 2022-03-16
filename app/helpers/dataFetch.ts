@@ -26,3 +26,9 @@ export function fetchCharacterClasses(): CharacterClass[] {
 export function fetchCharacterRaces(): CharacterRace[] {
   return characterRaces;
 }
+
+export function fetchCharacterClassByName(
+  characterClassName: CharacterClass["name"]
+): CharacterClass | undefined {
+  return characterClasses.find(({ name }) => characterClassName === name);
+}

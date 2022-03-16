@@ -1,4 +1,4 @@
-import { json, useLoaderData, Outlet, useParams } from "remix";
+import { json, useLoaderData, Outlet } from "remix";
 
 import { fetchCharacterRoles } from "~/helpers/dataFetch";
 import Selector from "~/components/Selector";
@@ -14,20 +14,18 @@ export const loader = async () => {
 
 export default function Page() {
   const { roleList } = useLoaderData<LoaderResponse>();
-  const { role } = useParams<{ role: CharacterRole }>();
 
   return (
-    <main>
-      <h1>role:</h1>
+    <>
       <Selector
+        area="role"
         data={roleList.map((roleName) => ({
           link: `/${roleName}`,
           label: roleName,
           id: roleName,
         }))}
-        active={role}
       />
       <Outlet />
-    </main>
+    </>
   );
 }

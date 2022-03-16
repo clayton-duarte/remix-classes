@@ -15,20 +15,18 @@ export const loader = async () => {
 };
 
 export default function Page() {
-  const { role, power } =
-    useParams<{ role: CharacterRole; power: PowerSource }>();
+  const { role } = useParams<{ role: CharacterRole }>();
   const { powerList } = useLoaderData<LoaderResponse>();
 
   return (
     <>
-      <h2>power:</h2>
       <Selector
+        area="power"
         data={powerList.map((powerName) => ({
           link: `/${role}/${powerName}`,
           label: powerName,
           id: powerName,
         }))}
-        active={power}
       />
       <Outlet />
     </>

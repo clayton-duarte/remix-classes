@@ -1,4 +1,5 @@
 import { Link, useParams } from "remix";
+
 import { PowerSource, CharacterRole, CharacterClass } from "~/helpers/data";
 
 export function RecommendedClasses({
@@ -10,25 +11,21 @@ export function RecommendedClasses({
     useParams<{ role: CharacterRole; power: PowerSource }>();
 
   if (classList.length === 0) {
-    return (
-      <>
-        <p>
-          No{" "}
-          <strong>
-            {power} {role}
-          </strong>{" "}
-          classes available at the moment
-        </p>
-        <Link to={`/`}>Please try a different combination</Link>
-      </>
-    );
+    return <></>;
   }
+
+  return (
+    <>
+      {classList.map(({ name }) => {
+        return <Link to={`/${role}/${power}/${name}`}>{name}</Link>;
+      })}
+    </>
+  );
 
   if (classList.length === 1) {
     return (
       <>
         <h3>Recommended class: {classList[0].name}</h3>
-        <Link to={`/`}>or try a different combination</Link>
       </>
     );
   }
@@ -43,7 +40,6 @@ export function RecommendedClasses({
           </li>
         ))}
       </ul>
-      <Link to={`/`}>Or try a different combination</Link>
     </>
   );
 }

@@ -9,6 +9,12 @@ type LoaderResponse = {
   classList: CharacterClass[];
 };
 
+type RouteParams = {
+  role: CharacterRole;
+  power: PowerSource;
+  className: string;
+};
+
 export const loader = async () => {
   return json<LoaderResponse>({
     classList: fetchCharacterClasses(),
@@ -17,8 +23,7 @@ export const loader = async () => {
 
 export default function Page() {
   const { classList } = useLoaderData<LoaderResponse>();
-  const { role, power } =
-    useParams<{ role: CharacterRole; power: PowerSource }>();
+  const { role, power, className } = useParams<RouteParams>();
 
   const filteredClasses = useMemo(() => {
     return classList.filter(
@@ -34,10 +39,11 @@ export default function Page() {
       {filteredClasses.length > 0 ? (
         <Selector
           area="class"
-          data={filteredClasses.map(({ name: className }) => ({
-            link: `/${role}/${power}/${className}`,
-            label: className,
-            id: className,
+          active={className}
+          data={filteredClasses.map(({ name }) => ({
+            link: `/${role}/${power}/${name}`,
+            label: name,
+            id: name,
           }))}
         />
       ) : (

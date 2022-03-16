@@ -17,17 +17,17 @@ export default function Page() {
     useParams<{ role: CharacterRole; power: PowerSource }>();
   const { roleList } = useLoaderData<LoaderResponse>();
   return (
-    <main>
-      <h2>role:</h2>
+    <>
       <Selector
+        area="role"
+        active={role}
         data={roleList.map((roleName) => ({
           link: `/${roleName}/${power}`,
           label: roleName,
           id: roleName,
         }))}
-        active={role}
       />
       <Outlet />
-    </main>
+    </>
   );
 }
