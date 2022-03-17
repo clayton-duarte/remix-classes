@@ -8,7 +8,7 @@ const StyledWrapper = styled.div<{ area: string }>`
 `;
 
 const StyledList = styled.ul`
-  border: 1px solid ${({ theme }) => theme.primary};
+  border: 1px solid ${({ theme }) => theme.warn};
   padding: 0.25rem;
   display: grid;
   gap: 0.25rem;
@@ -16,7 +16,7 @@ const StyledList = styled.ul`
 `;
 
 const StyledListItem = styled.li`
-  color: ${({ theme }) => theme.secondary};
+  color: ${({ theme }) => theme.warn};
   grid-template-columns: 1fr auto;
   list-style: none;
   display: grid;
@@ -25,9 +25,10 @@ const StyledListItem = styled.li`
 `;
 
 const StyledButton = styled.button<{ active: boolean }>`
-  background: ${({ theme, active }) => (active ? theme.primary : theme.white)};
+  background: ${({ theme, active }) =>
+    active ? theme.secondary : theme.white};
+  color: ${({ theme }) => theme.primary};
   text-transform: capitalize;
-  color: ${({ theme }) => theme.secondary};
   padding: 0.25rem 0.5rem;
   font-size: 1rem;
   cursor: pointer;
@@ -37,7 +38,7 @@ const StyledButton = styled.button<{ active: boolean }>`
 `;
 
 const StyledSpan = styled.span`
-  background: ${({ theme }) => theme.primary};
+  background: ${({ theme }) => theme.secondary};
   color: ${({ theme }) => theme.white};
   margin-left: 0.25rem;
   border-radius: 1rem;

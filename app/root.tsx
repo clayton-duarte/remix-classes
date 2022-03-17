@@ -11,19 +11,6 @@ import {
 import { Theme, ThemeProvider, Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
-};
-
-const theme: Theme = {
-  primary: "#00ADB5",
-  secondary: "#393E46",
-  warn: "#FFC300",
-  error: "#FF1818",
-  black: "#222831",
-  white: "#EEEEEE",
-};
-
 const PageLayout = styled.main`
   grid-template-rows: auto 1fr;
   align-items: flex-start;
@@ -70,6 +57,20 @@ const ContentLayout = styled.article`
     "class data"
     "race data";
 `;
+
+const theme: Theme = {
+  primary: "#00ADB5",
+  secondary: "#EEEEEE",
+  success: "#303841",
+  warn: "#FF5722",
+  error: "#303841",
+  black: "#303841",
+  white: "#FEFEFE",
+};
+
+export const meta: MetaFunction = () => {
+  return { title: "New Remix App" };
+};
 
 export default function App() {
   return (
