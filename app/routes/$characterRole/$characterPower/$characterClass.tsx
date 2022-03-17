@@ -58,10 +58,9 @@ export default function Page() {
         </p>
       )}
       {characterPower && (
-        <DataPanel
-          glossary={characterPowerSourceGlossary[characterPower]}
-          area="power-data"
-        />
+        <DataPanel area="power-data">
+          {characterPowerSourceGlossary[characterPower].description}
+        </DataPanel>
       )}
       <Outlet />
     </>

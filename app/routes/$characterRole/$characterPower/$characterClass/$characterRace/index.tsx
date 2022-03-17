@@ -49,9 +49,7 @@ export default function Page() {
 
   return (
     <>
-      {characterRace && (
-        <DataPanel glossary={{ description: characterRace }} area="race-data" />
-      )}
+      {characterRace && <DataPanel area="race-data">{characterRace}</DataPanel>}
     </>
   );
 }

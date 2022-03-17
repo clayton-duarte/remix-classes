@@ -26,21 +26,30 @@ export interface CharacterClass {
   powerSource: PowerSource;
   mainRole: CharacterRole;
   keyAbilities: Ability[];
+  flavorText: string;
   name: string;
+  book: number;
+  page: number;
 }
 
 export const characterClasses: CharacterClass[] = [
   // Player's Handbook 1
   {
+    book: 1,
+    page: 60,
     name: "cleric",
     mainRole: CharacterRole.Leader,
     powerSource: PowerSource.Divine,
+    flavorText: "“Have courage, my friends! Pelor favors us today!”",
     keyAbilities: [Ability.Wisdom, Ability.Strength, Ability.Charisma],
   },
   {
+    book: 1,
+    page: 75,
     name: "fighter",
     mainRole: CharacterRole.Defender,
     powerSource: PowerSource.Martial,
+    flavorText: "“You’ll have to deal with me first, dragon!”",
     keyAbilities: [
       Ability.Strength,
       Ability.Dexterity,
@@ -49,27 +58,43 @@ export const characterClasses: CharacterClass[] = [
     ],
   },
   {
+    book: 1,
+    page: 89,
     name: "paladin",
     mainRole: CharacterRole.Defender,
     powerSource: PowerSource.Divine,
+    flavorText:
+      "“I am the righteous shield of Moradin and a sword in his mighty hand! I fear no evil!”",
     keyAbilities: [Ability.Strength, Ability.Charisma, Ability.Wisdom],
   },
   {
+    book: 1,
+    page: 103,
     name: "ranger",
     mainRole: CharacterRole.Striker,
     powerSource: PowerSource.Martial,
+    flavorText:
+      "“I’ll get the one in the back. That’s one hobgoblin who’ll regret ever lifting a bow.”",
     keyAbilities: [Ability.Strength, Ability.Dexterity, Ability.Wisdom],
   },
   {
+    book: 1,
+    page: 116,
     name: "rogue",
     mainRole: CharacterRole.Striker,
     powerSource: PowerSource.Martial,
+    flavorText:
+      "“You look surprised to see me. If you’d been paying attention, you might still be alive.”",
     keyAbilities: [Ability.Dexterity, Ability.Strength, Ability.Charisma],
   },
   {
+    book: 1,
+    page: 129,
     name: "warlock",
     mainRole: CharacterRole.Striker,
     powerSource: PowerSource.Arcane,
+    flavorText:
+      "“The darkness holds no terror for me, demon! I curse you now under the Sign of Ill Omen!”",
     keyAbilities: [
       Ability.Charisma,
       Ability.Constitution,
@@ -77,34 +102,50 @@ export const characterClasses: CharacterClass[] = [
     ],
   },
   {
+    book: 1,
+    page: 143,
     name: "warlord",
     mainRole: CharacterRole.Leader,
     powerSource: PowerSource.Martial,
+    flavorText: "“Onward to victory! They cannot stand before us!”",
     keyAbilities: [Ability.Strength, Ability.Intelligence, Ability.Charisma],
   },
   {
+    book: 1,
+    page: 156,
     name: "wizard",
     mainRole: CharacterRole.Controller,
     powerSource: PowerSource.Arcane,
+    flavorText:
+      "“I am the fire that burns, the choking fog, the storm that rains devastation on our foes.”",
     keyAbilities: [Ability.Intelligence, Ability.Wisdom, Ability.Dexterity],
   },
-  // Player's Handbook 2
   {
+    book: 2,
+    page: 32,
     name: "avenger",
     mainRole: CharacterRole.Striker,
     powerSource: PowerSource.Divine,
+    flavorText: "“You’ll have to deal with me first, dragon!”",
     keyAbilities: [Ability.Wisdom, Ability.Dexterity, Ability.Intelligence],
   },
   {
+    book: 2,
+    page: 48,
     name: "barbarian",
     mainRole: CharacterRole.Striker,
     powerSource: PowerSource.Primal,
+    flavorText: "“My strength is the fury of the wild.”",
     keyAbilities: [Ability.Strength, Ability.Constitution, Ability.Charisma],
   },
   {
+    book: 2,
+    page: 66,
     name: "bard",
     mainRole: CharacterRole.Leader,
     powerSource: PowerSource.Arcane,
+    flavorText:
+      "“The clash of blades, a note. A battle fought, a verse. The hero’s war, a song.”",
     keyAbilities: [
       Ability.Charisma,
       Ability.Intelligence,
@@ -112,70 +153,110 @@ export const characterClasses: CharacterClass[] = [
     ],
   },
   {
+    book: 2,
+    page: 82,
     name: "druid",
     mainRole: CharacterRole.Controller,
     powerSource: PowerSource.Primal,
+    flavorText: "“I am the seeker. I am the stalker. I am the storm.”",
     keyAbilities: [Ability.Wisdom, Ability.Dexterity, Ability.Constitution],
   },
   {
+    book: 2,
+    page: 100,
     name: "invoker",
     mainRole: CharacterRole.Controller,
     powerSource: PowerSource.Divine,
+    flavorText:
+      "“The only thing stronger than my faith is the fire I use to burn away those who stand against the will of the gods.”",
     keyAbilities: [Ability.Wisdom, Ability.Constitution, Ability.Intelligence],
   },
   {
+    book: 2,
+    page: 118,
     name: "shaman",
     mainRole: CharacterRole.Leader,
     powerSource: PowerSource.Primal,
+    flavorText:
+      "“The spirits surround us, guide us, and hold all the knowledge of the world.”",
     keyAbilities: [Ability.Wisdom, Ability.Constitution, Ability.Intelligence],
   },
   {
+    book: 2,
+    page: 136,
     name: "sorcerer",
     mainRole: CharacterRole.Striker,
     powerSource: PowerSource.Arcane,
+    flavorText: "“I am in the arcane, and the arcane is in me.”",
     keyAbilities: [Ability.Charisma, Ability.Dexterity, Ability.Strength],
   },
   {
+    book: 2,
+    page: 152,
     name: "warden",
     mainRole: CharacterRole.Defender,
     powerSource: PowerSource.Primal,
+    flavorText:
+      "“Get past me? You might as well try to push the mountains aside.”",
     keyAbilities: [Ability.Strength, Ability.Constitution, Ability.Wisdom],
   },
-  // Player's Handbook 3
   {
+    book: 3,
+    page: 22,
     name: "ardent",
     mainRole: CharacterRole.Leader,
     powerSource: PowerSource.Psionic,
+    flavorText: "“The fate of the world rests on the fire of your passions”",
     keyAbilities: [Ability.Charisma, Ability.Constitution, Ability.Wisdom],
   },
   {
+    book: 3,
+    page: 42,
     name: "battlemind",
     mainRole: CharacterRole.Defender,
     powerSource: PowerSource.Psionic,
+    flavorText:
+      "“My mind is a far deadlier weapon than some ill-crafted bit of iron”",
     keyAbilities: [Ability.Constitution, Ability.Wisdom, Ability.Charisma],
   },
   {
+    book: 3,
+    page: 62,
     name: "monk",
     mainRole: CharacterRole.Striker,
     powerSource: PowerSource.Psionic,
+    flavorText:
+      "“You fight well, but without discipline and focus, you will fall.”",
     keyAbilities: [Ability.Dexterity, Ability.Strength, Ability.Wisdom],
   },
   {
+    book: 3,
+    page: 80,
     name: "psion",
     mainRole: CharacterRole.Controller,
     powerSource: PowerSource.Psionic,
+    flavorText:
+      "“I can bend the desire of the mortals and immortals to my will”",
     keyAbilities: [Ability.Intelligence, Ability.Charisma, Ability.Wisdom],
   },
   {
+    book: 3,
+    page: 98,
     name: "runepriest",
     mainRole: CharacterRole.Leader,
     powerSource: PowerSource.Divine,
+    flavorText:
+      "“The divine runes of might are stronger than any steel, more dangerous than any spell”",
     keyAbilities: [Ability.Strength, Ability.Constitution, Ability.Wisdom],
   },
   {
+    book: 3,
+    page: 116,
     name: "seeker",
     mainRole: CharacterRole.Controller,
     powerSource: PowerSource.Primal,
+    flavorText:
+      "“I am the lightning strike, the earth's upheaval, the unruly sea. I am the bringer of your destruction.”",
     keyAbilities: [Ability.Wisdom, Ability.Strength, Ability.Dexterity],
   },
 ];

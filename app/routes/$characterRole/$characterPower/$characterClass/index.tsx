@@ -54,10 +54,7 @@ export default function Page() {
         }))}
       />
       {characterClass && (
-        <DataPanel
-          glossary={{ description: characterClass }}
-          area="class-data"
-        />
+        <DataPanel area="class-data">{characterClass}</DataPanel>
       )}
     </>
   );
