@@ -14,49 +14,112 @@ export enum CharacterPowerSource {
 }
 
 export enum CharacterAbility {
-  Strength = "Strength",
-  Constitution = "Constitution",
-  Dexterity = "Dexterity",
-  Intelligence = "Intelligence",
-  Wisdom = "Wisdom",
-  Charisma = "Charisma",
+  Strength = "strength",
+  Constitution = "constitution",
+  Dexterity = "dexterity",
+  Intelligence = "intelligence",
+  Wisdom = "wisdom",
+  Charisma = "charisma",
 }
 
 export enum CharacterClassName {
-  Cleric = "Cleric",
-  Fighter = "Fighter",
-  Paladin = "Paladin",
-  Ranger = "Ranger",
-  Rogue = "Rogue",
-  Warlock = "Warlock",
-  Warlord = "Warlord",
-  Wizard = "Wizard",
-  Avenger = "Avenger",
-  Barbarian = "Barbarian",
-  Bard = "Bard",
-  Druid = "Druid",
-  Invoker = "Invoker",
-  Shaman = "Shaman",
-  Sorcerer = "Sorcerer",
-  Warden = "Warden",
-  Ardent = "Ardent",
-  Battlemind = "Battlemind",
-  Monk = "Monk",
-  Psion = "Psion",
-  Runepriest = "Runepriest",
-  Seeker = "Seeker",
+  Cleric = "cleric",
+  Fighter = "fighter",
+  Paladin = "paladin",
+  Ranger = "ranger",
+  Rogue = "rogue",
+  Warlock = "warlock",
+  Warlord = "warlord",
+  Wizard = "wizard",
+  Avenger = "avenger",
+  Barbarian = "barbarian",
+  Bard = "bard",
+  Druid = "druid",
+  Invoker = "invoker",
+  Shaman = "shaman",
+  Sorcerer = "sorcerer",
+  Warden = "warden",
+  Ardent = "ardent",
+  Battlemind = "battlemind",
+  Monk = "monk",
+  Psion = "psion",
+  Runepriest = "runepriest",
+  Seeker = "seeker",
 }
 
-export const characterRoles: CharacterRole[] = Object.values(CharacterRole);
+export enum CharacterRaceName {
+  Dragonborn = "dragonborn",
+  Dwarf = "dwarf",
+  Eladrin = "eladrin",
+  Elf = "elf",
+  HalfElf = "half-elf",
+  Halfling = "halfling",
+  Human = "human",
+  Tiefling = "tiefling",
+  Deva = "deva",
+  Gnome = "gnome",
+  Goliath = "goliath",
+  HalfOrc = "half-orc",
+  Shifter = "shifter",
+  Githzerai = "githzerai",
+  Minotaur = "minotaur",
+  Shardmind = "shardmind",
+  Wilden = "wilden",
+}
 
-export const characterPowerSources: CharacterPowerSource[] =
-  Object.values(CharacterPowerSource);
+export type CharacterRolesGlossary = {
+  [key in CharacterRole]: {
+    description: string;
+  };
+};
 
-export const characterAbility: CharacterAbility[] =
-  Object.values(CharacterAbility);
+export const characterRolesGlossary: CharacterRolesGlossary = {
+  [CharacterRole.Controller]: {
+    description:
+      "Controllers deal with large numbers of enemies at the same time. They favor offense over defense, using powers that deal damage to multiple foes at once, as well as subtler powers that weaken, confuse, or delay their foes.",
+  },
+  [CharacterRole.Defender]: {
+    description:
+      "Defenders have the highest defenses in the game and good close-up offense. They are the party's front-line combatants; wherever they're standing, that's where the action is. Defenders have abilities and powers that make it difficult for enemies to move past them or to ignore them in battle.",
+  },
+  [CharacterRole.Leader]: {
+    description:
+      "Leaders inspire, heal, and aid the other characters in an adventuring group. Leaders have good defenses, but their strength lies in powers that protect their companions and target specific foes for the party to concentrate on.",
+  },
+  [CharacterRole.Striker]: {
+    description:
+      "Strikers specialize in dealing high amounts of damage to a single target at a time. They have the most concentrated offense of any character in the game. Strikers rely on superior mobility, trickery, or magic to move around tough foes and single out the enemy they want to attack.",
+  },
+};
 
-export const characterClasses: CharacterClassName[] =
-  Object.values(CharacterClassName);
+export type CharacterPowerSourceGlossary = {
+  [key in CharacterPowerSource]: {
+    description: string;
+  };
+};
+
+export const characterPowerSourceGlossary: CharacterPowerSourceGlossary = {
+  [CharacterPowerSource.Arcane]: {
+    description:
+      "You draw your power from a supernatural source from another world, a powerful entity or some occult knowledge. Your powers are called Spells",
+  },
+  [CharacterPowerSource.Divine]: {
+    description:
+      "You draw your power from a deity by channeling it through faith to protect its philosophy. Your powers are called Prayers",
+  },
+  [CharacterPowerSource.Martial]: {
+    description:
+      "You draw your power from your own training, determination, physical toughness, and natural proficiency. Your powers are called Exploits",
+  },
+  [CharacterPowerSource.Primal]: {
+    description:
+      "You draw your power from your connection to the natural world, to all living beings around and to its spirits. Your powers are called Evocations",
+  },
+  [CharacterPowerSource.Psionic]: {
+    description:
+      "You draw your power from your connection to your mind, meditation, and your focus to manifest it on the physical world. Your powers are called Disciplines",
+  },
+};
 
 export interface CharacterClass {
   name: CharacterClassName;
@@ -377,38 +440,71 @@ export const characterClassesGlossary: CharacterClassGlossary = {
 };
 
 export interface CharacterRace {
-  name: string;
+  name: CharacterRaceName;
   abilityBonus: CharacterAbility[];
+  description: string;
+  book: number;
+  page: number;
 }
 
-export const characterRaces: CharacterRace[] = [
-  // Player's Handbook 1
-  {
-    name: "dragonborn",
+export type CharacterRacesGlossary = {
+  [key in CharacterRaceName]: CharacterRace;
+};
+
+export const characterRacesGlossary: CharacterRacesGlossary = {
+  [CharacterRaceName.Dragonborn]: {
+    book: 1,
+    page: 34,
+    description:
+      "Proud, honorable warriors, born from the blood of an ancient dragon god",
+    name: CharacterRaceName.Dragonborn,
     abilityBonus: [CharacterAbility.Charisma, CharacterAbility.Strength],
   },
-  {
-    name: "dwarf",
+  [CharacterRaceName.Dwarf]: {
+    book: 1,
+    page: 36,
+    description:
+      "Masters of stone and iron, dauntless and unyielding in the face of adversity",
+    name: CharacterRaceName.Dwarf,
     abilityBonus: [CharacterAbility.Constitution, CharacterAbility.Wisdom],
   },
-  {
-    name: "eladrin",
+  [CharacterRaceName.Eladrin]: {
+    book: 1,
+    page: 38,
+    description:
+      "Graceful warriors and wizards at home in the eldritch twilight of the Feywild",
+    name: CharacterRaceName.Eladrin,
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Intelligence],
   },
-  {
-    name: "elf",
+  [CharacterRaceName.Elf]: {
+    book: 1,
+    page: 40,
+    description: "Quick, wary archers who freely roam the forests and wilds",
+    name: CharacterRaceName.Elf,
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Wisdom],
   },
-  {
-    name: "half-elf",
+  [CharacterRaceName.HalfElf]: {
+    book: 1,
+    page: 42,
+    description:
+      "Born heroes and leaders who combine the best features of humans and elves",
+    name: CharacterRaceName.HalfElf,
     abilityBonus: [CharacterAbility.Constitution, CharacterAbility.Charisma],
   },
-  {
-    name: "halfling",
+  [CharacterRaceName.Halfling]: {
+    book: 1,
+    page: 44,
+    description:
+      "Quick and resourceful wanderers, small in stature but great in courage",
+    name: CharacterRaceName.Halfling,
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Charisma],
   },
-  {
-    name: "human",
+  [CharacterRaceName.Human]: {
+    book: 1,
+    page: 46,
+    description:
+      "Ambitious, driven, pragmatic — a race of heroes, and also a race of villains",
+    name: CharacterRaceName.Human,
     abilityBonus: [
       CharacterAbility.Dexterity,
       CharacterAbility.Charisma,
@@ -418,120 +514,102 @@ export const characterRaces: CharacterRace[] = [
       CharacterAbility.Wisdom,
     ],
   },
-  {
-    name: "tiefling",
+  [CharacterRaceName.Tiefling]: {
+    book: 1,
+    page: 48,
+    description:
+      "Heirs of a shattered empire who live in the shadows and do not fear the dark",
+    name: CharacterRaceName.Tiefling,
     abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Charisma],
   },
-  // Player's Handbook 2
-  {
-    name: "deva",
+  [CharacterRaceName.Deva]: {
+    book: 2,
+    page: 8,
+    description:
+      "Immortal spirits who embody virtue, born and reborn to mortal life in the world",
+    name: CharacterRaceName.Deva,
     abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Wisdom],
   },
-  {
-    name: "gnome",
+  [CharacterRaceName.Gnome]: {
+    book: 2,
+    page: 10,
+    description:
+      "Slight, sly tricksters of the Feywild who excel at avoiding notice",
+    name: CharacterRaceName.Gnome,
     abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Charisma],
   },
-  {
-    name: "goliath",
+  [CharacterRaceName.Goliath]: {
+    book: 2,
+    page: 12,
+    description:
+      "Tribal nomads of the mountains, strong as the rock and proud as the peak",
+    name: CharacterRaceName.Goliath,
     abilityBonus: [CharacterAbility.Strength, CharacterAbility.Constitution],
   },
-  {
-    name: "half-orc",
+  [CharacterRaceName.HalfOrc]: {
+    book: 2,
+    page: 14,
+    description: "Fierce warriors who combine human resolve with orc savagery",
+    name: CharacterRaceName.HalfOrc,
     abilityBonus: [CharacterAbility.Strength, CharacterAbility.Dexterity],
   },
-  {
-    name: "shifter",
+  [CharacterRaceName.Shifter]: {
+    book: 2,
+    page: 16,
+    description:
+      "Ferocious heirs of the wild, the perfect fusion of civilized race and wild beast",
+    name: CharacterRaceName.Shifter,
     abilityBonus: [
       CharacterAbility.Strength,
       CharacterAbility.Dexterity,
       CharacterAbility.Wisdom,
     ],
   },
-  // Player's Handbook 3
-  {
-    name: "githzerai",
+  [CharacterRaceName.Githzerai]: {
+    book: 3,
+    page: 8,
+    description: "Ascetic and disciplined, masters of body and mind",
+    name: CharacterRaceName.Githzerai,
     abilityBonus: [
       CharacterAbility.Wisdom,
       CharacterAbility.Dexterity,
       CharacterAbility.Intelligence,
     ],
   },
-  {
-    name: "minotaur",
+  [CharacterRaceName.Minotaur]: {
+    book: 3,
+    page: 10,
+    description:
+      "Caught between savagery and civilization, these warriors struggle against the beast within",
+    name: CharacterRaceName.Minotaur,
     abilityBonus: [
       CharacterAbility.Strength,
       CharacterAbility.Constitution,
       CharacterAbility.Wisdom,
     ],
   },
-  {
-    name: "shardmind",
+  [CharacterRaceName.Shardmind]: {
+    book: 3,
+    page: 12,
+    description:
+      "Raw psionic energy barely contained in a body of gleaming crystalline shards",
+    name: CharacterRaceName.Shardmind,
     abilityBonus: [
       CharacterAbility.Intelligence,
       CharacterAbility.Wisdom,
       CharacterAbility.Charisma,
     ],
   },
-  {
-    name: "wilden",
+  [CharacterRaceName.Wilden]: {
+    book: 3,
+    page: 14,
+    description:
+      "Nature's guardians-hunters and destroyers - keepers of ancient knowledge",
+    name: CharacterRaceName.Wilden,
     abilityBonus: [
       CharacterAbility.Wisdom,
       CharacterAbility.Constitution,
       CharacterAbility.Dexterity,
     ],
-  },
-];
-
-export type CharacterRolesGlossary = {
-  [key in CharacterRole]: {
-    description: string;
-  };
-};
-
-export const characterRolesGlossary: CharacterRolesGlossary = {
-  [CharacterRole.Controller]: {
-    description:
-      "Controllers deal with large numbers of enemies at the same time. They favor offense over defense, using powers that deal damage to multiple foes at once, as well as subtler powers that weaken, confuse, or delay their foes.",
-  },
-  [CharacterRole.Defender]: {
-    description:
-      "Defenders have the highest defenses in the game and good close-up offense. They are the party's front-line combatants; wherever they're standing, that's where the action is. Defenders have abilities and powers that make it difficult for enemies to move past them or to ignore them in battle.",
-  },
-  [CharacterRole.Leader]: {
-    description:
-      "Leaders inspire, heal, and aid the other characters in an adventuring group. Leaders have good defenses, but their strength lies in powers that protect their companions and target specific foes for the party to concentrate on.",
-  },
-  [CharacterRole.Striker]: {
-    description:
-      "Strikers specialize in dealing high amounts of damage to a single target at a time. They have the most concentrated offense of any character in the game. Strikers rely on superior mobility, trickery, or magic to move around tough foes and single out the enemy they want to attack.",
-  },
-};
-
-export type CharacterPowerSourceGlossary = {
-  [key in CharacterPowerSource]: {
-    description: string;
-  };
-};
-
-export const characterPowerSourceGlossary: CharacterPowerSourceGlossary = {
-  [CharacterPowerSource.Arcane]: {
-    description:
-      "You draw your power from a supernatural source from another world, a powerful entity or some occult knowledge. Your powers are called Spells",
-  },
-  [CharacterPowerSource.Divine]: {
-    description:
-      "You draw your power from a deity by channeling it through faith to protect its philosophy. Your powers are called Prayers",
-  },
-  [CharacterPowerSource.Martial]: {
-    description:
-      "You draw your power from your own training, determination, physical toughness, and natural proficiency. Your powers are called Exploits",
-  },
-  [CharacterPowerSource.Primal]: {
-    description:
-      "You draw your power from your connection to the natural world, to all living beings around and to its spirits. Your powers are called Evocations",
-  },
-  [CharacterPowerSource.Psionic]: {
-    description:
-      "You draw your power from your connection to your mind, meditation, and your focus to manifest it on the physical world. Your powers are called Disciplines",
   },
 };

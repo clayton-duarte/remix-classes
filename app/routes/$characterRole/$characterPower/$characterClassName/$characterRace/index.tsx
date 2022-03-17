@@ -2,18 +2,22 @@ import { json, useLoaderData, useParams } from "remix";
 
 import DataPanel from "~/components/DataPanel";
 import {
+  CharacterRacesGlossary,
   CharacterPowerSource,
   CharacterClassName,
+  CharacterRaceName,
   CharacterClass,
   CharacterRole,
   CharacterRace,
 } from "~/helpers/types";
 import {
   fetchCharacterRacesByAbilityBonus,
+  fetchCharacterRacesGlossary,
   fetchCharacterClassByName,
 } from "~/helpers/dataFetch";
 
 type LoaderResponse = {
+  characterRacesGlossary: CharacterRacesGlossary;
   characterClass: CharacterClass;
   raceList: CharacterRace[];
 };
@@ -22,7 +26,7 @@ type RouteParams = {
   characterRole: CharacterRole;
   characterPower: CharacterPowerSource;
   characterClassName: CharacterClassName;
-  characterRace: CharacterRace["name"];
+  characterRace: CharacterRaceName;
 };
 
 export const loader = async ({ params }: { params: RouteParams }) => {
@@ -36,21 +40,22 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 
   return json<LoaderResponse>({
     raceList: fetchCharacterRacesByAbilityBonus(characterClass.keyAbilities),
+    characterRacesGlossary: fetchCharacterRacesGlossary(),
     characterClass,
   });
 };
 
 export default function Page() {
-  const {
-    raceList,
-    characterClass: { keyAbilities },
-  } = useLoaderData<LoaderResponse>();
-  const { characterRole, characterPower, characterClassName, characterRace } =
-    useParams<RouteParams>();
+  const { characterRacesGlossary } = useLoaderData<LoaderResponse>();
+  const { characterRace } = useParams<RouteParams>();
 
   return (
     <>
-      {characterRace && <DataPanel area="race-data">{characterRace}</DataPanel>}
+      {characterRace && (
+        <DataPanel area="race-data">
+          {characterRacesGlossary[characterRace].description}
+        </DataPanel>
+      )}
     </>
   );
 }

@@ -6,6 +6,7 @@ import {
   CharacterClassGlossary,
   CharacterPowerSource,
   CharacterClassName,
+  CharacterRaceName,
   CharacterRole,
   CharacterRace,
 } from "~/helpers/types";
@@ -21,10 +22,10 @@ type LoaderResponse = {
 };
 
 type RouteParams = {
+  characterRole: CharacterRole;
   characterPower: CharacterPowerSource;
   characterClassName: CharacterClassName;
-  characterRole: CharacterRole;
-  characterRace: CharacterRace["name"];
+  characterRace: CharacterRaceName;
 };
 
 export const loader = async ({ params }: { params: RouteParams }) => {

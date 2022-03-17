@@ -6,18 +6,17 @@ import {
   characterClassesGlossary,
   CharacterClassGlossary,
   CharacterClassName,
-  characterClasses,
-  characterRoles,
   CharacterRole,
-  characterRaces,
+  characterRacesGlossary,
+  CharacterRacesGlossary,
   CharacterRace,
-  characterPowerSources,
+  CharacterRaceName,
   CharacterPowerSource,
   CharacterAbility,
 } from "~/helpers/types";
 
 export function fetchCharacterRoles(): CharacterRole[] {
-  return characterRoles;
+  return Object.values(CharacterRole);
 }
 
 export function fetchCharacterRolesGlossary(): CharacterRolesGlossary {
@@ -25,7 +24,7 @@ export function fetchCharacterRolesGlossary(): CharacterRolesGlossary {
 }
 
 export function fetchCharacterPowerSources(): CharacterPowerSource[] {
-  return characterPowerSources;
+  return Object.values(CharacterPowerSource);
 }
 
 export function fetchCharacterPowerSourcesGlossary(): CharacterPowerSourceGlossary {
@@ -33,7 +32,7 @@ export function fetchCharacterPowerSourcesGlossary(): CharacterPowerSourceGlossa
 }
 
 export function fetchCharacterClasses(): CharacterClassName[] {
-  return characterClasses;
+  return Object.values(CharacterClassName);
 }
 
 export function fetchCharacterClassGlossary(): CharacterClassGlossary {
@@ -57,15 +56,19 @@ export function fetchCharacterClassByName(
   return characterClassesGlossary[characterClassName];
 }
 
-export function fetchCharacterRaces(): CharacterRace[] {
-  return characterRaces;
+export function fetchCharacterRaces(): CharacterRaceName[] {
+  return Object.values(CharacterRaceName);
+}
+
+export function fetchCharacterRacesGlossary(): CharacterRacesGlossary {
+  return characterRacesGlossary;
 }
 
 export function fetchCharacterRacesByAbilityBonus(
   keyAbilities: CharacterAbility[]
 ): CharacterRace[] {
   const [coreAbility] = keyAbilities;
-  return characterRaces
+  return Object.values(characterRacesGlossary)
     .reduce((filteredRaces, currentRace): CharacterRace[] => {
       const withFilteredAbilities = {
         ...currentRace,
