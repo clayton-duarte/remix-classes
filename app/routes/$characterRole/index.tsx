@@ -8,13 +8,13 @@ import {
 } from "~/helpers/dataFetch";
 import {
   CharacterRolesGlossary,
+  CharacterPowerSource,
   CharacterRole,
-  PowerSource,
 } from "~/helpers/types";
 
 type LoaderResponse = {
   characterRolesGlossary: CharacterRolesGlossary;
-  powerList: PowerSource[];
+  powerList: CharacterPowerSource[];
 };
 
 type RouteParams = {

@@ -2,9 +2,9 @@ import { json, useParams, useLoaderData } from "remix";
 
 import {
   CharacterPowerSourceGlossary,
+  CharacterPowerSource,
   CharacterClass,
   CharacterRole,
-  PowerSource,
 } from "~/helpers/types";
 import {
   fetchCharacterClassByRoleAndPower,
@@ -20,7 +20,7 @@ type LoaderResponse = {
 
 type RouteParams = {
   characterRole: CharacterRole;
-  characterPower: PowerSource;
+  characterPower: CharacterPowerSource;
 };
 
 export const loader = async ({ params }: { params: RouteParams }) => {

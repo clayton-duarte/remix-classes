@@ -5,7 +5,7 @@ export enum CharacterRole {
   Striker = "striker",
 }
 
-export enum PowerSource {
+export enum CharacterPowerSource {
   Arcane = "arcane",
   Divine = "divine",
   Martial = "martial",
@@ -13,7 +13,7 @@ export enum PowerSource {
   Psionic = "psionic",
 }
 
-export enum Ability {
+export enum CharacterAbility {
   Strength = "Strength",
   Constitution = "Constitution",
   Dexterity = "Dexterity",
@@ -22,312 +22,470 @@ export enum Ability {
   Charisma = "Charisma",
 }
 
+export enum CharacterClassName {
+  Cleric = "Cleric",
+  Fighter = "Fighter",
+  Paladin = "Paladin",
+  Ranger = "Ranger",
+  Rogue = "Rogue",
+  Warlock = "Warlock",
+  Warlord = "Warlord",
+  Wizard = "Wizard",
+  Avenger = "Avenger",
+  Barbarian = "Barbarian",
+  Bard = "Bard",
+  Druid = "Druid",
+  Invoker = "Invoker",
+  Shaman = "Shaman",
+  Sorcerer = "Sorcerer",
+  Warden = "Warden",
+  Ardent = "Ardent",
+  Battlemind = "Battlemind",
+  Monk = "Monk",
+  Psion = "Psion",
+  Runepriest = "Runepriest",
+  Seeker = "Seeker",
+}
+
+export const characterRoles: CharacterRole[] = Object.values(CharacterRole);
+
+export const characterPowerSources: CharacterPowerSource[] =
+  Object.values(CharacterPowerSource);
+
+export const characterAbility: CharacterAbility[] =
+  Object.values(CharacterAbility);
+
+export const characterClasses: CharacterClassName[] =
+  Object.values(CharacterClassName);
+
 export interface CharacterClass {
-  powerSource: PowerSource;
+  name: CharacterClassName;
+  powerSource: CharacterPowerSource;
   mainRole: CharacterRole;
-  keyAbilities: Ability[];
+  keyAbilities: CharacterAbility[];
   flavorText: string;
-  name: string;
   book: number;
   page: number;
 }
 
-export const characterClasses: CharacterClass[] = [
-  // Player's Handbook 1
-  {
+export type CharacterClassGlossary = {
+  [key in CharacterClassName]: CharacterClass;
+};
+
+export const characterClassesGlossary: CharacterClassGlossary = {
+  [CharacterClassName.Cleric]: {
     book: 1,
     page: 60,
-    name: "cleric",
+    name: CharacterClassName.Cleric,
     mainRole: CharacterRole.Leader,
-    powerSource: PowerSource.Divine,
+    powerSource: CharacterPowerSource.Divine,
     flavorText: "“Have courage, my friends! Pelor favors us today!”",
-    keyAbilities: [Ability.Wisdom, Ability.Strength, Ability.Charisma],
-  },
-  {
-    book: 1,
-    page: 75,
-    name: "fighter",
-    mainRole: CharacterRole.Defender,
-    powerSource: PowerSource.Martial,
-    flavorText: "“You’ll have to deal with me first, dragon!”",
     keyAbilities: [
-      Ability.Strength,
-      Ability.Dexterity,
-      Ability.Constitution,
-      Ability.Wisdom,
+      CharacterAbility.Wisdom,
+      CharacterAbility.Strength,
+      CharacterAbility.Charisma,
     ],
   },
-  {
+  [CharacterClassName.Fighter]: {
+    book: 1,
+    page: 75,
+    name: CharacterClassName.Fighter,
+    mainRole: CharacterRole.Defender,
+    powerSource: CharacterPowerSource.Martial,
+    flavorText: "“You'll have to deal with me first, dragon!”",
+    keyAbilities: [
+      CharacterAbility.Strength,
+      CharacterAbility.Dexterity,
+      CharacterAbility.Constitution,
+      CharacterAbility.Wisdom,
+    ],
+  },
+  [CharacterClassName.Paladin]: {
     book: 1,
     page: 89,
-    name: "paladin",
+    name: CharacterClassName.Paladin,
     mainRole: CharacterRole.Defender,
-    powerSource: PowerSource.Divine,
+    powerSource: CharacterPowerSource.Divine,
     flavorText:
       "“I am the righteous shield of Moradin and a sword in his mighty hand! I fear no evil!”",
-    keyAbilities: [Ability.Strength, Ability.Charisma, Ability.Wisdom],
+    keyAbilities: [
+      CharacterAbility.Strength,
+      CharacterAbility.Charisma,
+      CharacterAbility.Wisdom,
+    ],
   },
-  {
+  [CharacterClassName.Ranger]: {
     book: 1,
     page: 103,
-    name: "ranger",
+    name: CharacterClassName.Ranger,
     mainRole: CharacterRole.Striker,
-    powerSource: PowerSource.Martial,
+    powerSource: CharacterPowerSource.Martial,
     flavorText:
-      "“I’ll get the one in the back. That’s one hobgoblin who’ll regret ever lifting a bow.”",
-    keyAbilities: [Ability.Strength, Ability.Dexterity, Ability.Wisdom],
+      "“I'll get the one in the back. That's one hobgoblin who'll regret ever lifting a bow.”",
+    keyAbilities: [
+      CharacterAbility.Strength,
+      CharacterAbility.Dexterity,
+      CharacterAbility.Wisdom,
+    ],
   },
-  {
+  [CharacterClassName.Rogue]: {
     book: 1,
     page: 116,
-    name: "rogue",
+    name: CharacterClassName.Rogue,
     mainRole: CharacterRole.Striker,
-    powerSource: PowerSource.Martial,
+    powerSource: CharacterPowerSource.Martial,
     flavorText:
-      "“You look surprised to see me. If you’d been paying attention, you might still be alive.”",
-    keyAbilities: [Ability.Dexterity, Ability.Strength, Ability.Charisma],
+      "“You look surprised to see me. If you'd been paying attention, you might still be alive.”",
+    keyAbilities: [
+      CharacterAbility.Dexterity,
+      CharacterAbility.Strength,
+      CharacterAbility.Charisma,
+    ],
   },
-  {
+  [CharacterClassName.Warlock]: {
     book: 1,
     page: 129,
-    name: "warlock",
+    name: CharacterClassName.Warlock,
     mainRole: CharacterRole.Striker,
-    powerSource: PowerSource.Arcane,
+    powerSource: CharacterPowerSource.Arcane,
     flavorText:
       "“The darkness holds no terror for me, demon! I curse you now under the Sign of Ill Omen!”",
     keyAbilities: [
-      Ability.Charisma,
-      Ability.Constitution,
-      Ability.Intelligence,
+      CharacterAbility.Charisma,
+      CharacterAbility.Constitution,
+      CharacterAbility.Intelligence,
     ],
   },
-  {
+  [CharacterClassName.Warlord]: {
     book: 1,
     page: 143,
-    name: "warlord",
+    name: CharacterClassName.Warlord,
     mainRole: CharacterRole.Leader,
-    powerSource: PowerSource.Martial,
+    powerSource: CharacterPowerSource.Martial,
     flavorText: "“Onward to victory! They cannot stand before us!”",
-    keyAbilities: [Ability.Strength, Ability.Intelligence, Ability.Charisma],
-  },
-  {
-    book: 1,
-    page: 156,
-    name: "wizard",
-    mainRole: CharacterRole.Controller,
-    powerSource: PowerSource.Arcane,
-    flavorText:
-      "“I am the fire that burns, the choking fog, the storm that rains devastation on our foes.”",
-    keyAbilities: [Ability.Intelligence, Ability.Wisdom, Ability.Dexterity],
-  },
-  {
-    book: 2,
-    page: 32,
-    name: "avenger",
-    mainRole: CharacterRole.Striker,
-    powerSource: PowerSource.Divine,
-    flavorText: "“You’ll have to deal with me first, dragon!”",
-    keyAbilities: [Ability.Wisdom, Ability.Dexterity, Ability.Intelligence],
-  },
-  {
-    book: 2,
-    page: 48,
-    name: "barbarian",
-    mainRole: CharacterRole.Striker,
-    powerSource: PowerSource.Primal,
-    flavorText: "“My strength is the fury of the wild.”",
-    keyAbilities: [Ability.Strength, Ability.Constitution, Ability.Charisma],
-  },
-  {
-    book: 2,
-    page: 66,
-    name: "bard",
-    mainRole: CharacterRole.Leader,
-    powerSource: PowerSource.Arcane,
-    flavorText:
-      "“The clash of blades, a note. A battle fought, a verse. The hero’s war, a song.”",
     keyAbilities: [
-      Ability.Charisma,
-      Ability.Intelligence,
-      Ability.Constitution,
+      CharacterAbility.Strength,
+      CharacterAbility.Intelligence,
+      CharacterAbility.Charisma,
     ],
   },
-  {
+  [CharacterClassName.Wizard]: {
+    book: 1,
+    page: 156,
+    name: CharacterClassName.Wizard,
+    mainRole: CharacterRole.Controller,
+    powerSource: CharacterPowerSource.Arcane,
+    flavorText:
+      "“I am the fire that burns, the choking fog, the storm that rains devastation on our foes.”",
+    keyAbilities: [
+      CharacterAbility.Intelligence,
+      CharacterAbility.Wisdom,
+      CharacterAbility.Dexterity,
+    ],
+  },
+  [CharacterClassName.Avenger]: {
+    book: 2,
+    page: 32,
+    name: CharacterClassName.Avenger,
+    mainRole: CharacterRole.Striker,
+    powerSource: CharacterPowerSource.Divine,
+    flavorText: "“You'll have to deal with me first, dragon!”",
+    keyAbilities: [
+      CharacterAbility.Wisdom,
+      CharacterAbility.Dexterity,
+      CharacterAbility.Intelligence,
+    ],
+  },
+  [CharacterClassName.Barbarian]: {
+    book: 2,
+    page: 48,
+    name: CharacterClassName.Barbarian,
+    mainRole: CharacterRole.Striker,
+    powerSource: CharacterPowerSource.Primal,
+    flavorText: "“My strength is the fury of the wild.”",
+    keyAbilities: [
+      CharacterAbility.Strength,
+      CharacterAbility.Constitution,
+      CharacterAbility.Charisma,
+    ],
+  },
+  [CharacterClassName.Bard]: {
+    book: 2,
+    page: 66,
+    name: CharacterClassName.Bard,
+    mainRole: CharacterRole.Leader,
+    powerSource: CharacterPowerSource.Arcane,
+    flavorText:
+      "“The clash of blades, a note. A battle fought, a verse. The hero's war, a song.”",
+    keyAbilities: [
+      CharacterAbility.Charisma,
+      CharacterAbility.Intelligence,
+      CharacterAbility.Constitution,
+    ],
+  },
+  [CharacterClassName.Druid]: {
     book: 2,
     page: 82,
-    name: "druid",
+    name: CharacterClassName.Druid,
     mainRole: CharacterRole.Controller,
-    powerSource: PowerSource.Primal,
+    powerSource: CharacterPowerSource.Primal,
     flavorText: "“I am the seeker. I am the stalker. I am the storm.”",
-    keyAbilities: [Ability.Wisdom, Ability.Dexterity, Ability.Constitution],
+    keyAbilities: [
+      CharacterAbility.Wisdom,
+      CharacterAbility.Dexterity,
+      CharacterAbility.Constitution,
+    ],
   },
-  {
+  [CharacterClassName.Invoker]: {
     book: 2,
     page: 100,
-    name: "invoker",
+    name: CharacterClassName.Invoker,
     mainRole: CharacterRole.Controller,
-    powerSource: PowerSource.Divine,
+    powerSource: CharacterPowerSource.Divine,
     flavorText:
       "“The only thing stronger than my faith is the fire I use to burn away those who stand against the will of the gods.”",
-    keyAbilities: [Ability.Wisdom, Ability.Constitution, Ability.Intelligence],
+    keyAbilities: [
+      CharacterAbility.Wisdom,
+      CharacterAbility.Constitution,
+      CharacterAbility.Intelligence,
+    ],
   },
-  {
+  [CharacterClassName.Shaman]: {
     book: 2,
     page: 118,
-    name: "shaman",
+    name: CharacterClassName.Shaman,
     mainRole: CharacterRole.Leader,
-    powerSource: PowerSource.Primal,
+    powerSource: CharacterPowerSource.Primal,
     flavorText:
       "“The spirits surround us, guide us, and hold all the knowledge of the world.”",
-    keyAbilities: [Ability.Wisdom, Ability.Constitution, Ability.Intelligence],
+    keyAbilities: [
+      CharacterAbility.Wisdom,
+      CharacterAbility.Constitution,
+      CharacterAbility.Intelligence,
+    ],
   },
-  {
+  [CharacterClassName.Sorcerer]: {
     book: 2,
     page: 136,
-    name: "sorcerer",
+    name: CharacterClassName.Sorcerer,
     mainRole: CharacterRole.Striker,
-    powerSource: PowerSource.Arcane,
+    powerSource: CharacterPowerSource.Arcane,
     flavorText: "“I am in the arcane, and the arcane is in me.”",
-    keyAbilities: [Ability.Charisma, Ability.Dexterity, Ability.Strength],
+    keyAbilities: [
+      CharacterAbility.Charisma,
+      CharacterAbility.Dexterity,
+      CharacterAbility.Strength,
+    ],
   },
-  {
+  [CharacterClassName.Warden]: {
     book: 2,
     page: 152,
-    name: "warden",
+    name: CharacterClassName.Warden,
     mainRole: CharacterRole.Defender,
-    powerSource: PowerSource.Primal,
+    powerSource: CharacterPowerSource.Primal,
     flavorText:
       "“Get past me? You might as well try to push the mountains aside.”",
-    keyAbilities: [Ability.Strength, Ability.Constitution, Ability.Wisdom],
+    keyAbilities: [
+      CharacterAbility.Strength,
+      CharacterAbility.Constitution,
+      CharacterAbility.Wisdom,
+    ],
   },
-  {
+  [CharacterClassName.Ardent]: {
     book: 3,
     page: 22,
-    name: "ardent",
+    name: CharacterClassName.Ardent,
     mainRole: CharacterRole.Leader,
-    powerSource: PowerSource.Psionic,
+    powerSource: CharacterPowerSource.Psionic,
     flavorText: "“The fate of the world rests on the fire of your passions”",
-    keyAbilities: [Ability.Charisma, Ability.Constitution, Ability.Wisdom],
+    keyAbilities: [
+      CharacterAbility.Charisma,
+      CharacterAbility.Constitution,
+      CharacterAbility.Wisdom,
+    ],
   },
-  {
+  [CharacterClassName.Battlemind]: {
     book: 3,
     page: 42,
-    name: "battlemind",
+    name: CharacterClassName.Battlemind,
     mainRole: CharacterRole.Defender,
-    powerSource: PowerSource.Psionic,
+    powerSource: CharacterPowerSource.Psionic,
     flavorText:
       "“My mind is a far deadlier weapon than some ill-crafted bit of iron”",
-    keyAbilities: [Ability.Constitution, Ability.Wisdom, Ability.Charisma],
+    keyAbilities: [
+      CharacterAbility.Constitution,
+      CharacterAbility.Wisdom,
+      CharacterAbility.Charisma,
+    ],
   },
-  {
+  [CharacterClassName.Monk]: {
     book: 3,
     page: 62,
-    name: "monk",
+    name: CharacterClassName.Monk,
     mainRole: CharacterRole.Striker,
-    powerSource: PowerSource.Psionic,
+    powerSource: CharacterPowerSource.Psionic,
     flavorText:
       "“You fight well, but without discipline and focus, you will fall.”",
-    keyAbilities: [Ability.Dexterity, Ability.Strength, Ability.Wisdom],
+    keyAbilities: [
+      CharacterAbility.Dexterity,
+      CharacterAbility.Strength,
+      CharacterAbility.Wisdom,
+    ],
   },
-  {
+  [CharacterClassName.Psion]: {
     book: 3,
     page: 80,
-    name: "psion",
+    name: CharacterClassName.Psion,
     mainRole: CharacterRole.Controller,
-    powerSource: PowerSource.Psionic,
+    powerSource: CharacterPowerSource.Psionic,
     flavorText:
       "“I can bend the desire of the mortals and immortals to my will”",
-    keyAbilities: [Ability.Intelligence, Ability.Charisma, Ability.Wisdom],
+    keyAbilities: [
+      CharacterAbility.Intelligence,
+      CharacterAbility.Charisma,
+      CharacterAbility.Wisdom,
+    ],
   },
-  {
+  [CharacterClassName.Runepriest]: {
     book: 3,
     page: 98,
-    name: "runepriest",
+    name: CharacterClassName.Runepriest,
     mainRole: CharacterRole.Leader,
-    powerSource: PowerSource.Divine,
+    powerSource: CharacterPowerSource.Divine,
     flavorText:
       "“The divine runes of might are stronger than any steel, more dangerous than any spell”",
-    keyAbilities: [Ability.Strength, Ability.Constitution, Ability.Wisdom],
+    keyAbilities: [
+      CharacterAbility.Strength,
+      CharacterAbility.Constitution,
+      CharacterAbility.Wisdom,
+    ],
   },
-  {
+  [CharacterClassName.Seeker]: {
     book: 3,
     page: 116,
-    name: "seeker",
+    name: CharacterClassName.Seeker,
     mainRole: CharacterRole.Controller,
-    powerSource: PowerSource.Primal,
+    powerSource: CharacterPowerSource.Primal,
     flavorText:
       "“I am the lightning strike, the earth's upheaval, the unruly sea. I am the bringer of your destruction.”",
-    keyAbilities: [Ability.Wisdom, Ability.Strength, Ability.Dexterity],
+    keyAbilities: [
+      CharacterAbility.Wisdom,
+      CharacterAbility.Strength,
+      CharacterAbility.Dexterity,
+    ],
   },
-];
+};
 
 export interface CharacterRace {
   name: string;
-  abilityBonus: Ability[];
+  abilityBonus: CharacterAbility[];
 }
 
 export const characterRaces: CharacterRace[] = [
   // Player's Handbook 1
-  { name: "dragonborn", abilityBonus: [Ability.Charisma, Ability.Strength] },
-  { name: "dwarf", abilityBonus: [Ability.Constitution, Ability.Wisdom] },
-  { name: "eladrin", abilityBonus: [Ability.Dexterity, Ability.Intelligence] },
-  { name: "elf", abilityBonus: [Ability.Dexterity, Ability.Wisdom] },
-  { name: "half-elf", abilityBonus: [Ability.Constitution, Ability.Charisma] },
-  { name: "halfling", abilityBonus: [Ability.Dexterity, Ability.Charisma] },
+  {
+    name: "dragonborn",
+    abilityBonus: [CharacterAbility.Charisma, CharacterAbility.Strength],
+  },
+  {
+    name: "dwarf",
+    abilityBonus: [CharacterAbility.Constitution, CharacterAbility.Wisdom],
+  },
+  {
+    name: "eladrin",
+    abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Intelligence],
+  },
+  {
+    name: "elf",
+    abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Wisdom],
+  },
+  {
+    name: "half-elf",
+    abilityBonus: [CharacterAbility.Constitution, CharacterAbility.Charisma],
+  },
+  {
+    name: "halfling",
+    abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Charisma],
+  },
   {
     name: "human",
     abilityBonus: [
-      Ability.Dexterity,
-      Ability.Charisma,
-      Ability.Constitution,
-      Ability.Intelligence,
-      Ability.Strength,
-      Ability.Wisdom,
+      CharacterAbility.Dexterity,
+      CharacterAbility.Charisma,
+      CharacterAbility.Constitution,
+      CharacterAbility.Intelligence,
+      CharacterAbility.Strength,
+      CharacterAbility.Wisdom,
     ],
   },
-  { name: "tiefling", abilityBonus: [Ability.Intelligence, Ability.Charisma] },
+  {
+    name: "tiefling",
+    abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Charisma],
+  },
   // Player's Handbook 2
-  { name: "deva", abilityBonus: [Ability.Intelligence, Ability.Wisdom] },
-  { name: "gnome", abilityBonus: [Ability.Intelligence, Ability.Charisma] },
-  { name: "goliath", abilityBonus: [Ability.Strength, Ability.Constitution] },
-  { name: "half-orc", abilityBonus: [Ability.Strength, Ability.Dexterity] },
+  {
+    name: "deva",
+    abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Wisdom],
+  },
+  {
+    name: "gnome",
+    abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Charisma],
+  },
+  {
+    name: "goliath",
+    abilityBonus: [CharacterAbility.Strength, CharacterAbility.Constitution],
+  },
+  {
+    name: "half-orc",
+    abilityBonus: [CharacterAbility.Strength, CharacterAbility.Dexterity],
+  },
   {
     name: "shifter",
-    abilityBonus: [Ability.Strength, Ability.Dexterity, Ability.Wisdom],
+    abilityBonus: [
+      CharacterAbility.Strength,
+      CharacterAbility.Dexterity,
+      CharacterAbility.Wisdom,
+    ],
   },
   // Player's Handbook 3
   {
     name: "githzerai",
-    abilityBonus: [Ability.Wisdom, Ability.Dexterity, Ability.Intelligence],
+    abilityBonus: [
+      CharacterAbility.Wisdom,
+      CharacterAbility.Dexterity,
+      CharacterAbility.Intelligence,
+    ],
   },
   {
     name: "minotaur",
-    abilityBonus: [Ability.Strength, Ability.Constitution, Ability.Wisdom],
+    abilityBonus: [
+      CharacterAbility.Strength,
+      CharacterAbility.Constitution,
+      CharacterAbility.Wisdom,
+    ],
   },
   {
     name: "shardmind",
-    abilityBonus: [Ability.Intelligence, Ability.Wisdom, Ability.Charisma],
+    abilityBonus: [
+      CharacterAbility.Intelligence,
+      CharacterAbility.Wisdom,
+      CharacterAbility.Charisma,
+    ],
   },
   {
     name: "wilden",
-    abilityBonus: [Ability.Wisdom, Ability.Constitution, Ability.Dexterity],
+    abilityBonus: [
+      CharacterAbility.Wisdom,
+      CharacterAbility.Constitution,
+      CharacterAbility.Dexterity,
+    ],
   },
 ];
 
-export const characterRoles: CharacterRole[] = [
-  ...new Set(characterClasses.map(({ mainRole }) => mainRole)),
-];
-
-export const powerSources: PowerSource[] = [
-  ...new Set(characterClasses.map(({ powerSource }) => powerSource)),
-];
-
-export type Glossary = {
-  description: string;
-};
-
 export type CharacterRolesGlossary = {
-  [key in CharacterRole]: Glossary;
+  [key in CharacterRole]: {
+    description: string;
+  };
 };
 
 export const characterRolesGlossary: CharacterRolesGlossary = {
@@ -337,7 +495,7 @@ export const characterRolesGlossary: CharacterRolesGlossary = {
   },
   [CharacterRole.Defender]: {
     description:
-      "Defenders have the highest defenses in the game and good close-up offense. They are the party’s front-line combatants; wherever they’re standing, that’s where the action is. Defenders have abilities and powers that make it difficult for enemies to move past them or to ignore them in battle.",
+      "Defenders have the highest defenses in the game and good close-up offense. They are the party's front-line combatants; wherever they're standing, that's where the action is. Defenders have abilities and powers that make it difficult for enemies to move past them or to ignore them in battle.",
   },
   [CharacterRole.Leader]: {
     description:
@@ -350,27 +508,29 @@ export const characterRolesGlossary: CharacterRolesGlossary = {
 };
 
 export type CharacterPowerSourceGlossary = {
-  [key in PowerSource]: Glossary;
+  [key in CharacterPowerSource]: {
+    description: string;
+  };
 };
 
 export const characterPowerSourceGlossary: CharacterPowerSourceGlossary = {
-  [PowerSource.Arcane]: {
+  [CharacterPowerSource.Arcane]: {
     description:
       "You draw your power from a supernatural source from another world, a powerful entity or some occult knowledge. Your powers are called Spells",
   },
-  [PowerSource.Divine]: {
+  [CharacterPowerSource.Divine]: {
     description:
       "You draw your power from a deity by channeling it through faith to protect its philosophy. Your powers are called Prayers",
   },
-  [PowerSource.Martial]: {
+  [CharacterPowerSource.Martial]: {
     description:
       "You draw your power from your own training, determination, physical toughness, and natural proficiency. Your powers are called Exploits",
   },
-  [PowerSource.Primal]: {
+  [CharacterPowerSource.Primal]: {
     description:
       "You draw your power from your connection to the natural world, to all living beings around and to its spirits. Your powers are called Evocations",
   },
-  [PowerSource.Psionic]: {
+  [CharacterPowerSource.Psionic]: {
     description:
       "You draw your power from your connection to your mind, meditation, and your focus to manifest it on the physical world. Your powers are called Disciplines",
   },

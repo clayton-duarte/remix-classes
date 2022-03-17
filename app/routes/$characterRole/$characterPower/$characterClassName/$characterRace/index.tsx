@@ -2,10 +2,11 @@ import { json, useLoaderData, useParams } from "remix";
 
 import DataPanel from "~/components/DataPanel";
 import {
+  CharacterPowerSource,
+  CharacterClassName,
   CharacterClass,
   CharacterRole,
   CharacterRace,
-  PowerSource,
 } from "~/helpers/types";
 import {
   fetchCharacterRacesByAbilityBonus,
@@ -13,38 +14,38 @@ import {
 } from "~/helpers/dataFetch";
 
 type LoaderResponse = {
+  characterClass: CharacterClass;
   raceList: CharacterRace[];
-  selectedClass: CharacterClass;
 };
 
 type RouteParams = {
   characterRole: CharacterRole;
-  characterPower: PowerSource;
-  characterClass: CharacterClass["name"];
+  characterPower: CharacterPowerSource;
+  characterClassName: CharacterClassName;
   characterRace: CharacterRace["name"];
 };
 
 export const loader = async ({ params }: { params: RouteParams }) => {
-  const selectedClass = fetchCharacterClassByName(params.characterClass);
+  const characterClass = fetchCharacterClassByName(params.characterClassName);
 
-  if (!selectedClass) {
+  if (characterClass == null) {
     throw new Response("Not Found", {
       status: 404,
     });
   }
 
   return json<LoaderResponse>({
-    raceList: fetchCharacterRacesByAbilityBonus(selectedClass.keyAbilities),
-    selectedClass,
+    raceList: fetchCharacterRacesByAbilityBonus(characterClass.keyAbilities),
+    characterClass,
   });
 };
 
 export default function Page() {
   const {
     raceList,
-    selectedClass: { keyAbilities },
+    characterClass: { keyAbilities },
   } = useLoaderData<LoaderResponse>();
-  const { characterRole, characterPower, characterClass, characterRace } =
+  const { characterRole, characterPower, characterClassName, characterRace } =
     useParams<RouteParams>();
 
   return (

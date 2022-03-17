@@ -3,18 +3,18 @@ import {
   characterPowerSourceGlossary,
   CharacterRolesGlossary,
   characterRolesGlossary,
+  characterClassesGlossary,
+  CharacterClassGlossary,
+  CharacterClassName,
   characterClasses,
-  CharacterClass,
   characterRoles,
   CharacterRole,
   characterRaces,
   CharacterRace,
-  powerSources,
-  PowerSource,
-  Ability,
+  characterPowerSources,
+  CharacterPowerSource,
+  CharacterAbility,
 } from "~/helpers/types";
-
-// For now, all data is stored locally
 
 export function fetchCharacterRoles(): CharacterRole[] {
   return characterRoles;
@@ -24,21 +24,27 @@ export function fetchCharacterRolesGlossary(): CharacterRolesGlossary {
   return characterRolesGlossary;
 }
 
-export function fetchCharacterPowerSources(): PowerSource[] {
-  return powerSources;
+export function fetchCharacterPowerSources(): CharacterPowerSource[] {
+  return characterPowerSources;
 }
+
 export function fetchCharacterPowerSourcesGlossary(): CharacterPowerSourceGlossary {
   return characterPowerSourceGlossary;
 }
-export function fetchCharacterClasses(): CharacterClass[] {
+
+export function fetchCharacterClasses(): CharacterClassName[] {
   return characterClasses;
 }
 
+export function fetchCharacterClassGlossary(): CharacterClassGlossary {
+  return characterClassesGlossary;
+}
+
 export function fetchCharacterClassByRoleAndPower(
-  role: CharacterClass["mainRole"],
-  power: CharacterClass["powerSource"]
-): CharacterClass[] {
-  return characterClasses.filter(
+  role: CharacterClassGlossary[CharacterClassName]["mainRole"],
+  power: CharacterClassGlossary[CharacterClassName]["powerSource"]
+): CharacterClassGlossary[CharacterClassName][] {
+  return Object.values(characterClassesGlossary).filter(
     ({ mainRole, powerSource }) =>
       powerSource === power && // same power source
       mainRole === role // same main role
@@ -46,9 +52,9 @@ export function fetchCharacterClassByRoleAndPower(
 }
 
 export function fetchCharacterClassByName(
-  characterClassName: CharacterClass["name"]
-): CharacterClass | undefined {
-  return characterClasses.find(({ name }) => characterClassName === name);
+  characterClassName: CharacterClassName
+): CharacterClassGlossary[CharacterClassName] {
+  return characterClassesGlossary[characterClassName];
 }
 
 export function fetchCharacterRaces(): CharacterRace[] {
@@ -56,7 +62,7 @@ export function fetchCharacterRaces(): CharacterRace[] {
 }
 
 export function fetchCharacterRacesByAbilityBonus(
-  keyAbilities: Ability[]
+  keyAbilities: CharacterAbility[]
 ): CharacterRace[] {
   const [coreAbility] = keyAbilities;
   return characterRaces

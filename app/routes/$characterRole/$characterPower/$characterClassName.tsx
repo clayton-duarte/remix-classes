@@ -2,9 +2,10 @@ import { json, useParams, useLoaderData, Outlet } from "remix";
 
 import {
   CharacterPowerSourceGlossary,
+  CharacterPowerSource,
+  CharacterClassName,
   CharacterClass,
   CharacterRole,
-  PowerSource,
 } from "~/helpers/types";
 import {
   fetchCharacterPowerSourcesGlossary,
@@ -20,8 +21,8 @@ type LoaderResponse = {
 
 type RouteParams = {
   characterRole: CharacterRole;
-  characterPower: PowerSource;
-  characterClass: CharacterClass["name"];
+  characterPower: CharacterPowerSource;
+  characterClassName: CharacterClassName;
 };
 
 export const loader = async ({ params }: { params: RouteParams }) => {
@@ -35,7 +36,7 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 };
 
 export default function Page() {
-  const { characterRole, characterPower, characterClass } =
+  const { characterRole, characterPower, characterClassName } =
     useParams<RouteParams>();
   const { classList, characterPowerSourceGlossary } =
     useLoaderData<LoaderResponse>();
@@ -45,7 +46,7 @@ export default function Page() {
       {classList.length > 0 ? (
         <Selector
           area="class"
-          active={characterClass}
+          active={characterClassName}
           data={classList.map(({ name }) => ({
             link: `/${characterRole}/${characterPower}/${name}`,
             label: name,

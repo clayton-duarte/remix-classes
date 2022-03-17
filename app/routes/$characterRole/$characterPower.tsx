@@ -6,20 +6,20 @@ import {
 } from "~/helpers/dataFetch";
 import {
   CharacterRolesGlossary,
+  CharacterPowerSource,
   CharacterRole,
-  PowerSource,
 } from "~/helpers/types";
 import Selector from "~/components/Selector";
 import DataPanel from "~/components/DataPanel";
 
 type LoaderResponse = {
   characterRolesGlossary: CharacterRolesGlossary;
-  powerList: PowerSource[];
+  powerList: CharacterPowerSource[];
 };
 
 type RouteParams = {
   characterRole: CharacterRole;
-  characterPower: PowerSource;
+  characterPower: CharacterPowerSource;
 };
 
 export const loader = async () => {
