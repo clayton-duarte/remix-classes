@@ -1,16 +1,16 @@
+export enum CharacterRole {
+  Controller = "controller",
+  Defender = "defender",
+  Leader = "leader",
+  Striker = "striker",
+}
+
 export enum PowerSource {
   Arcane = "arcane",
   Divine = "divine",
   Martial = "martial",
   Primal = "primal",
   Psionic = "psionic",
-}
-
-export enum CharacterRole {
-  Controller = "controller",
-  Defender = "defender",
-  Leader = "leader",
-  Striker = "striker",
 }
 
 export enum Ability {
@@ -240,3 +240,57 @@ export const characterRoles: CharacterRole[] = [
 export const powerSources: PowerSource[] = [
   ...new Set(characterClasses.map(({ powerSource }) => powerSource)),
 ];
+
+export type Glossary = {
+  description: string;
+};
+
+export type CharacterRolesGlossary = {
+  [key in CharacterRole]: Glossary;
+};
+
+export const characterRolesGlossary: CharacterRolesGlossary = {
+  [CharacterRole.Controller]: {
+    description:
+      "Controllers deal with large numbers of enemies at the same time. They favor offense over defense, using powers that deal damage to multiple foes at once, as well as subtler powers that weaken, confuse, or delay their foes.",
+  },
+  [CharacterRole.Defender]: {
+    description:
+      "Defenders have the highest defenses in the game and good close-up offense. They are the party’s front-line combatants; wherever they’re standing, that’s where the action is. Defenders have abilities and powers that make it difficult for enemies to move past them or to ignore them in battle.",
+  },
+  [CharacterRole.Leader]: {
+    description:
+      "Leaders inspire, heal, and aid the other characters in an adventuring group. Leaders have good defenses, but their strength lies in powers that protect their companions and target specific foes for the party to concentrate on.",
+  },
+  [CharacterRole.Striker]: {
+    description:
+      "Strikers specialize in dealing high amounts of damage to a single target at a time. They have the most concentrated offense of any character in the game. Strikers rely on superior mobility, trickery, or magic to move around tough foes and single out the enemy they want to attack.",
+  },
+};
+
+export type CharacterPowerSourceGlossary = {
+  [key in PowerSource]: Glossary;
+};
+
+export const characterPowerSourceGlossary: CharacterPowerSourceGlossary = {
+  [PowerSource.Arcane]: {
+    description:
+      "You draw your power from a supernatural source from another world, a powerful entity or some occult knowledge. Your powers are called Spells",
+  },
+  [PowerSource.Divine]: {
+    description:
+      "You draw your power from a deity by channeling it through faith to protect its philosophy. Your powers are called Prayers",
+  },
+  [PowerSource.Martial]: {
+    description:
+      "You draw your power from your own training, determination, physical toughness, and natural proficiency. Your powers are called Exploits",
+  },
+  [PowerSource.Primal]: {
+    description:
+      "You draw your power from your connection to the natural world, to all living beings around and to its spirits. Your powers are called Evocations",
+  },
+  [PowerSource.Psionic]: {
+    description:
+      "You draw your power from your connection to your mind, meditation, and your focus to manifest it on the physical world. Your powers are called Disciplines",
+  },
+};

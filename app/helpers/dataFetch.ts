@@ -1,4 +1,8 @@
 import {
+  CharacterPowerSourceGlossary,
+  characterPowerSourceGlossary,
+  CharacterRolesGlossary,
+  characterRolesGlossary,
   characterClasses,
   CharacterClass,
   characterRoles,
@@ -12,14 +16,20 @@ import {
 
 // For now, all data is stored locally
 
-export function fetchCharacterPowerSources(): PowerSource[] {
-  return powerSources;
-}
-
 export function fetchCharacterRoles(): CharacterRole[] {
   return characterRoles;
 }
 
+export function fetchCharacterRolesGlossary(): CharacterRolesGlossary {
+  return characterRolesGlossary;
+}
+
+export function fetchCharacterPowerSources(): PowerSource[] {
+  return powerSources;
+}
+export function fetchCharacterPowerSourcesGlossary(): CharacterPowerSourceGlossary {
+  return characterPowerSourceGlossary;
+}
 export function fetchCharacterClasses(): CharacterClass[] {
   return characterClasses;
 }

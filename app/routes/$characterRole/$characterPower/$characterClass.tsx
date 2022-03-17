@@ -1,10 +1,20 @@
 import { json, useParams, useLoaderData, Outlet } from "remix";
 
-import { CharacterClass, CharacterRole, PowerSource } from "~/helpers/data";
-import { fetchCharacterClassByRoleAndPower } from "~/helpers/dataFetch";
+import {
+  CharacterPowerSourceGlossary,
+  CharacterClass,
+  CharacterRole,
+  PowerSource,
+} from "~/helpers/data";
+import {
+  fetchCharacterPowerSourcesGlossary,
+  fetchCharacterClassByRoleAndPower,
+} from "~/helpers/dataFetch";
 import Selector from "~/components/Selector";
+import DataPanel from "~/components/DataPanel";
 
 type LoaderResponse = {
+  characterPowerSourceGlossary: CharacterPowerSourceGlossary;
   classList: CharacterClass[];
 };
 
@@ -16,6 +26,7 @@ type RouteParams = {
 
 export const loader = async ({ params }: { params: RouteParams }) => {
   return json<LoaderResponse>({
+    characterPowerSourceGlossary: fetchCharacterPowerSourcesGlossary(),
     classList: fetchCharacterClassByRoleAndPower(
       params.characterRole,
       params.characterPower
@@ -26,7 +37,8 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 export default function Page() {
   const { characterRole, characterPower, characterClass } =
     useParams<RouteParams>();
-  const { classList } = useLoaderData<LoaderResponse>();
+  const { classList, characterPowerSourceGlossary } =
+    useLoaderData<LoaderResponse>();
 
   return (
     <>
@@ -41,13 +53,15 @@ export default function Page() {
           }))}
         />
       ) : (
-        <p>
-          No{" "}
-          <strong>
-            {characterPower}/{characterRole}
-          </strong>{" "}
-          classes available at the moment
+        <p style={{ gridArea: "class-data" }}>
+          No {characterPower}/{characterRole} classes available
         </p>
+      )}
+      {characterPower && (
+        <DataPanel
+          glossary={characterPowerSourceGlossary[characterPower]}
+          area="power-data"
+        />
       )}
       <Outlet />
     </>

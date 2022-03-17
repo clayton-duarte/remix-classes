@@ -1,10 +1,19 @@
 import { useLoaderData, useParams, json } from "remix";
 
 import Selector from "~/components/Selector";
-import { fetchCharacterPowerSources } from "~/helpers/dataFetch";
-import { PowerSource, CharacterRole } from "~/helpers/data";
+import DataPanel from "~/components/DataPanel";
+import {
+  fetchCharacterRolesGlossary,
+  fetchCharacterPowerSources,
+} from "~/helpers/dataFetch";
+import {
+  CharacterRolesGlossary,
+  CharacterRole,
+  PowerSource,
+} from "~/helpers/data";
 
 type LoaderResponse = {
+  characterRolesGlossary: CharacterRolesGlossary;
   powerList: PowerSource[];
 };
 
@@ -14,13 +23,14 @@ type RouteParams = {
 
 export const loader = async () => {
   return json<LoaderResponse>({
+    characterRolesGlossary: fetchCharacterRolesGlossary(),
     powerList: fetchCharacterPowerSources(),
   });
 };
 
 export default function Page() {
+  const { powerList, characterRolesGlossary } = useLoaderData<LoaderResponse>();
   const { characterRole } = useParams<RouteParams>();
-  const { powerList } = useLoaderData<LoaderResponse>();
 
   return (
     <>
@@ -32,7 +42,12 @@ export default function Page() {
           id: power,
         }))}
       />
-      {characterRole} data
+      {characterRole && (
+        <DataPanel
+          glossary={characterRolesGlossary[characterRole]}
+          area="role-data"
+        />
+      )}
     </>
   );
 }

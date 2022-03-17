@@ -1,5 +1,5 @@
-import { useMemo } from "react";
 import { json, useLoaderData, useParams } from "remix";
+import DataPanel from "~/components/DataPanel";
 
 import Selector from "~/components/Selector";
 import {
@@ -53,7 +53,12 @@ export default function Page() {
           id: raceName,
         }))}
       />
-      {characterClass} data
+      {characterClass && (
+        <DataPanel
+          glossary={{ description: characterClass }}
+          area="class-data"
+        />
+      )}
     </>
   );
 }

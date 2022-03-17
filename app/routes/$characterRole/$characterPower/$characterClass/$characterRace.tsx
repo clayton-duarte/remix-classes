@@ -1,6 +1,7 @@
 import { json, useLoaderData, useParams, Outlet } from "remix";
 
 import Selector from "~/components/Selector";
+import DataPanel from "~/components/DataPanel";
 import {
   CharacterClass,
   CharacterRole,
@@ -54,6 +55,12 @@ export default function Page() {
           id: raceName,
         }))}
       />
+      {characterClass && (
+        <DataPanel
+          glossary={{ description: characterClass }}
+          area="class-data"
+        />
+      )}
       <Outlet />
     </>
   );

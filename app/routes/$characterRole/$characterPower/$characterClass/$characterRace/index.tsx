@@ -1,5 +1,6 @@
-import { Link, json, useLoaderData, useParams } from "remix";
+import { json, useLoaderData, useParams } from "remix";
 
+import DataPanel from "~/components/DataPanel";
 import {
   CharacterClass,
   CharacterRole,
@@ -46,20 +47,11 @@ export default function Page() {
   const { characterRole, characterPower, characterClass, characterRace } =
     useParams<RouteParams>();
 
-  return <>{characterRace} data</>;
   return (
-    <div style={{ gridArea: "data" }}>
-      <h3>Recommended Races</h3>
-      <p>{keyAbilities.join(", ")}</p>
-      <ul>
-        {raceList.map(({ name, abilityBonus }) => (
-          <li key={name}>
-            <Link to={`/race/${name}`}>
-              ({abilityBonus.length}) {name}: {abilityBonus.join(", ")}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      {characterRace && (
+        <DataPanel glossary={{ description: characterRace }} area="race-data" />
+      )}
+    </>
   );
 }
