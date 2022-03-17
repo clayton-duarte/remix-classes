@@ -3,6 +3,7 @@ import { json, useLoaderData } from "remix";
 import { fetchCharacterRoles } from "~/helpers/dataFetch";
 import Selector from "~/components/Selector";
 import { CharacterRole } from "~/helpers/types";
+import DataPanel from "~/components/DataPanel";
 
 type LoaderResponse = {
   roleList: CharacterRole[];
@@ -25,7 +26,9 @@ export default function Page() {
           id: roleName,
         }))}
       />
-      TODO: explain what roles means in general
+      <DataPanel area="role-data" color="warn">
+        TODO: explain what roles means in general
+      </DataPanel>
     </>
   );
 }

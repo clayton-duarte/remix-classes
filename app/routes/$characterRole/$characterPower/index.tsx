@@ -38,9 +38,11 @@ export default function Page() {
   const { classList, characterPowerSourceGlossary } =
     useLoaderData<LoaderResponse>();
 
+  const haveClassesToShow = classList.length > 0;
+
   return (
     <>
-      {classList.length > 0 ? (
+      {haveClassesToShow && (
         <Selector
           area="class"
           data={classList.map(({ name }) => ({
@@ -49,14 +51,20 @@ export default function Page() {
             id: name,
           }))}
         />
-      ) : (
-        <p style={{ gridArea: "class-data" }}>
-          No {characterPower}/{characterRole} classes available
-        </p>
       )}
       {characterPower && (
         <DataPanel area="power-data">
           {characterPowerSourceGlossary[characterPower].description}
+        </DataPanel>
+      )}
+      {!haveClassesToShow && (
+        <DataPanel area="class-data" color="error">
+          No {characterPower}/{characterRole} classes available
+        </DataPanel>
+      )}
+      {haveClassesToShow && (
+        <DataPanel area="class-data" color="warn">
+          TODO: explain what class means in general
         </DataPanel>
       )}
     </>

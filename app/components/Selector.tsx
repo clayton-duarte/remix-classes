@@ -9,7 +9,7 @@ const StyledWrapper = styled.div<{ area: string }>`
 `;
 
 const StyledList = styled.ul`
-  border: 1px solid ${({ theme }) => theme.bg};
+  border: 2px solid ${({ theme }) => theme.bg};
   padding: 0.25rem;
   display: grid;
   gap: 0.25rem;
