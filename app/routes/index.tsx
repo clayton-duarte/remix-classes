@@ -26,8 +26,8 @@ export default function Page() {
           id: roleName,
         }))}
       />
-      <DataPanel area="role-data" color="warn">
-        TODO: explain what roles means in general
+      <DataPanel area="role-data" color="warn" title="action required">
+        Please select a "Role" from the menu
       </DataPanel>
     </>
   );

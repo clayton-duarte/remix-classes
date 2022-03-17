@@ -8,6 +8,10 @@ const StyledWrapper = styled.div<{ area: string }>`
   gap: 0.5rem;
 `;
 
+const StyledTitle = styled.h3`
+  font-size: 1.25rem;
+`;
+
 const StyledList = styled.ul`
   border: 2px solid ${({ theme }) => theme.bg};
   padding: 0.25rem;
@@ -69,7 +73,7 @@ export default function Selector({
 
   return (
     <StyledWrapper area={area}>
-      {area && <h3>{area}</h3>}
+      {area && <StyledTitle>{area}</StyledTitle>}
       <StyledList>
         {data.map(({ id, link, label, badge }) => {
           const isActive = id === active;

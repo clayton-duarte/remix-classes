@@ -130,6 +130,8 @@ export default function App() {
                 background: ${theme.white};
                 font-family: "Spectral", serif;
                 color: ${theme.black};
+                line-height: 1.2;
+                font-weight: 400;
                 font-size: 16px;
                 height: 100%;
                 margin: 0;
@@ -137,6 +139,7 @@ export default function App() {
 
               button {
                 font-family: "Spectral", serif;
+                line-height: 1.2;
                 font-size: 1rem;
               }
 
@@ -162,9 +165,13 @@ export default function App() {
               h3,
               h4,
               h5,
-              h6 {
+              h6,
+              legend,
+              summary {
                 font-family: "Cinzel", serif;
                 text-transform: capitalize;
+                font-weight: 400;
+                line-height: 1;
                 margin: 0;
               }
 

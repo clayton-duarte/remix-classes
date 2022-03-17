@@ -2,16 +2,23 @@ import { ReactNode } from "react";
 import styled from "@emotion/styled";
 import { Theme } from "@emotion/react";
 
-const StyledWrapper = styled.div<{ area: string; color: keyof Theme }>`
+const StyledPanel = styled.div<{ area: string; color: keyof Theme }>`
   border: 2px solid ${({ theme, color }) => theme[color]};
   grid-area: ${({ area }) => area};
-  margin-top: 2rem;
-  padding: 0.5rem;
+  margin-top: 1.75rem;
   display: grid;
-  gap: 0.5rem;
+  gap: 0;
 `;
 
-const StyledLegend = styled.legend``;
+const StyledWrapper = styled.div`
+  padding: 0.5rem;
+`;
+
+const StyledLegend = styled.legend<{ color: keyof Theme }>`
+  color: ${({ theme, color }) => (color === "bg" ? theme.black : theme.white)};
+  background: ${({ theme, color }) => theme[color]};
+  padding: 0.5rem;
+`;
 
 export default function characterRace({
   color = "bg",
@@ -25,9 +32,9 @@ export default function characterRace({
   title?: string;
 }) {
   return (
-    <StyledWrapper color={color} area={area}>
-      {title && <StyledLegend />}
-      {children}
-    </StyledWrapper>
+    <StyledPanel color={color} area={area}>
+      {title && <StyledLegend color={color}>{title}</StyledLegend>}
+      <StyledWrapper>{children}</StyledWrapper>
+    </StyledPanel>
   );
 }

@@ -62,8 +62,8 @@ export default function Page() {
           {characterClassGlossary[characterClassName].flavorText}
         </DataPanel>
       )}
-      <DataPanel area="race-data" color="warn">
-        TODO: explain what races means in general
+      <DataPanel area="race-data" color="warn" title="action required">
+        Please select a "Race" from the menu
       </DataPanel>
     </>
   );

@@ -47,8 +47,8 @@ export default function Page() {
           {characterRolesGlossary[characterRole].description}
         </DataPanel>
       )}
-      <DataPanel area="power-data" color="warn">
-        TODO: explain what powerSources means in general
+      <DataPanel area="power-data" color="warn" title="action required">
+        Please select a "Source of Power" from the menu
       </DataPanel>
     </>
   );

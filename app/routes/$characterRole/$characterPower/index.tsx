@@ -58,13 +58,13 @@ export default function Page() {
         </DataPanel>
       )}
       {!haveClassesToShow && (
-        <DataPanel area="class-data" color="error">
+        <DataPanel area="class-data" color="error" title="action required">
           No {characterPower}/{characterRole} classes available
         </DataPanel>
       )}
       {haveClassesToShow && (
-        <DataPanel area="class-data" color="warn">
-          TODO: explain what class means in general
+        <DataPanel area="class-data" color="warn" title="action required">
+          Please select a "Class" from the menu
         </DataPanel>
       )}
     </>
