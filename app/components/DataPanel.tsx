@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Theme } from "@emotion/react";
 
-import { Glossary } from "~/helpers/data";
+import { Glossary } from "~/helpers/types";
 
 const StyledWrapper = styled.div<{ area: string }>`
   grid-area: ${({ area }) => area};

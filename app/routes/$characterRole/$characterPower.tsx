@@ -8,7 +8,7 @@ import {
   CharacterRolesGlossary,
   CharacterRole,
   PowerSource,
-} from "~/helpers/data";
+} from "~/helpers/types";
 import Selector from "~/components/Selector";
 import DataPanel from "~/components/DataPanel";
 
@@ -46,7 +46,7 @@ export default function Page() {
       />
       {characterRole && (
         <DataPanel
-        glossary={characterRolesGlossary[characterRole]}
+          glossary={characterRolesGlossary[characterRole]}
           area="role-data"
         />
       )}

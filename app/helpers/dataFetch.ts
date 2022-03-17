@@ -12,7 +12,7 @@ import {
   powerSources,
   PowerSource,
   Ability,
-} from "~/helpers/data";
+} from "~/helpers/types";
 
 // For now, all data is stored locally
 
