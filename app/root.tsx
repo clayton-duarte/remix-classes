@@ -28,23 +28,30 @@ const HeaderLayout = styled.header`
   background: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.white};
   grid-area: header;
+  position: sticky;
   display: grid;
   padding: 1rem;
   gap: 1rem;
+  top: 0;
+`;
+
+const FakeLogo = styled.h1`
+  font-size: 1.25rem;
 `;
 
 const FooterLayout = styled.footer`
   background: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.white};
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
   grid-area: footer;
   display: grid;
-  padding: 1rem;
   gap: 1rem;
 `;
 
 const ContentLayout = styled.article`
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(3, auto);
+  grid-template-columns: minmax(200px, auto) 1fr;
+  grid-template-rows: repeat(4, auto);
   justify-content: stretch;
   align-items: flex-start;
   grid-area: content;
@@ -52,25 +59,44 @@ const ContentLayout = styled.article`
   display: grid;
   gap: 1rem;
   grid-template-areas:
-    "role data"
-    "power data"
-    "class data"
-    "race data";
+    "role role-data"
+    "power power-data"
+    "class class-data"
+    "race race-data";
 `;
 
 const theme: Theme = {
-  primary: "#00ADB5",
-  secondary: "#EEEEEE",
-  success: "#303841",
-  warn: "#FF5722",
-  error: "#303841",
-  black: "#303841",
+  primary: "#17405F",
+  secondary: "#4B4C4D",
+  success: "#619768",
+  warn: "#D8941B",
+  error: "#961233",
+  black: "#231F1F",
   white: "#FEFEFE",
+  bg: "#DCDBCC",
 };
 
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
 };
+
+export function links() {
+  return [
+    {
+      rel: "preconnect",
+      href: "https://fonts.googleapis.com",
+    },
+    {
+      rel: "preconnect",
+      href: "https://fonts.gstatic.com",
+      crossorigin: true,
+    },
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Cinzel&family=Spectral&display=swap",
+    },
+  ];
+}
 
 export default function App() {
   return (
@@ -86,13 +112,13 @@ export default function App() {
           <PageLayout>
             <HeaderLayout>
               <Link to="/">
-                <h1>Character Builder</h1>
+                <FakeLogo>Character Builder</FakeLogo>
               </Link>
             </HeaderLayout>
             <ContentLayout>
               <Outlet />
             </ContentLayout>
-            <FooterLayout>footer</FooterLayout>
+            <FooterLayout>todo: footer</FooterLayout>
           </PageLayout>
           <ScrollRestoration />
           <Scripts />
@@ -102,11 +128,16 @@ export default function App() {
               html,
               body {
                 background: ${theme.white};
-                font-family: sans-serif;
+                font-family: "Spectral", serif;
                 color: ${theme.black};
                 font-size: 16px;
                 height: 100%;
                 margin: 0;
+              }
+
+              button {
+                font-family: "Spectral", serif;
+                font-size: 1rem;
               }
 
               a:visited,
@@ -114,7 +145,12 @@ export default function App() {
               a:hover,
               a:focus,
               a {
+                text-decoration: none;
                 color: inherit;
+              }
+
+              a:hover {
+                text-decoration: underline;
               }
 
               p {
@@ -127,6 +163,7 @@ export default function App() {
               h4,
               h5,
               h6 {
+                font-family: "Cinzel", serif;
                 text-transform: capitalize;
                 margin: 0;
               }

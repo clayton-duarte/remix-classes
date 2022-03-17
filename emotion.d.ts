@@ -9,5 +9,6 @@ declare module "@emotion/react" {
     error: string;
     black: string;
     white: string;
+    bg: string;
   }
 }

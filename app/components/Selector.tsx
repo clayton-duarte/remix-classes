@@ -1,5 +1,6 @@
 import { useNavigate } from "remix";
 import styled from "@emotion/styled";
+import { Theme } from "@emotion/react";
 
 const StyledWrapper = styled.div<{ area: string }>`
   grid-area: ${({ area }) => area};
@@ -8,7 +9,7 @@ const StyledWrapper = styled.div<{ area: string }>`
 `;
 
 const StyledList = styled.ul`
-  border: 1px solid ${({ theme }) => theme.warn};
+  border: 1px solid ${({ theme }) => theme.bg};
   padding: 0.25rem;
   display: grid;
   gap: 0.25rem;
@@ -18,15 +19,14 @@ const StyledList = styled.ul`
 const StyledListItem = styled.li`
   color: ${({ theme }) => theme.warn};
   grid-template-columns: 1fr auto;
+  align-items: center;
   list-style: none;
   display: grid;
-  /* gap: 0.25rem; */
   margin: 0;
 `;
 
 const StyledButton = styled.button<{ active: boolean }>`
-  background: ${({ theme, active }) =>
-    active ? theme.secondary : theme.white};
+  background: ${({ theme, active }) => (active ? theme.bg : theme.white)};
   color: ${({ theme }) => theme.primary};
   text-transform: capitalize;
   padding: 0.25rem 0.5rem;
@@ -37,14 +37,16 @@ const StyledButton = styled.button<{ active: boolean }>`
   margin: 0;
 `;
 
-const StyledSpan = styled.span`
-  background: ${({ theme }) => theme.secondary};
+const Badge = styled.span<{ color: keyof Theme }>`
+  background: ${({ theme, color }) => theme[color]};
   color: ${({ theme }) => theme.white};
   margin-left: 0.25rem;
   border-radius: 1rem;
   place-items: center;
-  padding: 0 0.5rem;
+  font-size: 0.825rem;
   display: grid;
+  height: 1.5rem;
+  width: 1.5rem;
 `;
 
 export default function Selector({
@@ -63,6 +65,8 @@ export default function Selector({
 }) {
   const navigate = useNavigate();
 
+  const badgeColorMap: (keyof Theme)[] = ["error", "error", "warn", "success"];
+
   return (
     <StyledWrapper area={area}>
       {area && <h3>{area}</h3>}
@@ -75,7 +79,7 @@ export default function Selector({
               <StyledButton onClick={() => navigate(link)} active={isActive}>
                 {label}
               </StyledButton>
-              {badge && <StyledSpan>{badge}</StyledSpan>}
+              {badge && <Badge color={badgeColorMap[badge]}>{badge}</Badge>}
             </StyledListItem>
           );
         })}
