@@ -45,6 +45,7 @@ export enum CharacterClassName {
   Psion = "psion",
   Runepriest = "runepriest",
   Seeker = "seeker",
+  SwordMage = "swordmage",
 }
 
 export enum CharacterRaceName {
@@ -65,6 +66,8 @@ export enum CharacterRaceName {
   Minotaur = "minotaur",
   Shardmind = "shardmind",
   Wilden = "wilden",
+  Drow = "drow",
+  Genasi = "genasi",
 }
 
 export type CharacterRolesGlossary = {
@@ -437,6 +440,20 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       CharacterAbility.Dexterity,
     ],
   },
+  [CharacterClassName.SwordMage]: {
+    book: 4,
+    page: 24,
+    name: CharacterClassName.SwordMage,
+    mainRole: CharacterRole.Defender,
+    powerSource: CharacterPowerSource.Arcane,
+    flavorText:
+      "“Under the leaves of Myth Drannor I learned the ancient eladrin way of battle. Spells are my armor, and words of ruin are bound to my blade”",
+    keyAbilities: [
+      CharacterAbility.Intelligence,
+      CharacterAbility.Strength,
+      CharacterAbility.Constitution,
+    ],
+  },
 };
 
 export interface CharacterRace {
@@ -611,5 +628,20 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
       CharacterAbility.Constitution,
       CharacterAbility.Dexterity,
     ],
+  },
+  [CharacterRaceName.Drow]: {
+    book: 4,
+    page: 8,
+    description: "Graceful and deadly, at home in the depths of darkness",
+    name: CharacterRaceName.Drow,
+    abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Charisma],
+  },
+  [CharacterRaceName.Genasi]: {
+    book: 4,
+    page: 110,
+    description:
+      "Energy embodied, chaos and order united - a race of inherent flexibility, passion and diversity",
+    name: CharacterRaceName.Genasi,
+    abilityBonus: [CharacterAbility.Strength, CharacterAbility.Intelligence],
   },
 };

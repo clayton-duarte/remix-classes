@@ -1,4 +1,5 @@
-import { json, useParams, useLoaderData } from "remix";
+import { useEffect } from "react";
+import { json, useParams, useLoaderData, useNavigate } from "remix";
 
 import {
   CharacterPowerSourceGlossary,
@@ -37,36 +38,38 @@ export default function Page() {
   const { characterRole, characterPower } = useParams<RouteParams>();
   const { classList, characterPowerSourceGlossary } =
     useLoaderData<LoaderResponse>();
+  const navigate = useNavigate();
 
-  const haveClassesToShow = classList.length > 0;
+  const hasJustOneClass = classList.length === 1;
+
+  useEffect(() => {
+    if (hasJustOneClass) {
+      navigate(`/${characterRole}/${characterPower}/${classList[0].name}`);
+    }
+  }, [classList]);
+
+  if (hasJustOneClass) {
+    return null;
+  }
 
   return (
     <>
-      {haveClassesToShow && (
-        <Selector
-          area="class"
-          data={classList.map(({ name }) => ({
-            link: `/${characterRole}/${characterPower}/${name}`,
-            label: name,
-            id: name,
-          }))}
-        />
-      )}
       {characterPower && (
         <DataPanel area="power-data">
           {characterPowerSourceGlossary[characterPower].description}
         </DataPanel>
       )}
-      {!haveClassesToShow && (
-        <DataPanel area="class-data" color="error" title="action required">
-          No {characterPower}/{characterRole} classes available
-        </DataPanel>
-      )}
-      {haveClassesToShow && (
-        <DataPanel area="class-data" color="warn" title="action required">
-          Please select a "Class" from the menu
-        </DataPanel>
-      )}
+      <Selector
+        area="class"
+        data={classList.map(({ name }) => ({
+          link: `/${characterRole}/${characterPower}/${name}`,
+          label: name,
+          id: name,
+        }))}
+      />
+      <DataPanel area="class-data" color="warn" title="action required">
+        Please select a "Class" from the menu
+      </DataPanel>
     </>
   );
 }

@@ -43,7 +43,7 @@ export default function Page() {
 
   return (
     <>
-      {classList.length > 0 ? (
+      {
         <Selector
           area="class"
           active={characterClassName}
@@ -53,11 +53,7 @@ export default function Page() {
             id: name,
           }))}
         />
-      ) : (
-        <p style={{ gridArea: "class-data" }}>
-          No {characterPower}/{characterRole} classes available
-        </p>
-      )}
+      }
       {characterPower && (
         <DataPanel area="power-data">
           {characterPowerSourceGlossary[characterPower].description}
