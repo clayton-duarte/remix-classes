@@ -26,7 +26,7 @@ export default function Page() {
           id: roleName,
         }))}
       />
-      <DataPanel area="role" color="warn" title="action required">
+      <DataPanel area="role" color="warn" title="action">
         Please select a "Role" from the menu
       </DataPanel>
     </>

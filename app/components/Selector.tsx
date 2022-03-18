@@ -4,12 +4,13 @@ import { Theme } from "@emotion/react";
 
 const StyledTitle = styled.h3<{ area: string }>`
   grid-area: ${({ area }) => area};
+  margin-bottom: -0.5rem;
   font-size: 1.25rem;
   display: grid;
 `;
 
 const StyledList = styled.ul<{ area: string }>`
-  border: 2px solid ${({ theme }) => theme.bg};
+  border: 0.125rem solid ${({ theme }) => theme.bg};
   grid-area: ${({ area }) => area};
   padding: 0.25rem;
   display: grid;
@@ -21,6 +22,7 @@ const StyledListItem = styled.li`
   color: ${({ theme }) => theme.warn};
   grid-template-columns: 1fr auto;
   align-items: center;
+  position: relative;
   list-style: none;
   display: grid;
   margin: 0;
@@ -31,6 +33,7 @@ const StyledButton = styled.button<{ active: boolean }>`
   color: ${({ theme }) => theme.primary};
   text-transform: capitalize;
   padding: 0.25rem 0.5rem;
+  font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
   border: none;
@@ -39,15 +42,14 @@ const StyledButton = styled.button<{ active: boolean }>`
 `;
 
 const Badge = styled.span<{ color: keyof Theme }>`
-  background: ${({ theme, color }) => theme[color]};
   color: ${({ theme }) => theme.white};
-  margin-left: 0.25rem;
-  border-radius: 1rem;
-  place-items: center;
-  font-size: 0.825rem;
-  display: grid;
-  height: 1.5rem;
-  width: 1.5rem;
+  border-top: 0.25rem solid ${({ theme, color }) => theme[color]};
+  border-right: 0.25rem solid ${({ theme, color }) => theme[color]};
+  border-bottom: 0.25rem solid transparent;
+  border-left: 0.25rem solid transparent;
+  position: absolute;
+  right: 0;
+  top: 0;
 `;
 
 export default function Selector({
@@ -79,7 +81,7 @@ export default function Selector({
             <StyledButton onClick={() => navigate(link)} active={id === active}>
               {label}
             </StyledButton>
-            {badge && <Badge color={badgeColorMap[badge]}>{badge}</Badge>}
+            {badge && <Badge color={badgeColorMap[badge]} />}
           </StyledListItem>
         ))}
       </StyledList>

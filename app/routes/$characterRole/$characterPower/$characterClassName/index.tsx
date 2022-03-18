@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { json, useLoaderData, useParams } from "remix";
 import DataPanel from "~/components/DataPanel";
 
@@ -46,6 +47,10 @@ export default function Page() {
   const { characterRole, characterPower, characterClassName } =
     useParams<RouteParams>();
 
+  useEffect(() => {
+    document.getElementById("race-panel")?.scrollIntoView();
+  }, [characterClassName]);
+
   return (
     <>
       <Selector
@@ -62,7 +67,7 @@ export default function Page() {
           {characterClassGlossary[characterClassName].flavorText}
         </DataPanel>
       )}
-      <DataPanel area="race" color="warn" title="action required">
+      <DataPanel area="race" color="warn" title="action">
         Please select a "Race" from the menu
       </DataPanel>
     </>

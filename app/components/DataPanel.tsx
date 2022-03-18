@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { Theme } from "@emotion/react";
 
 const StyledPanel = styled.div<{ area: string; color: keyof Theme }>`
-  border: 2px solid ${({ theme, color }) => theme[color]};
+  border: 0.125rem solid ${({ theme, color }) => theme[color]};
   grid-area: ${({ area }) => area};
   display: grid;
   gap: 0;

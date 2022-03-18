@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useLoaderData, useParams, json } from "remix";
 
 import Selector from "~/components/Selector";
@@ -32,6 +33,10 @@ export default function Page() {
   const { powerList, characterRolesGlossary } = useLoaderData<LoaderResponse>();
   const { characterRole } = useParams<RouteParams>();
 
+  useEffect(() => {
+    document.getElementById("power-panel")?.scrollIntoView();
+  }, [characterRole]);
+
   return (
     <>
       <Selector
@@ -47,7 +52,7 @@ export default function Page() {
           {characterRolesGlossary[characterRole].description}
         </DataPanel>
       )}
-      <DataPanel area="power" color="warn" title="action required">
+      <DataPanel area="power" color="warn" title="action">
         Please select a "Source of Power" from the menu
       </DataPanel>
     </>

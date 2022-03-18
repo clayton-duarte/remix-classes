@@ -44,6 +44,10 @@ export default function Page() {
   const hasNoClass = classList.length === 0;
 
   useEffect(() => {
+    document.getElementById("class-panel")?.scrollIntoView();
+  }, [characterPower]);
+
+  useEffect(() => {
     if (hasJustOneClass) {
       navigate(`/${characterRole}/${characterPower}/${classList[0].name}`);
     }
@@ -67,7 +71,7 @@ export default function Page() {
         </DataPanel>
       ) : (
         <>
-          <DataPanel area="class" color="warn" title="action required">
+          <DataPanel area="class" color="warn" title="action">
             Please select a "Class" from the menu
           </DataPanel>
           <Selector

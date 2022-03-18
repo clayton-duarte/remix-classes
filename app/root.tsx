@@ -18,6 +18,7 @@ import {
   CharacterRaceName,
   CharacterRole,
 } from "~/helpers/types";
+import React from "react";
 const PageLayout = styled.main`
   grid-template-rows: auto 1fr;
   align-items: flex-start;
@@ -40,6 +41,7 @@ const HeaderLayout = styled.header`
   position: sticky;
   display: grid;
   padding: 1rem;
+  z-index: 999;
   gap: 1rem;
   top: 0;
   @media all and (max-width: 768px) {
@@ -50,11 +52,15 @@ const HeaderLayout = styled.header`
 
 const BreadCrumbs = styled.nav`
   justify-content: flex-start;
+  text-transform: capitalize;
   grid-auto-flow: column;
   align-items: center;
   font-size: 0.825rem;
   display: grid;
   gap: 1rem;
+  @media all and (max-width: 768px) {
+    gap: 0.5rem;
+  }
 `;
 
 const FakeLogo = styled.h1`
@@ -93,15 +99,15 @@ const ContentLayout = styled.article`
   @media all and (max-width: 768px) {
     grid-template-columns: auto 1fr;
     grid-template-areas:
-      "char-data char-data"
-      "race-title ."
-      "race-select race-data"
-      "class-title ."
-      "class-select class-data"
+      "role-title ."
+      "role-select role-data"
       "power-title ."
       "power-select power-data"
-      "role-title ."
-      "role-select role-data";
+      "class-title ."
+      "class-select class-data"
+      "race-title ."
+      "race-select race-data"
+      "char-data char-data";
   }
 `;
 
@@ -120,7 +126,7 @@ type RouteParams = {
   characterRole: CharacterRole;
   characterPower: CharacterPowerSource;
   characterClassName: CharacterClassName;
-  characterRace: CharacterRaceName;
+  characterRaceName: CharacterRaceName;
 };
 
 export const meta: MetaFunction = () => {
@@ -136,24 +142,28 @@ export function links() {
     {
       rel: "preconnect",
       href: "https://fonts.gstatic.com",
-      crossorigin: true,
+      crossOrigin: true,
     },
     {
       rel: "stylesheet",
-      href: "https://fonts.googleapis.com/css2?family=Cinzel&family=Spectral&display=swap",
+      href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Spectral:wght@400;700&display=swap",
     },
   ];
 }
 
 export default function App() {
-  const { characterRole, characterPower, characterClassName, characterRace } =
-    useParams<RouteParams>();
+  const {
+    characterRole,
+    characterPower,
+    characterClassName,
+    characterRaceName,
+  } = useParams<RouteParams>();
 
   const pathParts = [
     characterRole,
     characterPower,
     characterClassName,
-    characterRace,
+    characterRaceName,
   ].filter(Boolean);
 
   return (
@@ -171,14 +181,18 @@ export default function App() {
               <FakeLogo>Character Builder</FakeLogo>
               <BreadCrumbs>
                 <Link to="/">home</Link>
-                {pathParts.map((param, index) => (
-                  <>
-                    {"-"}
-                    <Link to={pathParts.slice(0, index + 1).join("/")}>
+                {pathParts.map((param, index) =>
+                  pathParts.length === index + 1 ? (
+                    <p key={param}>{param}</p>
+                  ) : (
+                    <Link
+                      to={pathParts.slice(0, index + 1).join("/")}
+                      key={param}
+                    >
                       {param}
                     </Link>
-                  </>
-                ))}
+                  )
+                )}
               </BreadCrumbs>
             </HeaderLayout>
             <ContentLayout>
@@ -214,12 +228,8 @@ export default function App() {
               a:hover,
               a:focus,
               a {
-                text-decoration: none;
-                color: inherit;
-              }
-
-              a:hover {
                 text-decoration: underline;
+                color: inherit;
               }
 
               p {
@@ -236,7 +246,7 @@ export default function App() {
               summary {
                 font-family: "Cinzel", serif;
                 text-transform: capitalize;
-                font-weight: 400;
+                font-weight: 700;
                 line-height: 1;
                 margin: 0;
               }
