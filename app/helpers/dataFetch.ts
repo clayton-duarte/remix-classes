@@ -15,6 +15,10 @@ import {
   CharacterAbility,
 } from "~/helpers/types";
 
+export function fetchCharacterAbility(): CharacterAbility[] {
+  return Object.values(CharacterAbility);
+}
+
 export function fetchCharacterRoles(): CharacterRole[] {
   return Object.values(CharacterRole);
 }
