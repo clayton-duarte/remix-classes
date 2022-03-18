@@ -43,11 +43,11 @@ export default function Page() {
         }))}
       />
       {characterRole && (
-        <DataPanel area="role-data">
+        <DataPanel area="role">
           {characterRolesGlossary[characterRole].description}
         </DataPanel>
       )}
-      <DataPanel area="power-data" color="warn" title="action required">
+      <DataPanel area="power" color="warn" title="action required">
         Please select a "Source of Power" from the menu
       </DataPanel>
     </>

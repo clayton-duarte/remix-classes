@@ -55,7 +55,7 @@ export default function Page() {
         />
       }
       {characterPower && (
-        <DataPanel area="power-data">
+        <DataPanel area="power">
           {characterPowerSourceGlossary[characterPower].description}
         </DataPanel>
       )}

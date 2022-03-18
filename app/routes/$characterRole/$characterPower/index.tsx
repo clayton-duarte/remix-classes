@@ -56,18 +56,18 @@ export default function Page() {
   return (
     <>
       {characterPower && (
-        <DataPanel area="power-data">
+        <DataPanel area="power">
           {characterPowerSourceGlossary[characterPower].description}
         </DataPanel>
       )}
 
       {hasNoClass ? (
-        <DataPanel area="class-data" color="error" title="error">
+        <DataPanel area="class" color="error" title="error">
           There are no {characterRole}/{characterPower} classes available
         </DataPanel>
       ) : (
         <>
-          <DataPanel area="class-data" color="warn" title="action required">
+          <DataPanel area="class" color="warn" title="action required">
             Please select a "Class" from the menu
           </DataPanel>
           <Selector

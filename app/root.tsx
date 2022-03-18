@@ -82,22 +82,26 @@ const ContentLayout = styled.article`
   display: grid;
   gap: 1rem;
   grid-template-areas:
-    "role role-data char"
-    "power power-data char"
-    "class class-data char"
-    "race race-data char";
+    "role-title . ."
+    "role-select role-data char-data"
+    "power-title . char-data"
+    "power-select power-data char-data"
+    "class-title . char-data"
+    "class-select class-data char-data"
+    "race-title . char-data"
+    "race-select race-data char-data";
   @media all and (max-width: 768px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 1fr;
     grid-template-areas:
-      "char"
-      "race-data"
-      "race"
-      "class-data"
-      "class"
-      "power-data"
-      "power"
-      "role-data"
-      "role";
+      "char-data char-data"
+      "race-title ."
+      "race-select race-data"
+      "class-title ."
+      "class-select class-data"
+      "power-title ."
+      "power-select power-data"
+      "role-title ."
+      "role-select role-data";
   }
 `;
 
@@ -164,13 +168,12 @@ export default function App() {
         <ThemeProvider theme={theme}>
           <PageLayout>
             <HeaderLayout>
-              <Link to="/">
-                <FakeLogo>Character Builder</FakeLogo>
-              </Link>
+              <FakeLogo>Character Builder</FakeLogo>
               <BreadCrumbs>
+                <Link to="/">home</Link>
                 {pathParts.map((param, index) => (
                   <>
-                    {"🔗"}
+                    {"-"}
                     <Link to={pathParts.slice(0, index + 1).join("/")}>
                       {param}
                     </Link>

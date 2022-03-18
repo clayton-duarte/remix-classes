@@ -38,7 +38,7 @@ export default function Page() {
 
   return (
     <>
-      <DataPanel area="race-data">{characterRace.description}</DataPanel>
+      <DataPanel area="race">{characterRace.description}</DataPanel>
       <DataPanel color="secondary" area="char" title="summary">
         <p>
           Class Key Abilities: {characterClass.keyAbilities.sort().join(", ")}

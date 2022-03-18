@@ -45,7 +45,7 @@ export default function Page() {
         }))}
       />
       {characterRole && (
-        <DataPanel area="role-data">
+        <DataPanel area="role">
           {characterRolesGlossary[characterRole].description}
         </DataPanel>
       )}

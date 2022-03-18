@@ -5,12 +5,8 @@ import { Theme } from "@emotion/react";
 const StyledPanel = styled.div<{ area: string; color: keyof Theme }>`
   border: 2px solid ${({ theme, color }) => theme[color]};
   grid-area: ${({ area }) => area};
-  margin-top: 1.75rem;
   display: grid;
   gap: 0;
-  @media all and (max-width: 768px) {
-    margin-top: 0;
-  }
 `;
 
 const StyledWrapper = styled.div`
@@ -23,19 +19,19 @@ const StyledLegend = styled.legend<{ color: keyof Theme }>`
   padding: 0.5rem;
 `;
 
-export default function characterRace({
+export default function DataPanel({
   color = "bg",
   children,
   title,
   area,
 }: {
-  area: "role-data" | "power-data" | "class-data" | "race-data" | "char";
+  area: string;
   children: ReactNode;
   color?: keyof Theme;
   title?: string;
 }) {
   return (
-    <StyledPanel color={color} area={area}>
+    <StyledPanel id={`${area}-panel`} color={color} area={`${area}-data`}>
       {title && <StyledLegend color={color}>{title}</StyledLegend>}
       <StyledWrapper>{children}</StyledWrapper>
     </StyledPanel>

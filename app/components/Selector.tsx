@@ -2,18 +2,15 @@ import { useNavigate } from "remix";
 import styled from "@emotion/styled";
 import { Theme } from "@emotion/react";
 
-const StyledWrapper = styled.div<{ area: string }>`
+const StyledTitle = styled.h3<{ area: string }>`
   grid-area: ${({ area }) => area};
-  display: grid;
-  gap: 0.5rem;
-`;
-
-const StyledTitle = styled.h3`
   font-size: 1.25rem;
+  display: grid;
 `;
 
-const StyledList = styled.ul`
+const StyledList = styled.ul<{ area: string }>`
   border: 2px solid ${({ theme }) => theme.bg};
+  grid-area: ${({ area }) => area};
   padding: 0.25rem;
   display: grid;
   gap: 0.25rem;
@@ -55,7 +52,8 @@ const Badge = styled.span<{ color: keyof Theme }>`
 
 export default function Selector({
   active = "",
-  area = "",
+  title,
+  area,
   data,
 }: {
   data: {
@@ -64,30 +62,27 @@ export default function Selector({
     label: string;
     badge?: number;
   }[];
+  area: string;
   active?: string;
-  area?: string;
+  title?: string;
 }) {
   const navigate = useNavigate();
 
   const badgeColorMap: (keyof Theme)[] = ["error", "error", "warn", "success"];
 
   return (
-    <StyledWrapper area={area}>
-      {area && <StyledTitle>{area}</StyledTitle>}
-      <StyledList>
-        {data.map(({ id, link, label, badge }) => {
-          const isActive = id === active;
-
-          return (
-            <StyledListItem key={id}>
-              <StyledButton onClick={() => navigate(link)} active={isActive}>
-                {label}
-              </StyledButton>
-              {badge && <Badge color={badgeColorMap[badge]}>{badge}</Badge>}
-            </StyledListItem>
-          );
-        })}
+    <>
+      <StyledTitle area={`${area}-title`}>{title ?? area}</StyledTitle>
+      <StyledList area={`${area}-select`}>
+        {data.map(({ id, link, label, badge }) => (
+          <StyledListItem key={id}>
+            <StyledButton onClick={() => navigate(link)} active={id === active}>
+              {label}
+            </StyledButton>
+            {badge && <Badge color={badgeColorMap[badge]}>{badge}</Badge>}
+          </StyledListItem>
+        ))}
       </StyledList>
-    </StyledWrapper>
+    </>
   );
 }

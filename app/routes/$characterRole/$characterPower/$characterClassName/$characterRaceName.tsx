@@ -65,7 +65,7 @@ export default function Page() {
         }))}
       />
       {characterClassName && (
-        <DataPanel area="class-data">
+        <DataPanel area="class">
           {characterClassGlossary[characterClassName].flavorText}
         </DataPanel>
       )}
