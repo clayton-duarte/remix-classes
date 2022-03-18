@@ -130,7 +130,7 @@ export interface CharacterClass {
   mainRole: CharacterRole;
   keyAbilities: CharacterAbility[];
   flavorText: string;
-  book: number;
+  book: string;
   page: number;
 }
 
@@ -140,7 +140,7 @@ export type CharacterClassGlossary = {
 
 export const characterClassesGlossary: CharacterClassGlossary = {
   [CharacterClassName.Cleric]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 60,
     name: CharacterClassName.Cleric,
     mainRole: CharacterRole.Leader,
@@ -153,7 +153,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Fighter]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 75,
     name: CharacterClassName.Fighter,
     mainRole: CharacterRole.Defender,
@@ -167,7 +167,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Paladin]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 89,
     name: CharacterClassName.Paladin,
     mainRole: CharacterRole.Defender,
@@ -181,7 +181,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Ranger]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 103,
     name: CharacterClassName.Ranger,
     mainRole: CharacterRole.Striker,
@@ -195,7 +195,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Rogue]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 116,
     name: CharacterClassName.Rogue,
     mainRole: CharacterRole.Striker,
@@ -209,7 +209,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Warlock]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 129,
     name: CharacterClassName.Warlock,
     mainRole: CharacterRole.Striker,
@@ -223,7 +223,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Warlord]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 143,
     name: CharacterClassName.Warlord,
     mainRole: CharacterRole.Leader,
@@ -236,7 +236,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Wizard]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 156,
     name: CharacterClassName.Wizard,
     mainRole: CharacterRole.Controller,
@@ -250,7 +250,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Avenger]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 32,
     name: CharacterClassName.Avenger,
     mainRole: CharacterRole.Striker,
@@ -263,7 +263,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Barbarian]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 48,
     name: CharacterClassName.Barbarian,
     mainRole: CharacterRole.Striker,
@@ -276,7 +276,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Bard]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 66,
     name: CharacterClassName.Bard,
     mainRole: CharacterRole.Leader,
@@ -290,7 +290,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Druid]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 82,
     name: CharacterClassName.Druid,
     mainRole: CharacterRole.Controller,
@@ -303,7 +303,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Invoker]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 100,
     name: CharacterClassName.Invoker,
     mainRole: CharacterRole.Controller,
@@ -317,7 +317,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Shaman]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 118,
     name: CharacterClassName.Shaman,
     mainRole: CharacterRole.Leader,
@@ -331,7 +331,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Sorcerer]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 136,
     name: CharacterClassName.Sorcerer,
     mainRole: CharacterRole.Striker,
@@ -344,7 +344,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Warden]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 152,
     name: CharacterClassName.Warden,
     mainRole: CharacterRole.Defender,
@@ -358,7 +358,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Ardent]: {
-    book: 3,
+    book: "Player's Handbook 3",
     page: 22,
     name: CharacterClassName.Ardent,
     mainRole: CharacterRole.Leader,
@@ -371,7 +371,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Battlemind]: {
-    book: 3,
+    book: "Player's Handbook 3",
     page: 42,
     name: CharacterClassName.Battlemind,
     mainRole: CharacterRole.Defender,
@@ -385,7 +385,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Monk]: {
-    book: 3,
+    book: "Player's Handbook 3",
     page: 62,
     name: CharacterClassName.Monk,
     mainRole: CharacterRole.Striker,
@@ -399,7 +399,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Psion]: {
-    book: 3,
+    book: "Player's Handbook 3",
     page: 80,
     name: CharacterClassName.Psion,
     mainRole: CharacterRole.Controller,
@@ -413,7 +413,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Runepriest]: {
-    book: 3,
+    book: "Player's Handbook 3",
     page: 98,
     name: CharacterClassName.Runepriest,
     mainRole: CharacterRole.Leader,
@@ -427,7 +427,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.Seeker]: {
-    book: 3,
+    book: "Player's Handbook 3",
     page: 116,
     name: CharacterClassName.Seeker,
     mainRole: CharacterRole.Controller,
@@ -441,7 +441,7 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     ],
   },
   [CharacterClassName.SwordMage]: {
-    book: 4,
+    book: "Forgotten Realms Player's Guide",
     page: 24,
     name: CharacterClassName.SwordMage,
     mainRole: CharacterRole.Defender,
@@ -460,7 +460,7 @@ export interface CharacterRace {
   name: CharacterRaceName;
   abilityBonus: CharacterAbility[];
   description: string;
-  book: number;
+  book: string;
   page: number;
 }
 
@@ -470,7 +470,7 @@ export type CharacterRacesGlossary = {
 
 export const characterRacesGlossary: CharacterRacesGlossary = {
   [CharacterRaceName.Dragonborn]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 34,
     description:
       "Proud, honorable warriors, born from the blood of an ancient dragon god",
@@ -478,7 +478,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     abilityBonus: [CharacterAbility.Charisma, CharacterAbility.Strength],
   },
   [CharacterRaceName.Dwarf]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 36,
     description:
       "Masters of stone and iron, dauntless and unyielding in the face of adversity",
@@ -486,7 +486,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     abilityBonus: [CharacterAbility.Constitution, CharacterAbility.Wisdom],
   },
   [CharacterRaceName.Eladrin]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 38,
     description:
       "Graceful warriors and wizards at home in the eldritch twilight of the Feywild",
@@ -494,14 +494,14 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Intelligence],
   },
   [CharacterRaceName.Elf]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 40,
     description: "Quick, wary archers who freely roam the forests and wilds",
     name: CharacterRaceName.Elf,
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Wisdom],
   },
   [CharacterRaceName.HalfElf]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 42,
     description:
       "Born heroes and leaders who combine the best features of humans and elves",
@@ -509,7 +509,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     abilityBonus: [CharacterAbility.Constitution, CharacterAbility.Charisma],
   },
   [CharacterRaceName.Halfling]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 44,
     description:
       "Quick and resourceful wanderers, small in stature but great in courage",
@@ -517,7 +517,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Charisma],
   },
   [CharacterRaceName.Human]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 46,
     description:
       "Ambitious, driven, pragmatic — a race of heroes, and also a race of villains",
@@ -532,7 +532,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     ],
   },
   [CharacterRaceName.Tiefling]: {
-    book: 1,
+    book: "Player's Handbook 1",
     page: 48,
     description:
       "Heirs of a shattered empire who live in the shadows and do not fear the dark",
@@ -540,7 +540,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Charisma],
   },
   [CharacterRaceName.Deva]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 8,
     description:
       "Immortal spirits who embody virtue, born and reborn to mortal life in the world",
@@ -548,7 +548,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Wisdom],
   },
   [CharacterRaceName.Gnome]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 10,
     description:
       "Slight, sly tricksters of the Feywild who excel at avoiding notice",
@@ -556,7 +556,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Charisma],
   },
   [CharacterRaceName.Goliath]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 12,
     description:
       "Tribal nomads of the mountains, strong as the rock and proud as the peak",
@@ -564,14 +564,14 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     abilityBonus: [CharacterAbility.Strength, CharacterAbility.Constitution],
   },
   [CharacterRaceName.HalfOrc]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 14,
     description: "Fierce warriors who combine human resolve with orc savagery",
     name: CharacterRaceName.HalfOrc,
     abilityBonus: [CharacterAbility.Strength, CharacterAbility.Dexterity],
   },
   [CharacterRaceName.Shifter]: {
-    book: 2,
+    book: "Player's Handbook 2",
     page: 16,
     description:
       "Ferocious heirs of the wild, the perfect fusion of civilized race and wild beast",
@@ -583,7 +583,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     ],
   },
   [CharacterRaceName.Githzerai]: {
-    book: 3,
+    book: "Player's Handbook 3",
     page: 8,
     description: "Ascetic and disciplined, masters of body and mind",
     name: CharacterRaceName.Githzerai,
@@ -594,7 +594,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     ],
   },
   [CharacterRaceName.Minotaur]: {
-    book: 3,
+    book: "Player's Handbook 3",
     page: 10,
     description:
       "Caught between savagery and civilization, these warriors struggle against the beast within",
@@ -606,7 +606,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     ],
   },
   [CharacterRaceName.Shardmind]: {
-    book: 3,
+    book: "Player's Handbook 3",
     page: 12,
     description:
       "Raw psionic energy barely contained in a body of gleaming crystalline shards",
@@ -618,7 +618,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     ],
   },
   [CharacterRaceName.Wilden]: {
-    book: 3,
+    book: "Player's Handbook 3",
     page: 14,
     description:
       "Nature's guardians-hunters and destroyers - keepers of ancient knowledge",
@@ -630,14 +630,14 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     ],
   },
   [CharacterRaceName.Drow]: {
-    book: 4,
+    book: "Forgotten Realms Player's Guide",
     page: 8,
     description: "Graceful and deadly, at home in the depths of darkness",
     name: CharacterRaceName.Drow,
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Charisma],
   },
   [CharacterRaceName.Genasi]: {
-    book: 4,
+    book: "Forgotten Realms Player's Guide",
     page: 110,
     description:
       "Energy embodied, chaos and order united - a race of inherent flexibility, passion and diversity",
