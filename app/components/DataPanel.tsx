@@ -8,6 +8,9 @@ const StyledPanel = styled.div<{ area: string; color: keyof Theme }>`
   margin-top: 1.75rem;
   display: grid;
   gap: 0;
+  @media all and (max-width: 768px) {
+    margin-top: 0;
+  }
 `;
 
 const StyledWrapper = styled.div`
