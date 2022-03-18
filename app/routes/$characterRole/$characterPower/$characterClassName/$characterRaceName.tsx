@@ -25,7 +25,7 @@ type RouteParams = {
   characterRole: CharacterRole;
   characterPower: CharacterPowerSource;
   characterClassName: CharacterClassName;
-  characterRace: CharacterRaceName;
+  characterRaceName: CharacterRaceName;
 };
 
 export const loader = async ({ params }: { params: RouteParams }) => {
@@ -45,14 +45,18 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 
 export default function Page() {
   const { raceList, characterClassGlossary } = useLoaderData<LoaderResponse>();
-  const { characterRole, characterPower, characterClassName, characterRace } =
-    useParams<RouteParams>();
+  const {
+    characterRole,
+    characterPower,
+    characterClassName,
+    characterRaceName,
+  } = useParams<RouteParams>();
 
   return (
     <>
       <Selector
         area="race"
-        active={characterRace}
+        active={characterRaceName}
         data={raceList.map(({ name: raceName, abilityBonus }) => ({
           link: `/${characterRole}/${characterPower}/${characterClassName}/${raceName}`,
           badge: abilityBonus.length,

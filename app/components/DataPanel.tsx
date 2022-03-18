@@ -29,7 +29,7 @@ export default function characterRace({
   title,
   area,
 }: {
-  area: "role-data" | "power-data" | "class-data" | "race-data";
+  area: "role-data" | "power-data" | "class-data" | "race-data" | "char";
   children: ReactNode;
   color?: keyof Theme;
   title?: string;

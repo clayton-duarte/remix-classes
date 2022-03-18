@@ -34,7 +34,7 @@ const PageLayout = styled.main`
 const HeaderLayout = styled.header`
   background: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.white};
-  grid-template-columns: auto auto;
+  grid-template-columns: auto 1fr;
   justify-content: flex-start;
   grid-area: header;
   position: sticky;
@@ -48,7 +48,14 @@ const HeaderLayout = styled.header`
   }
 `;
 
-const BreadCrumbs = styled.nav``;
+const BreadCrumbs = styled.nav`
+  justify-content: flex-start;
+  grid-auto-flow: column;
+  align-items: center;
+  font-size: 0.825rem;
+  display: grid;
+  gap: 1rem;
+`;
 
 const FakeLogo = styled.h1`
   font-size: 1.25rem;
@@ -163,7 +170,7 @@ export default function App() {
               <BreadCrumbs>
                 {pathParts.map((param, index) => (
                   <>
-                    {" > "}
+                    {"🔗"}
                     <Link to={pathParts.slice(0, index + 1).join("/")}>
                       {param}
                     </Link>

@@ -41,6 +41,7 @@ export default function Page() {
   const navigate = useNavigate();
 
   const hasJustOneClass = classList.length === 1;
+  const hasNoClass = classList.length === 0;
 
   useEffect(() => {
     if (hasJustOneClass) {
@@ -59,17 +60,26 @@ export default function Page() {
           {characterPowerSourceGlossary[characterPower].description}
         </DataPanel>
       )}
-      <Selector
-        area="class"
-        data={classList.map(({ name }) => ({
-          link: `/${characterRole}/${characterPower}/${name}`,
-          label: name,
-          id: name,
-        }))}
-      />
-      <DataPanel area="class-data" color="warn" title="action required">
-        Please select a "Class" from the menu
-      </DataPanel>
+
+      {hasNoClass ? (
+        <DataPanel area="class-data" color="error" title="error">
+          There are no {characterRole}/{characterPower} classes available
+        </DataPanel>
+      ) : (
+        <>
+          <DataPanel area="class-data" color="warn" title="action required">
+            Please select a "Class" from the menu
+          </DataPanel>
+          <Selector
+            area="class"
+            data={classList.map(({ name }) => ({
+              link: `/${characterRole}/${characterPower}/${name}`,
+              label: name,
+              id: name,
+            }))}
+          />
+        </>
+      )}
     </>
   );
 }

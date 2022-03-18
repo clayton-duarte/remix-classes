@@ -56,7 +56,13 @@ export function fetchCharacterClassByName(
   return characterClassesGlossary[characterClassName];
 }
 
-export function fetchCharacterRaces(): CharacterRaceName[] {
+export function fetchCharacterRaceByName(
+  characterRaceName: CharacterRaceName
+): CharacterRacesGlossary[CharacterRaceName] {
+  return characterRacesGlossary[characterRaceName];
+}
+
+export function fetchCharacterRaceNames(): CharacterRaceName[] {
   return Object.values(CharacterRaceName);
 }
 

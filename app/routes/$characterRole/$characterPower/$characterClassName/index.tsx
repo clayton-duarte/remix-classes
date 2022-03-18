@@ -50,11 +50,11 @@ export default function Page() {
     <>
       <Selector
         area="race"
-        data={raceList.map(({ name: raceName, abilityBonus }) => ({
-          link: `/${characterRole}/${characterPower}/${characterClassName}/${raceName}`,
+        data={raceList.map(({ name, abilityBonus }) => ({
+          link: `/${characterRole}/${characterPower}/${characterClassName}/${name}`,
           badge: abilityBonus.length,
-          label: raceName,
-          id: raceName,
+          label: name,
+          id: name,
         }))}
       />
       {characterClassName && (
