@@ -1,14 +1,8 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { json, useLoaderData } from "remix";
-import styled from "@emotion/styled";
-import { Theme } from "@emotion/react";
 
+import AbilityPoints from "~/components/AbilityPoints";
 import DataPanel from "~/components/DataPanel";
-import AbilityPointsSlider, {
-  SCORE_POINTS_TO_DISTRIBUTE,
-  BASE_ABILITY_SCORE,
-  SCORE_COSTS,
-} from "~/components/AbilityPointsSlider";
 import {
   CharacterPowerSource,
   CharacterClassName,
@@ -23,25 +17,6 @@ import {
   fetchCharacterRaceByName,
   fetchCharacterAbility,
 } from "~/helpers/dataFetch";
-
-const ABILITY_BONUS_LIMIT = 2;
-
-const initialScorePointsDistribution = Object.values(CharacterAbility).reduce(
-  (acc, abilityName) => ({ ...acc, [abilityName]: 0 }),
-  {} as Record<CharacterAbility, number>
-);
-
-const StyledWrapper = styled.div`
-  grid-template-columns: auto auto 1fr auto;
-  justify-content: flex-start;
-  display: grid;
-  gap: 0.5rem;
-`;
-
-const StyledLabel = styled.label<{ color: keyof Theme }>`
-  color: ${({ theme, color }) => theme[color]};
-  text-transform: capitalize;
-`;
 
 type LoaderResponse = {
   characterAbilities: CharacterAbility[];
@@ -67,33 +42,6 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 export default function Page() {
   const { characterClass, characterRace, characterAbilities } =
     useLoaderData<LoaderResponse>();
-  const [selectedAbilityBonus, setSelectedAbilityBonus] = useState<
-    CharacterAbility[]
-  >([]);
-  const [scorePointsDistribution, setScorePointsDistribution] = useState(
-    initialScorePointsDistribution
-  );
-
-  useEffect(() => {
-    if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
-      // just select them all!
-      setSelectedAbilityBonus(characterRace.abilityBonus);
-      return;
-    }
-
-    if (characterRace.abilityBonus.length > ABILITY_BONUS_LIMIT) {
-      // we could pre-select some of the class key abilities
-      const relevantAbilities = characterRace.abilityBonus.filter((ability) =>
-        characterClass.keyAbilities.includes(ability)
-      );
-      if (relevantAbilities.length <= ABILITY_BONUS_LIMIT) {
-        setSelectedAbilityBonus(relevantAbilities);
-        return;
-      }
-    }
-
-    setSelectedAbilityBonus([]);
-  }, [characterClass, characterRace]);
 
   useEffect(() => {
     document.getElementById("char-panel")?.scrollIntoView();
@@ -103,93 +51,13 @@ export default function Page() {
     <>
       <DataPanel area="race">{characterRace.description}</DataPanel>
       <DataPanel color="secondary" area="char" title="Bonuses">
-        <summary>
-          Available Bonuses:{" "}
-          <span>
-            {ABILITY_BONUS_LIMIT - selectedAbilityBonus.length}/
-            {ABILITY_BONUS_LIMIT}
-          </span>
-        </summary>
+        <summary>Available Bonuses:</summary>
         <br />
-        {SCORE_POINTS_TO_DISTRIBUTE -
-          Object.values(scorePointsDistribution).reduce(
-            (acc, curr) => Number(acc) + Number(curr),
-            0
-          )}
-        <StyledWrapper>
-          {characterAbilities.map((ability) => {
-            const isSelected = selectedAbilityBonus.includes(ability);
-            const classAbilityIndex =
-              characterClass.keyAbilities.indexOf(ability);
-            const isRacialAbilityBonus =
-              characterRace.abilityBonus.includes(ability);
-            const dontNeedToSelect =
-              characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT;
-            const reachedSelectionLimit =
-              selectedAbilityBonus.length === ABILITY_BONUS_LIMIT;
-            const racialBonus = isSelected ? 2 : 0;
-
-            return (
-              <Fragment key={`bonus-selector-${ability}`}>
-                <StyledLabel
-                  color={
-                    classAbilityIndex < 0
-                      ? "secondary"
-                      : classAbilityIndex === 0
-                      ? "success"
-                      : "warn"
-                  }
-                >
-                  {ability.slice(0, 3)}
-                </StyledLabel>
-                <span>
-                  {isRacialAbilityBonus && (
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      disabled={
-                        (!isSelected && reachedSelectionLimit) ||
-                        dontNeedToSelect
-                      }
-                      onChange={() => {
-                        const checkedIndex =
-                          selectedAbilityBonus.indexOf(ability);
-
-                        if (
-                          checkedIndex < 0 &&
-                          selectedAbilityBonus.length < ABILITY_BONUS_LIMIT
-                        ) {
-                          // add
-                          return setSelectedAbilityBonus([
-                            ...selectedAbilityBonus,
-                            ability,
-                          ]);
-                        }
-
-                        // remove by index
-                        return setSelectedAbilityBonus(
-                          selectedAbilityBonus.filter(
-                            (_, index) => checkedIndex !== index
-                          )
-                        );
-                      }}
-                    />
-                  )}
-                </span>
-                <AbilityPointsSlider
-                  setScorePointsDistribution={setScorePointsDistribution}
-                  scorePointsDistribution={scorePointsDistribution}
-                  baseScore={BASE_ABILITY_SCORE + racialBonus}
-                  ability={ability}
-                />
-                <span>
-                  {Number(SCORE_COSTS[scorePointsDistribution[ability]]) +
-                    Number(racialBonus)}
-                </span>
-              </Fragment>
-            );
-          })}
-        </StyledWrapper>
+        <AbilityPoints
+          characterAbilities={characterAbilities}
+          characterClass={characterClass}
+          characterRace={characterRace}
+        />
         <br />
         <summary>Class:</summary>
         <span>

@@ -2,59 +2,63 @@ import { Dispatch, useMemo } from "react";
 import styled from "@emotion/styled";
 
 import { CharacterAbility } from "~/helpers/types";
-
-export const SCORE_POINTS_TO_DISTRIBUTE = 20;
-export const BASE_ABILITY_SCORE = 10;
-export const SCORE_COSTS = [
-  10, 11, 12, 13, 13, 14, 14, 15, 15, 16, 16, 16, 17, 17, 17, 17, 18,
-];
-const COST_BY_SCORE = [0, 1, 2, 3, 5, 7, 9, 12, 16];
+import {
+  COST_BY_SCORE,
+  SCORE_POINTS_TO_DISTRIBUTE,
+} from "~/components/AbilityPoints/consts";
 
 const StyledWrapper = styled.div<{ percent: number }>`
   background-image: linear-gradient(
     ${({ theme, percent }) =>
-      `90deg, ${theme.primary} ${percent}%, ${theme.bg} ${percent}%`}
+      `90deg, ${theme.secondary} ${percent}%, ${theme.bg} ${percent}%`}
   );
   justify-content: space-between;
   border-radius: 1.25rem;
   grid-auto-flow: column;
   transition: 0.3s ease;
   display: grid;
+  align-items: center;
 `;
 
 const StyledButton = styled.button<{ isSelected: boolean }>`
-  background: ${({ theme }) => theme.primary};
+  background: ${({ theme, isSelected }) =>
+    isSelected ? theme.primary : theme.secondary};
   color: ${({ theme }) => theme.white};
   border-radius: 1.25rem;
+  transition: 0.3s ease;
   place-items: center;
-  font-size: 0.75rem;
+  font-size: 0.5rem;
   font-weight: 700;
-  height: 1.25rem;
-  width: 1.25rem;
+  line-height: 1.5;
+  cursor: pointer;
   display: grid;
+  height: 1rem;
   border: none;
+  width: 1rem;
   padding: 0;
-  transform: scale(${({ isSelected }) => (isSelected ? 1.5 : 1)});
+  transform: scale(${({ isSelected }) => (isSelected ? 1.75 : 1.25)});
   &:disabled {
     background: ${({ theme }) => theme.bg};
   }
 `;
 
-export default function AbilityPointsSlider({
+type ScorePoints = Record<CharacterAbility, typeof COST_BY_SCORE[number]>;
+
+export default function AbilityPointSelector({
   setScorePointsDistribution,
   scorePointsDistribution,
   baseScore,
   ability,
 }: {
-  setScorePointsDistribution: Dispatch<Record<CharacterAbility, number>>;
-  scorePointsDistribution: Record<CharacterAbility, number>;
+  setScorePointsDistribution: Dispatch<ScorePoints>;
+  scorePointsDistribution: ScorePoints;
   ability: CharacterAbility;
   baseScore: number;
 }): JSX.Element {
   const sumOfPoints = useMemo(() => {
     return Object.values(scorePointsDistribution).reduce(
       (acc, curr) => Number(acc) + Number(curr),
-      0
+      0 as number
     );
   }, [scorePointsDistribution]);
 
@@ -65,17 +69,16 @@ export default function AbilityPointsSlider({
   return (
     <StyledWrapper percent={percent}>
       {COST_BY_SCORE.map((cost, index) => {
-        const isCurrentlySelected =
-          COST_BY_SCORE.indexOf(currentPoints) === index;
+        const isSelected = COST_BY_SCORE.indexOf(currentPoints) === index;
+        const pointsAvailable = SCORE_POINTS_TO_DISTRIBUTE - sumOfPoints;
+        const isDisabled = pointsAvailable < cost - currentPoints;
         const score = index + baseScore;
-        const disabled =
-          SCORE_POINTS_TO_DISTRIBUTE - sumOfPoints < cost - currentPoints;
 
         return (
           <StyledButton
-            isSelected={isCurrentlySelected}
             key={`${ability}-option-${index}`}
-            disabled={disabled}
+            isSelected={isSelected}
+            disabled={isDisabled}
             onClick={() => {
               const nextScores = {
                 ...scorePointsDistribution,
@@ -84,7 +87,7 @@ export default function AbilityPointsSlider({
 
               const newSumOfPoints = Object.values(nextScores).reduce(
                 (acc, curr) => Number(acc) + Number(curr),
-                0
+                0 as number
               );
 
               if (newSumOfPoints <= SCORE_POINTS_TO_DISTRIBUTE) {
@@ -97,37 +100,5 @@ export default function AbilityPointsSlider({
         );
       })}
     </StyledWrapper>
-  );
-  return (
-    <input
-      value={scorePointsDistribution[ability]}
-      max={SCORE_COSTS.length - 1}
-      type="range"
-      step={
-        scorePointsDistribution[ability] <= 3
-          ? 1
-          : scorePointsDistribution[ability] <= 9
-          ? 2
-          : scorePointsDistribution[ability] <= 12
-          ? 3
-          : 4
-      }
-      min={0}
-      onChange={(e) => {
-        const nextScores = {
-          ...scorePointsDistribution,
-          [ability]: e.target.value,
-        };
-
-        const sumOfPoints = Object.values(nextScores).reduce(
-          (acc, curr) => Number(acc) + Number(curr),
-          0
-        );
-
-        if (sumOfPoints <= SCORE_POINTS_TO_DISTRIBUTE) {
-          setScorePointsDistribution(nextScores);
-        }
-      }}
-    />
   );
 }
