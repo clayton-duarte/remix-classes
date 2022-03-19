@@ -28,8 +28,8 @@ const StyledListItem = styled.li`
   margin: 0;
 `;
 
-const StyledButton = styled.button<{ active: boolean }>`
-  background: ${({ theme, active }) => (active ? theme.bg : theme.white)};
+const StyledButton = styled.button`
+  background: ${({ theme }) => theme.white};
   color: ${({ theme }) => theme.primary};
   text-transform: capitalize;
   padding: 0.25rem 0.5rem;
@@ -39,6 +39,11 @@ const StyledButton = styled.button<{ active: boolean }>`
   border: none;
   width: 100%;
   margin: 0;
+  &:disabled {
+    color: ${({ theme }) => theme.secondary};
+    background: ${({ theme }) => theme.bg};
+    cursor: default;
+  }
 `;
 
 const Badge = styled.span<{ color: keyof Theme }>`
@@ -78,7 +83,10 @@ export default function Selector({
       <StyledList area={`${area}-select`}>
         {data.map(({ id, link, label, badge }) => (
           <StyledListItem key={id}>
-            <StyledButton onClick={() => navigate(link)} active={id === active}>
+            <StyledButton
+              onClick={() => navigate(link)}
+              disabled={id === active}
+            >
               {label}
             </StyledButton>
             {badge && <Badge color={badgeColorMap[badge]} />}

@@ -81,7 +81,7 @@ function RenderWarn({
   }
 
   return (
-    <DataPanel color="warn" area="success" title="Done">
+    <DataPanel color="success" area="warn" title="Done">
       You are all set
     </DataPanel>
   );
