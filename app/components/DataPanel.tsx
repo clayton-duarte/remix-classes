@@ -5,6 +5,7 @@ import { Theme } from "@emotion/react";
 const StyledPanel = styled.div<{ area: string; color: keyof Theme }>`
   border: 0.125rem solid ${({ theme, color }) => theme[color]};
   grid-area: ${({ area }) => area};
+  align-items: center;
   display: grid;
   gap: 0;
 `;

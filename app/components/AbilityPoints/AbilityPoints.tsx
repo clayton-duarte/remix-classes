@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Dispatch, Fragment, useEffect, useState } from "react";
 import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -31,21 +31,22 @@ const StyledAbilityLabel = styled.label<{ color: keyof Theme }>`
 `;
 
 export default function AbilityPoints({
+  setScorePointsDistribution,
+  setSelectedAbilityBonus,
+  scorePointsDistribution,
+  selectedAbilityBonus,
   characterAbilities,
   characterClass,
   characterRace,
 }: {
+  setScorePointsDistribution: Dispatch<typeof initialScorePointsDistribution>;
+  scorePointsDistribution: typeof initialScorePointsDistribution;
+  setSelectedAbilityBonus: Dispatch<CharacterAbility[]>;
+  selectedAbilityBonus: CharacterAbility[];
   characterAbilities: CharacterAbility[];
   characterClass: CharacterClass;
   characterRace: CharacterRace;
 }) {
-  const [selectedAbilityBonus, setSelectedAbilityBonus] = useState<
-    CharacterAbility[]
-  >([]);
-  const [scorePointsDistribution, setScorePointsDistribution] = useState(
-    initialScorePointsDistribution
-  );
-
   useEffect(() => {
     if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
       // just select them all!
