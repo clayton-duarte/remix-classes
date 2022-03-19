@@ -18,7 +18,7 @@ import {
   CharacterRaceName,
   CharacterRole,
 } from "~/helpers/types";
-import React from "react";
+
 const PageLayout = styled.main`
   grid-template-rows: auto 1fr;
   align-items: flex-start;

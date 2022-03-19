@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { json, useLoaderData } from "remix";
 import styled from "@emotion/styled";
 import { Theme } from "@emotion/react";
 
 import DataPanel from "~/components/DataPanel";
+import AbilityPointsSlider, {
+  SCORE_POINTS_TO_DISTRIBUTE,
+  BASE_ABILITY_SCORE,
+  SCORE_COSTS,
+} from "~/components/AbilityPointsSlider";
 import {
   CharacterPowerSource,
   CharacterClassName,
@@ -19,18 +24,7 @@ import {
   fetchCharacterAbility,
 } from "~/helpers/dataFetch";
 
-const SCORE_POINTS_TO_DISTRIBUTE = 20;
-const SCORE_COSTS = [
-  10, 11, 12, 13, 13, 14, 14, 15, 15, 16, 16, 16, 17, 17, 17, 17, 18,
-];
-
 const ABILITY_BONUS_LIMIT = 2;
-const BASE_ABILITY_SCORE = 10;
-
-const initialAbilityScores = Object.values(CharacterAbility).reduce(
-  (acc, abilityName) => ({ ...acc, [abilityName]: BASE_ABILITY_SCORE }),
-  {} as Record<CharacterAbility, number>
-);
 
 const initialScorePointsDistribution = Object.values(CharacterAbility).reduce(
   (acc, abilityName) => ({ ...acc, [abilityName]: 0 }),
@@ -38,7 +32,7 @@ const initialScorePointsDistribution = Object.values(CharacterAbility).reduce(
 );
 
 const StyledWrapper = styled.div`
-  grid-template-columns: auto auto auto 1fr auto;
+  grid-template-columns: auto auto 1fr auto;
   justify-content: flex-start;
   display: grid;
   gap: 0.5rem;
@@ -133,9 +127,10 @@ export default function Page() {
               characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT;
             const reachedSelectionLimit =
               selectedAbilityBonus.length === ABILITY_BONUS_LIMIT;
+            const racialBonus = isSelected ? 2 : 0;
 
             return (
-              <React.Fragment key={`bonus-selector-${ability}`}>
+              <Fragment key={`bonus-selector-${ability}`}>
                 <StyledLabel
                   color={
                     classAbilityIndex < 0
@@ -181,39 +176,17 @@ export default function Page() {
                     />
                   )}
                 </span>
-                <span>{BASE_ABILITY_SCORE + (isSelected ? 2 : 0)}</span>
-                <input
-                  value={scorePointsDistribution[ability]}
-                  max={SCORE_COSTS.length - 1}
-                  type="range"
-                  step={1}
-                  min={0}
-                  onChange={(e) => {
-                    const nextScores = {
-                      ...scorePointsDistribution,
-                      [ability]: e.target.value,
-                    };
-
-                    const sumOfPoints = Object.values(nextScores).reduce(
-                      (acc, curr) => Number(acc) + Number(curr),
-                      0
-                    );
-
-                    console.log({
-                      sumOfPoints,
-                      nextScores,
-                      [ability]: e.target.value,
-                    });
-                    if (sumOfPoints <= SCORE_POINTS_TO_DISTRIBUTE) {
-                      setScorePointsDistribution(nextScores);
-                    }
-                  }}
+                <AbilityPointsSlider
+                  setScorePointsDistribution={setScorePointsDistribution}
+                  scorePointsDistribution={scorePointsDistribution}
+                  baseScore={BASE_ABILITY_SCORE + racialBonus}
+                  ability={ability}
                 />
                 <span>
                   {Number(SCORE_COSTS[scorePointsDistribution[ability]]) +
-                    Number(isSelected ? 2 : 0)}
+                    Number(racialBonus)}
                 </span>
-              </React.Fragment>
+              </Fragment>
             );
           })}
         </StyledWrapper>
