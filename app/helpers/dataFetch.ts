@@ -15,7 +15,7 @@ import {
   CharacterAbility,
 } from "~/helpers/dataTypes";
 
-export function fetchCharacterAbility(): CharacterAbility[] {
+export function fetchCharacterAbilities(): CharacterAbility[] {
   return Object.values(CharacterAbility);
 }
 

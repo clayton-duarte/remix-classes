@@ -21,7 +21,7 @@ import {
 import {
   fetchCharacterClassByName,
   fetchCharacterRaceByName,
-  fetchCharacterAbility,
+  fetchCharacterAbilities as fetchCharacterAbilities,
 } from "~/helpers/dataFetch";
 
 const StyledWrapper = styled.div`
@@ -50,7 +50,7 @@ export const loader = async ({ params }: { params: RouteParams }) => {
   return json<LoaderResponse>({
     characterClass: fetchCharacterClassByName(params.characterClassName),
     characterRace: fetchCharacterRaceByName(params.characterRaceName),
-    characterAbilities: fetchCharacterAbility(),
+    characterAbilities: fetchCharacterAbilities(),
   });
 };
 
@@ -111,7 +111,10 @@ export default function Page() {
 
   return (
     <>
-      <DataPanel area="race">{characterRace.description}</DataPanel>
+      <DataPanel area="race">
+        {characterRace.description} - {characterRace.book}, p.
+        {characterRace.page}
+      </DataPanel>
       <StyledWrapper>
         <RenderWarn
           pointsToSpend={SCORE_POINTS_TO_DISTRIBUTE - sumOfPoints}
@@ -127,17 +130,6 @@ export default function Page() {
             characterClass={characterClass}
             characterRace={characterRace}
           />
-          <br />
-          <summary>Class:</summary>
-          <span>
-            {characterClass.name}: {characterClass.book}, page{" "}
-            {characterClass.page}
-          </span>
-          <summary>Race:</summary>
-          <span>
-            {characterRace.name}: {characterRace.book}, page{" "}
-            {characterRace.page}
-          </span>
         </DataPanel>
       </StyledWrapper>
     </>

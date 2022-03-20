@@ -53,7 +53,7 @@ export default function Page() {
         </DataPanel>
       )}
       <DataPanel area="power" color="warn" title="action">
-        Please select a "Source of Power" from the menu
+        Please select a "Source of Power" from the menu to know more about it.
       </DataPanel>
     </>
   );

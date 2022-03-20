@@ -72,7 +72,7 @@ export default function Page() {
       ) : (
         <>
           <DataPanel area="class" color="warn" title="action">
-            Please select a "Class" from the menu
+            Please select one of the available "Classes" from the menu.
           </DataPanel>
           <Selector
             area="class"

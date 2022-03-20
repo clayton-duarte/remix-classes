@@ -104,23 +104,23 @@ export type CharacterPowerSourceGlossary = {
 export const characterPowerSourceGlossary: CharacterPowerSourceGlossary = {
   [CharacterPowerSource.Arcane]: {
     description:
-      "This source of powers is drawn from a supernatural source from another world, a powerful entity or some occult knowledge. Arcane powers are called Spells",
+      "This source of powers is drawn from a supernatural source from another world, a powerful entity or some occult knowledge. Arcane powers are called Spells.",
   },
   [CharacterPowerSource.Divine]: {
     description:
-      "This source of powers is drawn from a deity, channeling it through faith to protect a god's philosophy. Divine powers are called Prayers",
+      "This source of powers is drawn from a deity, channeling it through faith to protect a god's philosophy. Divine powers are called Prayers.",
   },
   [CharacterPowerSource.Martial]: {
     description:
-      "This source of powers is drawn from training, determination, physical toughness, and natural proficiency. Martial powers are called Exploits",
+      "This source of powers is drawn from training, determination, physical toughness, and natural proficiency. Martial powers are called Exploits.",
   },
   [CharacterPowerSource.Primal]: {
     description:
-      "This source of powers is drawn from the connection to the natural world, to all living beings around and to its spirits. Primal powers are called Evocations",
+      "This source of powers is drawn from the connection to the natural world, to all living beings around and to its spirits. Primal powers are called Evocations.",
   },
   [CharacterPowerSource.Psionic]: {
     description:
-      "This source of powers is drawn from a strong connection to ones mind, meditation, and focus to manifest it on the physical world. Psionic powers are called Disciplines",
+      "This source of powers is drawn from a strong connection to ones mind, meditation, and focus to manifest it on the physical world. Psionic powers are called Disciplines.",
   },
 };
 
@@ -473,7 +473,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 1",
     page: 34,
     description:
-      "Proud, honorable warriors, born from the blood of an ancient dragon god",
+      "Proud, honorable warriors, born from the blood of an ancient dragon god.",
     name: CharacterRaceName.Dragonborn,
     abilityBonus: [CharacterAbility.Charisma, CharacterAbility.Strength],
   },
@@ -481,7 +481,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 1",
     page: 36,
     description:
-      "Masters of stone and iron, dauntless and unyielding in the face of adversity",
+      "Masters of stone and iron, dauntless and unyielding in the face of adversity.",
     name: CharacterRaceName.Dwarf,
     abilityBonus: [CharacterAbility.Constitution, CharacterAbility.Wisdom],
   },
@@ -489,14 +489,14 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 1",
     page: 38,
     description:
-      "Graceful warriors and wizards at home in the eldritch twilight of the Feywild",
+      "Graceful warriors and wizards at home in the eldritch twilight of the Feywild.",
     name: CharacterRaceName.Eladrin,
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Intelligence],
   },
   [CharacterRaceName.Elf]: {
     book: "Player's Handbook 1",
     page: 40,
-    description: "Quick, wary archers who freely roam the forests and wilds",
+    description: "Quick, wary archers who freely roam the forests and wilds.",
     name: CharacterRaceName.Elf,
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Wisdom],
   },
@@ -504,7 +504,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 1",
     page: 42,
     description:
-      "Born heroes and leaders who combine the best features of humans and elves",
+      "Born heroes and leaders who combine the best features of humans and elves.",
     name: CharacterRaceName.HalfElf,
     abilityBonus: [CharacterAbility.Constitution, CharacterAbility.Charisma],
   },
@@ -512,7 +512,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 1",
     page: 44,
     description:
-      "Quick and resourceful wanderers, small in stature but great in courage",
+      "Quick and resourceful wanderers, small in stature but great in courage.",
     name: CharacterRaceName.Halfling,
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Charisma],
   },
@@ -520,7 +520,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 1",
     page: 46,
     description:
-      "Ambitious, driven, pragmatic — a race of heroes, and also a race of villains",
+      "Ambitious, driven, pragmatic. A race of heroes, and also a race of villains.",
     name: CharacterRaceName.Human,
     abilityBonus: [
       CharacterAbility.Dexterity,
@@ -535,7 +535,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 1",
     page: 48,
     description:
-      "Heirs of a shattered empire who live in the shadows and do not fear the dark",
+      "Heirs of a shattered empire who live in the shadows and do not fear the dark.",
     name: CharacterRaceName.Tiefling,
     abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Charisma],
   },
@@ -543,7 +543,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 2",
     page: 8,
     description:
-      "Immortal spirits who embody virtue, born and reborn to mortal life in the world",
+      "Immortal spirits who embody virtue, born and reborn to mortal life in the world.",
     name: CharacterRaceName.Deva,
     abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Wisdom],
   },
@@ -551,7 +551,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 2",
     page: 10,
     description:
-      "Slight, sly tricksters of the Feywild who excel at avoiding notice",
+      "Slight, sly tricksters of the Feywild who excel at avoiding notice.",
     name: CharacterRaceName.Gnome,
     abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Charisma],
   },
@@ -559,14 +559,14 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 2",
     page: 12,
     description:
-      "Tribal nomads of the mountains, strong as the rock and proud as the peak",
+      "Tribal nomads of the mountains, strong as the rock and proud as the peak.",
     name: CharacterRaceName.Goliath,
     abilityBonus: [CharacterAbility.Strength, CharacterAbility.Constitution],
   },
   [CharacterRaceName.HalfOrc]: {
     book: "Player's Handbook 2",
     page: 14,
-    description: "Fierce warriors who combine human resolve with orc savagery",
+    description: "Fierce warriors who combine human resolve with orc savagery.",
     name: CharacterRaceName.HalfOrc,
     abilityBonus: [CharacterAbility.Strength, CharacterAbility.Dexterity],
   },
@@ -574,7 +574,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 2",
     page: 16,
     description:
-      "Ferocious heirs of the wild, the perfect fusion of civilized race and wild beast",
+      "Ferocious heirs of the wild, the perfect fusion of civilized race and wild beast.",
     name: CharacterRaceName.Shifter,
     abilityBonus: [
       CharacterAbility.Strength,
@@ -585,7 +585,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
   [CharacterRaceName.Githzerai]: {
     book: "Player's Handbook 3",
     page: 8,
-    description: "Ascetic and disciplined, masters of body and mind",
+    description: "Ascetic and disciplined, masters of body and mind.",
     name: CharacterRaceName.Githzerai,
     abilityBonus: [
       CharacterAbility.Wisdom,
@@ -597,7 +597,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 3",
     page: 10,
     description:
-      "Caught between savagery and civilization, these warriors struggle against the beast within",
+      "Caught between savagery and civilization, these warriors struggle against the beast within.",
     name: CharacterRaceName.Minotaur,
     abilityBonus: [
       CharacterAbility.Strength,
@@ -609,7 +609,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 3",
     page: 12,
     description:
-      "Raw psionic energy barely contained in a body of gleaming crystalline shards",
+      "Raw psionic energy barely contained in a body of gleaming crystalline shards.",
     name: CharacterRaceName.Shardmind,
     abilityBonus: [
       CharacterAbility.Intelligence,
@@ -621,7 +621,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Player's Handbook 3",
     page: 14,
     description:
-      "Nature's guardians-hunters and destroyers - keepers of ancient knowledge",
+      "Nature's guardians-hunters and destroyers - keepers of ancient knowledge.",
     name: CharacterRaceName.Wilden,
     abilityBonus: [
       CharacterAbility.Wisdom,
@@ -632,7 +632,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
   [CharacterRaceName.Drow]: {
     book: "Forgotten Realms Player's Guide",
     page: 8,
-    description: "Graceful and deadly, at home in the depths of darkness",
+    description: "Graceful and deadly, at home in the depths of darkness.",
     name: CharacterRaceName.Drow,
     abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Charisma],
   },
@@ -640,7 +640,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     book: "Forgotten Realms Player's Guide",
     page: 110,
     description:
-      "Energy embodied, chaos and order united - a race of inherent flexibility, passion and diversity",
+      "Energy embodied, chaos and order united - a race of inherent flexibility, passion and diversity.",
     name: CharacterRaceName.Genasi,
     abilityBonus: [CharacterAbility.Strength, CharacterAbility.Intelligence],
   },

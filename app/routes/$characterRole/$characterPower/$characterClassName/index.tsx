@@ -4,9 +4,9 @@ import DataPanel from "~/components/DataPanel";
 
 import Selector from "~/components/Selector";
 import {
-  CharacterClassGlossary,
   CharacterPowerSource,
   CharacterClassName,
+  CharacterClass,
   CharacterRole,
   CharacterRace,
 } from "~/helpers/dataTypes";
@@ -17,7 +17,7 @@ import {
 } from "~/helpers/dataFetch";
 
 type LoaderResponse = {
-  characterClassGlossary: CharacterClassGlossary;
+  characterClass: CharacterClass;
   raceList: CharacterRace[];
 };
 
@@ -38,12 +38,12 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 
   return json<LoaderResponse>({
     raceList: fetchCharacterRacesByAbilityBonus(characterClass.keyAbilities),
-    characterClassGlossary: fetchCharacterClassGlossary(),
+    characterClass,
   });
 };
 
 export default function Page() {
-  const { raceList, characterClassGlossary } = useLoaderData<LoaderResponse>();
+  const { raceList, characterClass } = useLoaderData<LoaderResponse>();
   const { characterRole, characterPower, characterClassName } =
     useParams<RouteParams>();
 
@@ -62,11 +62,10 @@ export default function Page() {
           id: name,
         }))}
       />
-      {characterClassName && (
-        <DataPanel area="class">
-          {characterClassGlossary[characterClassName].flavorText}
-        </DataPanel>
-      )}
+      <DataPanel area="class">
+        <em>{characterClass.flavorText}</em>
+        <br />- {characterClass.book}, p.{characterClass.page}
+      </DataPanel>
       <DataPanel area="race" color="warn" title="action">
         Please select a "Race" from the menu
       </DataPanel>

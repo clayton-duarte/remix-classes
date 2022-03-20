@@ -28,8 +28,9 @@ const StyledListItem = styled.li`
   margin: 0;
 `;
 
-const StyledButton = styled.button`
-  background: ${({ theme }) => theme.white};
+const StyledButton = styled.button<{ isSelected: boolean }>`
+  background: ${({ theme, isSelected }) =>
+    isSelected ? theme.bg : theme.white};
   color: ${({ theme }) => theme.primary};
   text-transform: capitalize;
   padding: 0.25rem 0.5rem;
@@ -41,7 +42,6 @@ const StyledButton = styled.button`
   margin: 0;
   &:disabled {
     color: ${({ theme }) => theme.secondary};
-    background: ${({ theme }) => theme.bg};
     cursor: default;
   }
 `;
@@ -85,6 +85,7 @@ export default function Selector({
           <StyledListItem key={id}>
             <StyledButton
               onClick={() => navigate(link)}
+              isSelected={id === active}
               disabled={id === active}
             >
               {label}

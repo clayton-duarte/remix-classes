@@ -24,7 +24,7 @@ const StyledWrapper = styled.div`
   display: grid;
   gap: 1rem;
   @media all and (max-width: 768px) {
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
 `;
 
@@ -43,7 +43,7 @@ const StyledHeaders = styled.h5`
 
 const StyledModifier = styled.span`
   border: 0.125rem solid ${({ theme }) => theme.bg};
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.secondary};
   font-family: "Cinzel", serif;
   transform: scale(1.5);
   border-radius: 1rem;
@@ -55,11 +55,14 @@ const StyledModifier = styled.span`
   display: grid;
   height: 1rem;
   width: 1rem;
+  @media all and (max-width: 768px) {
+    transform: scale(1.25);
+  }
   &:before {
     position: absolute;
-    content: "+";
-    left: -0.25rem;
     font-size: 1rem;
+    left: -0.25rem;
+    content: "+";
   }
 `;
 

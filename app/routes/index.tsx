@@ -27,7 +27,7 @@ export default function Page() {
         }))}
       />
       <DataPanel area="role" color="warn" title="action">
-        Please select a "Role" from the menu
+        Please select a "Party Role" from the menu to see its definition.
       </DataPanel>
     </>
   );

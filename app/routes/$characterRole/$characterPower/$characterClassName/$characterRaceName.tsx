@@ -3,21 +3,20 @@ import { json, useLoaderData, useParams, Outlet } from "remix";
 import Selector from "~/components/Selector";
 import DataPanel from "~/components/DataPanel";
 import {
-  CharacterClassGlossary,
   CharacterPowerSource,
   CharacterClassName,
   CharacterRaceName,
+  CharacterClass,
   CharacterRole,
   CharacterRace,
 } from "~/helpers/dataTypes";
 import {
   fetchCharacterRacesByAbilityBonus,
-  fetchCharacterClassGlossary,
   fetchCharacterClassByName,
 } from "~/helpers/dataFetch";
 
 type LoaderResponse = {
-  characterClassGlossary: CharacterClassGlossary;
+  characterClass: CharacterClass;
   raceList: CharacterRace[];
 };
 
@@ -39,12 +38,12 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 
   return json<LoaderResponse>({
     raceList: fetchCharacterRacesByAbilityBonus(characterClass.keyAbilities),
-    characterClassGlossary: fetchCharacterClassGlossary(),
+    characterClass,
   });
 };
 
 export default function Page() {
-  const { raceList, characterClassGlossary } = useLoaderData<LoaderResponse>();
+  const { raceList, characterClass } = useLoaderData<LoaderResponse>();
   const {
     characterRole,
     characterPower,
@@ -64,11 +63,10 @@ export default function Page() {
           id: raceName,
         }))}
       />
-      {characterClassName && (
-        <DataPanel area="class">
-          {characterClassGlossary[characterClassName].flavorText}
-        </DataPanel>
-      )}
+      <DataPanel area="class">
+        <em>{characterClass.flavorText}</em>
+        <br />- {characterClass.book}, p.{characterClass.page}
+      </DataPanel>
       <Outlet />
     </>
   );
