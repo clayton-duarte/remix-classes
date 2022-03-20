@@ -1,4 +1,4 @@
-import { CharacterAbility } from "~/helpers/types";
+import { CharacterAbility } from "~/helpers/dataTypes";
 
 export const SCORE_POINTS_TO_DISTRIBUTE = 20;
 

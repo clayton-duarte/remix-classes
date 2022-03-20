@@ -17,7 +17,7 @@ import {
   CharacterClassName,
   CharacterRaceName,
   CharacterRole,
-} from "~/helpers/types";
+} from "~/helpers/dataTypes";
 
 const PageLayout = styled.main`
   grid-template-rows: auto 1fr;

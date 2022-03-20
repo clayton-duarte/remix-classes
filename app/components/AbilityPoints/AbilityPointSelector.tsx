@@ -1,7 +1,7 @@
 import { Dispatch, useMemo } from "react";
 import styled from "@emotion/styled";
 
-import { CharacterAbility } from "~/helpers/types";
+import { CharacterAbility } from "~/helpers/dataTypes";
 import {
   COST_BY_SCORE,
   SCORE_POINTS_TO_DISTRIBUTE,
@@ -15,6 +15,7 @@ const StyledWrapper = styled.div<{ percent: number }>`
   justify-content: space-between;
   border-radius: 1.25rem;
   grid-auto-flow: column;
+  justify-self: stretch;
   transition: 0.3s ease;
   display: grid;
   align-items: center;
@@ -23,9 +24,12 @@ const StyledWrapper = styled.div<{ percent: number }>`
 const StyledButton = styled.button<{ isSelected: boolean }>`
   background: ${({ theme, isSelected }) =>
     isSelected ? theme.primary : theme.secondary};
+  transform: scale(${({ isSelected }) => (isSelected ? 1.75 : 1.25)});
+  z-index: ${({ isSelected }) => (isSelected ? 99 : 9)};
   color: ${({ theme }) => theme.white};
-  border-radius: 1.25rem;
+  font-family: "Cinzel", serif;
   transition: 0.3s ease;
+  border-radius: 1rem;
   place-items: center;
   font-size: 0.5rem;
   font-weight: 700;
@@ -36,7 +40,6 @@ const StyledButton = styled.button<{ isSelected: boolean }>`
   border: none;
   width: 1rem;
   padding: 0;
-  transform: scale(${({ isSelected }) => (isSelected ? 1.75 : 1.25)});
   &:disabled {
     background: ${({ theme }) => theme.bg};
   }

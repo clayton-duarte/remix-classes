@@ -6,7 +6,7 @@ import {
   CharacterPowerSource,
   CharacterClass,
   CharacterRole,
-} from "~/helpers/types";
+} from "~/helpers/dataTypes";
 import {
   fetchCharacterClassByRoleAndPower,
   fetchCharacterPowerSourcesGlossary,

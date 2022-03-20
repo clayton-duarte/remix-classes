@@ -2,7 +2,7 @@ import { json, useLoaderData, Outlet, useParams } from "remix";
 
 import { fetchCharacterRoles } from "~/helpers/dataFetch";
 import Selector from "~/components/Selector";
-import { CharacterRole, CharacterPowerSource } from "~/helpers/types";
+import { CharacterRole, CharacterPowerSource } from "~/helpers/dataTypes";
 
 type LoaderResponse = {
   roleList: CharacterRole[];

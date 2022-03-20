@@ -17,7 +17,7 @@ import {
   CharacterClass,
   CharacterRole,
   CharacterRace,
-} from "~/helpers/types";
+} from "~/helpers/dataTypes";
 import {
   fetchCharacterClassByName,
   fetchCharacterRaceByName,
@@ -64,8 +64,8 @@ function RenderWarn({
   if (bonusesToSelect > 0) {
     return (
       <DataPanel color="warn" area="warn" title="action">
-        Your have {bonusesToSelect} bonus to select. Please select your racial
-        bonuses clicking on the <BiBadge /> bellow
+        Your have {bonusesToSelect} ability bonus to select. Please select your
+        racial bonuses by clicking on the <BiBadge /> bellow
       </DataPanel>
     );
   }
@@ -73,9 +73,10 @@ function RenderWarn({
   if (pointsToSpend > 0) {
     return (
       <DataPanel color="warn" area="warn" title="action">
-        You have {pointsToSpend} points to spend. Please spend your ability
-        score points by selecting the values from <strong>10</strong> to{" "}
-        <strong>20</strong> bellow.
+        You have <strong>{pointsToSpend}</strong> ability points to spend.
+        Please spend your ability score points by selecting the values from{" "}
+        <strong>10</strong> to <strong>20</strong> bellow. Higher scores consume
+        more points.
       </DataPanel>
     );
   }
@@ -116,9 +117,7 @@ export default function Page() {
           pointsToSpend={SCORE_POINTS_TO_DISTRIBUTE - sumOfPoints}
           bonusesToSelect={2 - selectedAbilityBonus.length}
         />
-        <DataPanel color="secondary" area="main" title="Bonuses">
-          <summary>Available Bonuses:</summary>
-          <br />
+        <DataPanel color="secondary" area="main" title="Ability Scores">
           <AbilityPoints
             setScorePointsDistribution={setScorePointsDistribution}
             setSelectedAbilityBonus={setSelectedAbilityBonus}
@@ -131,11 +130,13 @@ export default function Page() {
           <br />
           <summary>Class:</summary>
           <span>
-            {characterClass.book}, page {characterClass.page}
+            {characterClass.name}: {characterClass.book}, page{" "}
+            {characterClass.page}
           </span>
           <summary>Race:</summary>
           <span>
-            {characterRace.book}, page {characterRace.page}
+            {characterRace.name}: {characterRace.book}, page{" "}
+            {characterRace.page}
           </span>
         </DataPanel>
       </StyledWrapper>

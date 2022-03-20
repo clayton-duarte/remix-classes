@@ -11,7 +11,7 @@ import {
   CharacterRolesGlossary,
   CharacterPowerSource,
   CharacterRole,
-} from "~/helpers/types";
+} from "~/helpers/dataTypes";
 
 type LoaderResponse = {
   characterRolesGlossary: CharacterRolesGlossary;

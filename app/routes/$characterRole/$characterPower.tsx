@@ -8,7 +8,7 @@ import {
   CharacterRolesGlossary,
   CharacterPowerSource,
   CharacterRole,
-} from "~/helpers/types";
+} from "~/helpers/dataTypes";
 import Selector from "~/components/Selector";
 import DataPanel from "~/components/DataPanel";
 

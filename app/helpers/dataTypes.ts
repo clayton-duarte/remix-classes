@@ -104,23 +104,23 @@ export type CharacterPowerSourceGlossary = {
 export const characterPowerSourceGlossary: CharacterPowerSourceGlossary = {
   [CharacterPowerSource.Arcane]: {
     description:
-      "You draw your power from a supernatural source from another world, a powerful entity or some occult knowledge. Your powers are called Spells",
+      "This source of powers is drawn from a supernatural source from another world, a powerful entity or some occult knowledge. Arcane powers are called Spells",
   },
   [CharacterPowerSource.Divine]: {
     description:
-      "You draw your power from a deity by channeling it through faith to protect its philosophy. Your powers are called Prayers",
+      "This source of powers is drawn from a deity, channeling it through faith to protect a god's philosophy. Divine powers are called Prayers",
   },
   [CharacterPowerSource.Martial]: {
     description:
-      "You draw your power from your own training, determination, physical toughness, and natural proficiency. Your powers are called Exploits",
+      "This source of powers is drawn from training, determination, physical toughness, and natural proficiency. Martial powers are called Exploits",
   },
   [CharacterPowerSource.Primal]: {
     description:
-      "You draw your power from your connection to the natural world, to all living beings around and to its spirits. Your powers are called Evocations",
+      "This source of powers is drawn from the connection to the natural world, to all living beings around and to its spirits. Primal powers are called Evocations",
   },
   [CharacterPowerSource.Psionic]: {
     description:
-      "You draw your power from your connection to your mind, meditation, and your focus to manifest it on the physical world. Your powers are called Disciplines",
+      "This source of powers is drawn from a strong connection to ones mind, meditation, and focus to manifest it on the physical world. Psionic powers are called Disciplines",
   },
 };
 

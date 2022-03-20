@@ -13,7 +13,7 @@ import {
   CharacterRaceName,
   CharacterPowerSource,
   CharacterAbility,
-} from "~/helpers/types";
+} from "~/helpers/dataTypes";
 
 export function fetchCharacterAbility(): CharacterAbility[] {
   return Object.values(CharacterAbility);

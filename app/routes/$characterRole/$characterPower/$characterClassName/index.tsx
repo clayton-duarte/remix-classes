@@ -9,7 +9,7 @@ import {
   CharacterClassName,
   CharacterRole,
   CharacterRace,
-} from "~/helpers/types";
+} from "~/helpers/dataTypes";
 import {
   fetchCharacterRacesByAbilityBonus,
   fetchCharacterClassGlossary,

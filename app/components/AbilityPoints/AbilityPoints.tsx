@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, useEffect, useState } from "react";
+import { Dispatch, Fragment, useEffect, useMemo } from "react";
 import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -14,20 +14,53 @@ import {
   CharacterAbility,
   CharacterClass,
   CharacterRace,
-} from "~/helpers/types";
+} from "~/helpers/dataTypes";
 
 const StyledWrapper = styled.div`
   grid-template-columns: auto auto 1fr auto;
   justify-content: flex-start;
+  justify-items: center;
   align-items: center;
   display: grid;
   gap: 1rem;
+  @media all and (max-width: 768px) {
+    gap: 0.5rem;
+  }
 `;
 
 const StyledAbilityLabel = styled.label<{ color: keyof Theme }>`
   color: ${({ theme, color }) => theme[color]};
   text-transform: uppercase;
   font-weight: 700;
+`;
+
+const StyledHeaders = styled.h5`
+  font-size: 0.75rem;
+  @media all and (max-width: 768px) {
+    font-size: 0.5rem;
+  }
+`;
+
+const StyledModifier = styled.span`
+  border: 0.125rem solid ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.primary};
+  font-family: "Cinzel", serif;
+  transform: scale(1.5);
+  border-radius: 1rem;
+  place-items: center;
+  position: relative;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  display: grid;
+  height: 1rem;
+  width: 1rem;
+  &:before {
+    position: absolute;
+    content: "+";
+    left: -0.25rem;
+    font-size: 1rem;
+  }
 `;
 
 export default function AbilityPoints({
@@ -70,6 +103,10 @@ export default function AbilityPoints({
 
   return (
     <StyledWrapper>
+      <StyledHeaders>ability</StyledHeaders>
+      <StyledHeaders>bonus</StyledHeaders>
+      <StyledHeaders>score</StyledHeaders>
+      <StyledHeaders>mod.</StyledHeaders>
       {characterAbilities.map((ability) => {
         const isSelected = selectedAbilityBonus.includes(ability);
         const classAbilityIndex = characterClass.keyAbilities.indexOf(ability);
@@ -80,6 +117,8 @@ export default function AbilityPoints({
         const reachedSelectionLimit =
           selectedAbilityBonus.length === ABILITY_BONUS_LIMIT;
         const racialBonus = isSelected ? 2 : 0;
+        const isMobile =
+          typeof window !== "undefined" && window.innerWidth < 769;
 
         return (
           <Fragment key={`bonus-selector-${ability}`}>
@@ -92,7 +131,7 @@ export default function AbilityPoints({
                   : "warn"
               }
             >
-              {ability.slice(0, 3)}
+              {isMobile ? ability.slice(0, 3) : ability}
             </StyledAbilityLabel>
             <RacialBonusCheckbox
               checked={isSelected}
@@ -129,15 +168,14 @@ export default function AbilityPoints({
               baseScore={BASE_ABILITY_SCORE + racialBonus}
               ability={ability}
             />
-            <span>
-              +
+            <StyledModifier>
               {Math.floor(
                 (Number(SCORE_COSTS[scorePointsDistribution[ability]]) +
                   Number(racialBonus) -
                   BASE_ABILITY_SCORE) /
                   2
               )}
-            </span>
+            </StyledModifier>
           </Fragment>
         );
       })}
