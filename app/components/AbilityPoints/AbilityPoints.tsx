@@ -3,7 +3,8 @@ import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import AbilityPointSelector from "~/components/AbilityPoints/AbilityPointSelector";
-import RacialBonusCheckbox from "~/components/AbilityPoints/RacialBonusCheckbox";
+import BonusCheckbox from "~/components/BonusCheckbox";
+import ModifierLabel from "~/components/ModifierLabel";
 import {
   initialScorePointsDistribution,
   ABILITY_BONUS_LIMIT,
@@ -31,6 +32,7 @@ const StyledWrapper = styled.div`
 const StyledAbilityLabel = styled.label<{ color: keyof Theme }>`
   color: ${({ theme, color }) => theme[color]};
   text-transform: uppercase;
+  justify-self: start;
   font-weight: 700;
 `;
 
@@ -38,31 +40,6 @@ const StyledHeaders = styled.h5`
   font-size: 0.75rem;
   @media all and (max-width: 768px) {
     font-size: 0.5rem;
-  }
-`;
-
-const StyledModifier = styled.span`
-  border: 0.125rem solid ${({ theme }) => theme.bg};
-  color: ${({ theme }) => theme.secondary};
-  font-family: "Cinzel", serif;
-  transform: scale(1.5);
-  border-radius: 1rem;
-  place-items: center;
-  position: relative;
-  font-size: 0.75rem;
-  font-weight: 700;
-  line-height: 1.25;
-  display: grid;
-  height: 1rem;
-  width: 1rem;
-  @media all and (max-width: 768px) {
-    transform: scale(1.25);
-  }
-  &:before {
-    position: absolute;
-    font-size: 1rem;
-    left: -0.25rem;
-    content: "+";
   }
 `;
 
@@ -106,8 +83,7 @@ export default function AbilityPoints({
 
   return (
     <StyledWrapper>
-      <StyledHeaders>ability</StyledHeaders>
-      <StyledHeaders>bonus</StyledHeaders>
+      <span /> <StyledHeaders>bonus</StyledHeaders>
       <StyledHeaders>score</StyledHeaders>
       <StyledHeaders>mod.</StyledHeaders>
       {characterAbilities.map((ability) => {
@@ -136,11 +112,11 @@ export default function AbilityPoints({
             >
               {isMobile ? ability.slice(0, 3) : ability}
             </StyledAbilityLabel>
-            <RacialBonusCheckbox
+            <BonusCheckbox
               checked={isSelected}
               disabled={
-                !isRacialAbilityBonus || // cant select at all
                 (!isSelected && reachedSelectionLimit) || // cant select, but can un-select
+                !isRacialAbilityBonus || // cant select at all
                 dontNeedToSelect // there's no other possible combination
               }
               onChange={() => {
@@ -171,14 +147,14 @@ export default function AbilityPoints({
               baseScore={BASE_ABILITY_SCORE + racialBonus}
               ability={ability}
             />
-            <StyledModifier>
+            <ModifierLabel>
               {Math.floor(
                 (Number(SCORE_COSTS[scorePointsDistribution[ability]]) +
                   Number(racialBonus) -
                   BASE_ABILITY_SCORE) /
                   2
               )}
-            </StyledModifier>
+            </ModifierLabel>
           </Fragment>
         );
       })}

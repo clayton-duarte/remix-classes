@@ -13,7 +13,18 @@ import {
   CharacterRaceName,
   CharacterPowerSource,
   CharacterAbility,
+  SkillName,
+  SkillGlossary,
+  skillGlossary,
 } from "~/helpers/dataTypes";
+
+export function fetchSkillNames(): SkillName[] {
+  return Object.values(SkillName);
+}
+
+export function fetchSkillGlossary(): SkillGlossary {
+  return skillGlossary;
+}
 
 export function fetchCharacterAbilities(): CharacterAbility[] {
   return Object.values(CharacterAbility);

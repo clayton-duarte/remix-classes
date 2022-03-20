@@ -32,6 +32,7 @@ const StyledButton = styled.button<{ isSelected: boolean }>`
   background: ${({ theme, isSelected }) =>
     isSelected ? theme.bg : theme.white};
   color: ${({ theme }) => theme.primary};
+  font-family: "Cinzel", serif;
   text-transform: capitalize;
   padding: 0.25rem 0.5rem;
   font-weight: 700;

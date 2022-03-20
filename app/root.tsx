@@ -78,7 +78,7 @@ const FooterLayout = styled.footer`
 `;
 
 const ContentLayout = styled.article`
-  grid-template-columns: minmax(200px, auto) 1fr 1fr;
+  grid-template-columns: minmax(200px, auto) calc(50% - 200px - 1rem) 1fr;
   grid-template-rows: repeat(4, auto);
   justify-content: stretch;
   align-items: flex-start;

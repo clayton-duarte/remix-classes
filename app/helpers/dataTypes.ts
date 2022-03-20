@@ -5,71 +5,6 @@ export enum CharacterRole {
   Striker = "striker",
 }
 
-export enum CharacterPowerSource {
-  Arcane = "arcane",
-  Divine = "divine",
-  Martial = "martial",
-  Primal = "primal",
-  Psionic = "psionic",
-}
-
-export enum CharacterAbility {
-  Strength = "strength",
-  Constitution = "constitution",
-  Dexterity = "dexterity",
-  Intelligence = "intelligence",
-  Wisdom = "wisdom",
-  Charisma = "charisma",
-}
-
-export enum CharacterClassName {
-  Cleric = "cleric",
-  Fighter = "fighter",
-  Paladin = "paladin",
-  Ranger = "ranger",
-  Rogue = "rogue",
-  Warlock = "warlock",
-  Warlord = "warlord",
-  Wizard = "wizard",
-  Avenger = "avenger",
-  Barbarian = "barbarian",
-  Bard = "bard",
-  Druid = "druid",
-  Invoker = "invoker",
-  Shaman = "shaman",
-  Sorcerer = "sorcerer",
-  Warden = "warden",
-  Ardent = "ardent",
-  Battlemind = "battlemind",
-  Monk = "monk",
-  Psion = "psion",
-  Runepriest = "runepriest",
-  Seeker = "seeker",
-  SwordMage = "swordmage",
-}
-
-export enum CharacterRaceName {
-  Dragonborn = "dragonborn",
-  Dwarf = "dwarf",
-  Eladrin = "eladrin",
-  Elf = "elf",
-  HalfElf = "half-elf",
-  Halfling = "halfling",
-  Human = "human",
-  Tiefling = "tiefling",
-  Deva = "deva",
-  Gnome = "gnome",
-  Goliath = "goliath",
-  HalfOrc = "half-orc",
-  Shifter = "shifter",
-  Githzerai = "githzerai",
-  Minotaur = "minotaur",
-  Shardmind = "shardmind",
-  Wilden = "wilden",
-  Drow = "drow",
-  Genasi = "genasi",
-}
-
 export type CharacterRolesGlossary = {
   [key in CharacterRole]: {
     description: string;
@@ -94,6 +29,14 @@ export const characterRolesGlossary: CharacterRolesGlossary = {
       "Strikers specialize in dealing high amounts of damage to a single target at a time. They have the most concentrated offense of any character in the game. Strikers rely on superior mobility, trickery, or magic to move around tough foes and single out the enemy they want to attack.",
   },
 };
+
+export enum CharacterPowerSource {
+  Arcane = "arcane",
+  Divine = "divine",
+  Martial = "martial",
+  Primal = "primal",
+  Psionic = "psionic",
+}
 
 export type CharacterPowerSourceGlossary = {
   [key in CharacterPowerSource]: {
@@ -124,19 +67,157 @@ export const characterPowerSourceGlossary: CharacterPowerSourceGlossary = {
   },
 };
 
-export interface CharacterClass {
-  name: CharacterClassName;
-  powerSource: CharacterPowerSource;
-  mainRole: CharacterRole;
-  keyAbilities: CharacterAbility[];
-  flavorText: string;
-  book: string;
-  page: number;
+export enum CharacterAbility {
+  Strength = "strength",
+  Constitution = "constitution",
+  Dexterity = "dexterity",
+  Intelligence = "intelligence",
+  Wisdom = "wisdom",
+  Charisma = "charisma",
+}
+
+export enum SkillName {
+  Acrobatics = "acrobatics",
+  Arcana = "arcana",
+  Athletics = "athletics",
+  Bluff = "bluff",
+  Diplomacy = "diplomacy",
+  Dungeoneering = "dungeoneering",
+  Endurance = "endurance",
+  Heal = "heal",
+  History = "history",
+  Insight = "insight",
+  Intimidate = "intimidate",
+  Nature = "nature",
+  Perception = "perception",
+  Religion = "religion",
+  Stealth = "stealth",
+  Streetwise = "streetwise",
+  Thievery = "thievery",
+}
+
+export type SkillGlossary = {
+  [key in SkillName]: {
+    name: key;
+    keyAbility: CharacterAbility;
+  };
+};
+
+export type Skill = SkillGlossary[SkillName];
+
+export const skillGlossary: SkillGlossary = {
+  [SkillName.Acrobatics]: {
+    name: SkillName.Acrobatics,
+    keyAbility: CharacterAbility.Dexterity,
+  },
+  [SkillName.Arcana]: {
+    name: SkillName.Arcana,
+    keyAbility: CharacterAbility.Intelligence,
+  },
+  [SkillName.Athletics]: {
+    name: SkillName.Athletics,
+    keyAbility: CharacterAbility.Strength,
+  },
+  [SkillName.Bluff]: {
+    name: SkillName.Bluff,
+    keyAbility: CharacterAbility.Charisma,
+  },
+  [SkillName.Diplomacy]: {
+    name: SkillName.Diplomacy,
+    keyAbility: CharacterAbility.Charisma,
+  },
+  [SkillName.Dungeoneering]: {
+    name: SkillName.Dungeoneering,
+    keyAbility: CharacterAbility.Dexterity,
+  },
+  [SkillName.Endurance]: {
+    name: SkillName.Endurance,
+    keyAbility: CharacterAbility.Constitution,
+  },
+  [SkillName.Heal]: {
+    name: SkillName.Heal,
+    keyAbility: CharacterAbility.Wisdom,
+  },
+  [SkillName.History]: {
+    name: SkillName.History,
+    keyAbility: CharacterAbility.Intelligence,
+  },
+  [SkillName.Insight]: {
+    name: SkillName.Insight,
+    keyAbility: CharacterAbility.Wisdom,
+  },
+  [SkillName.Intimidate]: {
+    name: SkillName.Intimidate,
+    keyAbility: CharacterAbility.Charisma,
+  },
+  [SkillName.Nature]: {
+    name: SkillName.Nature,
+    keyAbility: CharacterAbility.Wisdom,
+  },
+  [SkillName.Perception]: {
+    name: SkillName.Perception,
+    keyAbility: CharacterAbility.Wisdom,
+  },
+  [SkillName.Religion]: {
+    name: SkillName.Religion,
+    keyAbility: CharacterAbility.Intelligence,
+  },
+  [SkillName.Stealth]: {
+    name: SkillName.Stealth,
+    keyAbility: CharacterAbility.Dexterity,
+  },
+  [SkillName.Streetwise]: {
+    name: SkillName.Streetwise,
+    keyAbility: CharacterAbility.Charisma,
+  },
+  [SkillName.Thievery]: {
+    name: SkillName.Thievery,
+    keyAbility: CharacterAbility.Dexterity,
+  },
+};
+
+export enum CharacterClassName {
+  Cleric = "cleric",
+  Fighter = "fighter",
+  Paladin = "paladin",
+  Ranger = "ranger",
+  Rogue = "rogue",
+  Warlock = "warlock",
+  Warlord = "warlord",
+  Wizard = "wizard",
+  Avenger = "avenger",
+  Barbarian = "barbarian",
+  Bard = "bard",
+  Druid = "druid",
+  Invoker = "invoker",
+  Shaman = "shaman",
+  Sorcerer = "sorcerer",
+  Warden = "warden",
+  Ardent = "ardent",
+  Battlemind = "battlemind",
+  Monk = "monk",
+  Psion = "psion",
+  Runepriest = "runepriest",
+  Seeker = "seeker",
+  SwordMage = "swordmage",
 }
 
 export type CharacterClassGlossary = {
-  [key in CharacterClassName]: CharacterClass;
+  [key in CharacterClassName]: {
+    name: key;
+    powerSource: CharacterPowerSource;
+    mainRole: CharacterRole;
+    keyAbilities: CharacterAbility[];
+    skillChoices: number;
+    trainedSkills: SkillName[];
+    skillList: SkillName[];
+    flavorText: string;
+    book: string;
+    page: number;
+  };
 };
+
+export type CharacterClass = CharacterClassGlossary[CharacterClassName];
 
 export const characterClassesGlossary: CharacterClassGlossary = {
   [CharacterClassName.Cleric]: {
@@ -146,6 +227,16 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     mainRole: CharacterRole.Leader,
     powerSource: CharacterPowerSource.Divine,
     flavorText: "“Have courage, my friends! Pelor favors us today!”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Religion],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Diplomacy,
+      SkillName.Heal,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Religion,
+    ],
     keyAbilities: [
       CharacterAbility.Wisdom,
       CharacterAbility.Strength,
@@ -159,6 +250,15 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     mainRole: CharacterRole.Defender,
     powerSource: CharacterPowerSource.Martial,
     flavorText: "“You'll have to deal with me first, dragon!”",
+    skillChoices: 3,
+    trainedSkills: [],
+    skillList: [
+      SkillName.Athletics,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.Intimidate,
+      SkillName.Streetwise,
+    ],
     keyAbilities: [
       CharacterAbility.Strength,
       CharacterAbility.Dexterity,
@@ -174,6 +274,17 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Divine,
     flavorText:
       "“I am the righteous shield of Moradin and a sword in his mighty hand! I fear no evil!”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Religion],
+    skillList: [
+      SkillName.Diplomacy,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Intimidate,
+      SkillName.Religion,
+    ],
     keyAbilities: [
       CharacterAbility.Strength,
       CharacterAbility.Charisma,
@@ -188,6 +299,17 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Martial,
     flavorText:
       "“I'll get the one in the back. That's one hobgoblin who'll regret ever lifting a bow.”",
+    skillChoices: 5,
+    trainedSkills: [SkillName.Dungeoneering, SkillName.Nature],
+    skillList: [
+      SkillName.Acrobatics,
+      SkillName.Athletics,
+      SkillName.Dungeoneering,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.Nature,
+      SkillName.Perception,
+    ],
     keyAbilities: [
       CharacterAbility.Strength,
       CharacterAbility.Dexterity,
@@ -202,6 +324,20 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Martial,
     flavorText:
       "“You look surprised to see me. If you'd been paying attention, you might still be alive.”",
+    skillChoices: 6,
+    trainedSkills: [SkillName.Stealth, SkillName.Thievery],
+    skillList: [
+      SkillName.Acrobatics,
+      SkillName.Athletics,
+      SkillName.Bluff,
+      SkillName.Dungeoneering,
+      SkillName.Insight,
+      SkillName.Intimidate,
+      SkillName.Perception,
+      SkillName.Stealth,
+      SkillName.Streetwise,
+      SkillName.Thievery,
+    ],
     keyAbilities: [
       CharacterAbility.Dexterity,
       CharacterAbility.Strength,
@@ -216,6 +352,18 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Arcane,
     flavorText:
       "“The darkness holds no terror for me, demon! I curse you now under the Sign of Ill Omen!”",
+    skillChoices: 4,
+    trainedSkills: [],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Bluff,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Intimidate,
+      SkillName.Religion,
+      SkillName.Streetwise,
+      SkillName.Thievery,
+    ],
     keyAbilities: [
       CharacterAbility.Charisma,
       CharacterAbility.Constitution,
@@ -229,6 +377,16 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     mainRole: CharacterRole.Leader,
     powerSource: CharacterPowerSource.Martial,
     flavorText: "“Onward to victory! They cannot stand before us!”",
+    skillChoices: 4,
+    trainedSkills: [],
+    skillList: [
+      SkillName.Athletics,
+      SkillName.Diplomacy,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.History,
+      SkillName.Intimidate,
+    ],
     keyAbilities: [
       CharacterAbility.Strength,
       CharacterAbility.Intelligence,
@@ -243,6 +401,17 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Arcane,
     flavorText:
       "“I am the fire that burns, the choking fog, the storm that rains devastation on our foes.”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Arcana],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Diplomacy,
+      SkillName.Dungeoneering,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Nature,
+      SkillName.Religion,
+    ],
     keyAbilities: [
       CharacterAbility.Intelligence,
       CharacterAbility.Wisdom,
@@ -256,6 +425,19 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     mainRole: CharacterRole.Striker,
     powerSource: CharacterPowerSource.Divine,
     flavorText: "“You'll have to deal with me first, dragon!”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Religion],
+    skillList: [
+      SkillName.Acrobatics,
+      SkillName.Athletics,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.Intimidate,
+      SkillName.Perception,
+      SkillName.Religion,
+      SkillName.Stealth,
+      SkillName.Streetwise,
+    ],
     keyAbilities: [
       CharacterAbility.Wisdom,
       CharacterAbility.Dexterity,
@@ -269,6 +451,17 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     mainRole: CharacterRole.Striker,
     powerSource: CharacterPowerSource.Primal,
     flavorText: "“My strength is the fury of the wild.”",
+    skillChoices: 3,
+    trainedSkills: [],
+    skillList: [
+      SkillName.Acrobatics,
+      SkillName.Athletics,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.Intimidate,
+      SkillName.Nature,
+      SkillName.Perception,
+    ],
     keyAbilities: [
       CharacterAbility.Strength,
       CharacterAbility.Constitution,
@@ -283,6 +476,24 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Arcane,
     flavorText:
       "“The clash of blades, a note. A battle fought, a verse. The hero's war, a song.”",
+    skillChoices: 5,
+    trainedSkills: [SkillName.Arcana],
+    skillList: [
+      SkillName.Acrobatics,
+      SkillName.Arcana,
+      SkillName.Athletics,
+      SkillName.Bluff,
+      SkillName.Diplomacy,
+      SkillName.Dungeoneering,
+      SkillName.Heal,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Intimidate,
+      SkillName.Nature,
+      SkillName.Perception,
+      SkillName.Religion,
+      SkillName.Streetwise,
+    ],
     keyAbilities: [
       CharacterAbility.Charisma,
       CharacterAbility.Intelligence,
@@ -296,6 +507,19 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     mainRole: CharacterRole.Controller,
     powerSource: CharacterPowerSource.Primal,
     flavorText: "“I am the seeker. I am the stalker. I am the storm.”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Nature],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Athletics,
+      SkillName.Diplomacy,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Nature,
+      SkillName.Perception,
+    ],
     keyAbilities: [
       CharacterAbility.Wisdom,
       CharacterAbility.Dexterity,
@@ -310,6 +534,17 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Divine,
     flavorText:
       "“The only thing stronger than my faith is the fire I use to burn away those who stand against the will of the gods.”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Religion],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Diplomacy,
+      SkillName.Endurance,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Intimidate,
+      SkillName.Religion,
+    ],
     keyAbilities: [
       CharacterAbility.Wisdom,
       CharacterAbility.Constitution,
@@ -324,6 +559,19 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Primal,
     flavorText:
       "“The spirits surround us, guide us, and hold all the knowledge of the world.”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Nature],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Athletics,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Nature,
+      SkillName.Perception,
+      SkillName.Religion,
+    ],
     keyAbilities: [
       CharacterAbility.Wisdom,
       CharacterAbility.Constitution,
@@ -337,6 +585,20 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     mainRole: CharacterRole.Striker,
     powerSource: CharacterPowerSource.Arcane,
     flavorText: "“I am in the arcane, and the arcane is in me.”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Arcana],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Athletics,
+      SkillName.Bluff,
+      SkillName.Diplomacy,
+      SkillName.Dungeoneering,
+      SkillName.Endurance,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Intimidate,
+      SkillName.Nature,
+    ],
     keyAbilities: [
       CharacterAbility.Charisma,
       CharacterAbility.Dexterity,
@@ -351,6 +613,17 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Primal,
     flavorText:
       "“Get past me? You might as well try to push the mountains aside.”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Nature],
+    skillList: [
+      SkillName.Athletics,
+      SkillName.Dungeoneering,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.Intimidate,
+      SkillName.Nature,
+      SkillName.Perception,
+    ],
     keyAbilities: [
       CharacterAbility.Strength,
       CharacterAbility.Constitution,
@@ -364,6 +637,19 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     mainRole: CharacterRole.Leader,
     powerSource: CharacterPowerSource.Psionic,
     flavorText: "“The fate of the world rests on the fire of your passions”",
+    skillChoices: 4,
+    trainedSkills: [],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Athletics,
+      SkillName.Bluff,
+      SkillName.Diplomacy,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.Insight,
+      SkillName.Intimidate,
+      SkillName.Streetwise,
+    ],
     keyAbilities: [
       CharacterAbility.Charisma,
       CharacterAbility.Constitution,
@@ -378,6 +664,18 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Psionic,
     flavorText:
       "“My mind is a far deadlier weapon than some ill-crafted bit of iron”",
+    skillChoices: 3,
+    trainedSkills: [],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Athletics,
+      SkillName.Bluff,
+      SkillName.Diplomacy,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.Insight,
+      SkillName.Intimidate,
+    ],
     keyAbilities: [
       CharacterAbility.Constitution,
       CharacterAbility.Wisdom,
@@ -392,6 +690,20 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Psionic,
     flavorText:
       "“You fight well, but without discipline and focus, you will fall.”",
+    skillChoices: 4,
+    trainedSkills: [],
+    skillList: [
+      SkillName.Acrobatics,
+      SkillName.Athletics,
+      SkillName.Diplomacy,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.Insight,
+      SkillName.Perception,
+      SkillName.Religion,
+      SkillName.Stealth,
+      SkillName.Thievery,
+    ],
     keyAbilities: [
       CharacterAbility.Dexterity,
       CharacterAbility.Strength,
@@ -406,6 +718,18 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Psionic,
     flavorText:
       "“I can bend the desire of the mortals and immortals to my will”",
+    skillChoices: 4,
+    trainedSkills: [],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Bluff,
+      SkillName.Diplomacy,
+      SkillName.Dungeoneering,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Intimidate,
+      SkillName.Perception,
+    ],
     keyAbilities: [
       CharacterAbility.Intelligence,
       CharacterAbility.Charisma,
@@ -420,6 +744,18 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Divine,
     flavorText:
       "“The divine runes of might are stronger than any steel, more dangerous than any spell”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Religion],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Athletics,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Religion,
+      SkillName.Thievery,
+    ],
     keyAbilities: [
       CharacterAbility.Strength,
       CharacterAbility.Constitution,
@@ -434,6 +770,19 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Primal,
     flavorText:
       "“I am the lightning strike, the earth's upheaval, the unruly sea. I am the bringer of your destruction.”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Nature],
+    skillList: [
+      SkillName.Acrobatics,
+      SkillName.Athletics,
+      SkillName.Endurance,
+      SkillName.Heal,
+      SkillName.Insight,
+      SkillName.Intimidate,
+      SkillName.Nature,
+      SkillName.Perception,
+      SkillName.Stealth,
+    ],
     keyAbilities: [
       CharacterAbility.Wisdom,
       CharacterAbility.Strength,
@@ -448,6 +797,17 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     powerSource: CharacterPowerSource.Arcane,
     flavorText:
       "“Under the leaves of Myth Drannor I learned the ancient eladrin way of battle. Spells are my armor, and words of ruin are bound to my blade”",
+    skillChoices: 4,
+    trainedSkills: [SkillName.Arcana],
+    skillList: [
+      SkillName.Arcana,
+      SkillName.Athletics,
+      SkillName.Diplomacy,
+      SkillName.Endurance,
+      SkillName.History,
+      SkillName.Insight,
+      SkillName.Intimidate,
+    ],
     keyAbilities: [
       CharacterAbility.Intelligence,
       CharacterAbility.Strength,
@@ -456,17 +816,39 @@ export const characterClassesGlossary: CharacterClassGlossary = {
   },
 };
 
-export interface CharacterRace {
-  name: CharacterRaceName;
-  abilityBonus: CharacterAbility[];
-  description: string;
-  book: string;
-  page: number;
+export enum CharacterRaceName {
+  Dragonborn = "dragonborn",
+  Dwarf = "dwarf",
+  Eladrin = "eladrin",
+  Elf = "elf",
+  HalfElf = "half-elf",
+  Halfling = "halfling",
+  Human = "human",
+  Tiefling = "tiefling",
+  Deva = "deva",
+  Gnome = "gnome",
+  Goliath = "goliath",
+  HalfOrc = "half-orc",
+  Shifter = "shifter",
+  Githzerai = "githzerai",
+  Minotaur = "minotaur",
+  Shardmind = "shardmind",
+  Wilden = "wilden",
+  Drow = "drow",
+  Genasi = "genasi",
 }
 
 export type CharacterRacesGlossary = {
-  [key in CharacterRaceName]: CharacterRace;
+  [key in CharacterRaceName]: {
+    name: key;
+    abilityBonus: CharacterAbility[];
+    description: string;
+    book: string;
+    page: number;
+  };
 };
+
+export type CharacterRace = CharacterRacesGlossary[CharacterRaceName];
 
 export const characterRacesGlossary: CharacterRacesGlossary = {
   [CharacterRaceName.Dragonborn]: {
