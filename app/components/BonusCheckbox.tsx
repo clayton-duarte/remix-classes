@@ -1,5 +1,11 @@
-import { BiBadge, BiBadgeCheck } from "react-icons/bi";
+import { useMemo } from "react";
 import styled from "@emotion/styled";
+import {
+  BiBadge,
+  BiBadgeCheck,
+  BiCheckbox,
+  BiCheckboxChecked,
+} from "react-icons/bi";
 
 const StyledCheckboxLabel = styled.label<{
   disabled: boolean;
@@ -28,14 +34,26 @@ export default function BonusCheckbox({
   onChange,
   disabled,
   checked,
+  badge = false,
 }: {
   onChange: () => void;
   disabled: boolean;
   checked: boolean;
+  badge?: boolean;
 }) {
+  const icon = useMemo(() => {
+    if (checked) {
+      if (badge) return <BiBadgeCheck />;
+      return <BiCheckboxChecked />;
+    }
+    if (badge) return <BiBadge />;
+
+    return <BiCheckbox />;
+  }, [checked, badge]);
+
   return (
     <StyledCheckboxLabel disabled={disabled} checked={checked}>
-      {checked ? <BiBadgeCheck /> : <BiBadge />}
+      {icon}
       <HiddenInput
         onChange={onChange}
         disabled={disabled}
