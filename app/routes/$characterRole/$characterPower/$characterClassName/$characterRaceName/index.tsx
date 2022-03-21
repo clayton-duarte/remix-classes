@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, Dispatch } from "react";
+import { useMemo } from "react";
 import { json, useLoaderData } from "remix";
 import { BiBadge } from "react-icons/bi";
 import styled from "@emotion/styled";
@@ -6,6 +6,7 @@ import styled from "@emotion/styled";
 import CharacterSkills from "~/components/CharacterSkills";
 import AbilityPoints from "~/components/AbilityPoints";
 import DataPanel from "~/components/DataPanel";
+import useStorage from "~/helpers/useStorage";
 import {
   initialScorePointsDistribution,
   SCORE_POINTS_TO_DISTRIBUTE,
@@ -19,6 +20,7 @@ import {
   CharacterRole,
   CharacterRace,
   SkillGlossary,
+  SkillName,
 } from "~/helpers/dataTypes";
 import {
   fetchCharacterClassByName,
@@ -64,15 +66,15 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 export default function Page() {
   const { characterClass, characterRace, characterAbilities, skillGlossary } =
     useLoaderData<LoaderResponse>();
-  const [trainedSkills, setTrainedSkills] = useState(
-    characterClass.trainedSkills
-  );
-  const [scorePointsDistribution, setScorePointsDistribution] = useState(
-    initialScorePointsDistribution
-  );
-  const [selectedAbilityBonus, setSelectedAbilityBonus] = useState<
+  const [trainedSkills, setTrainedSkills] = useStorage<SkillName[]>(
+    "trainedSkills"
+  )(characterClass.trainedSkills);
+  const [scorePointsDistribution, setScorePointsDistribution] = useStorage<
+    typeof initialScorePointsDistribution
+  >("scorePointsDistribution")(initialScorePointsDistribution);
+  const [selectedAbilityBonus, setSelectedAbilityBonus] = useStorage<
     CharacterAbility[]
-  >([]);
+  >("selectedAbilityBonus")([]);
 
   function RenderWarn({
     bonusesToSelect,
@@ -101,6 +103,14 @@ export default function Page() {
       );
     }
 
+    if (
+      selectedAbilityBonus == null ||
+      scorePointsDistribution == null ||
+      trainedSkills == null
+    ) {
+      return null;
+    }
+
     return (
       <DataPanel color="secondary" area="skill" title="Skills">
         <CharacterSkills
@@ -122,15 +132,15 @@ export default function Page() {
   }
 
   const sumOfPoints = useMemo(() => {
-    return Object.values(scorePointsDistribution).reduce(
+    return Object.values(scorePointsDistribution ?? {}).reduce(
       (acc, curr) => Number(acc) + Number(curr),
       0 as number
     );
   }, [scorePointsDistribution]);
 
-  useEffect(() => {
-    document.getElementById("char-panel")?.scrollIntoView();
-  }, [characterRace]);
+  if (selectedAbilityBonus == null || scorePointsDistribution == null) {
+    return null;
+  }
 
   return (
     <>

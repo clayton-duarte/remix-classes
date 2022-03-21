@@ -63,8 +63,7 @@ export default function AbilityPoints({
   useEffect(() => {
     if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
       // just select them all!
-      setSelectedAbilityBonus(characterRace.abilityBonus);
-      return;
+      return setSelectedAbilityBonus(characterRace.abilityBonus);
     }
 
     if (characterRace.abilityBonus.length > ABILITY_BONUS_LIMIT) {
@@ -73,12 +72,9 @@ export default function AbilityPoints({
         characterClass.keyAbilities.includes(ability)
       );
       if (relevantAbilities.length <= ABILITY_BONUS_LIMIT) {
-        setSelectedAbilityBonus(relevantAbilities);
-        return;
+        return setSelectedAbilityBonus(relevantAbilities);
       }
     }
-
-    setSelectedAbilityBonus([]);
   }, [characterClass, characterRace]);
 
   return (
