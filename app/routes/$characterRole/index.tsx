@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useLoaderData, useParams, json } from "remix";
 
 import Selector from "~/components/Selector";
@@ -32,10 +31,6 @@ export const loader = async () => {
 export default function Page() {
   const { powerList, characterRolesGlossary } = useLoaderData<LoaderResponse>();
   const { characterRole } = useParams<RouteParams>();
-
-  useEffect(() => {
-    document.getElementById("power-panel")?.scrollIntoView();
-  }, [characterRole]);
 
   return (
     <>

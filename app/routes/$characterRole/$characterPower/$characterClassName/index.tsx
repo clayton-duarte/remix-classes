@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { json, useLoaderData, useParams } from "remix";
 import DataPanel from "~/components/DataPanel";
 
@@ -46,10 +45,6 @@ export default function Page() {
   const { raceList, characterClass } = useLoaderData<LoaderResponse>();
   const { characterRole, characterPower, characterClassName } =
     useParams<RouteParams>();
-
-  useEffect(() => {
-    document.getElementById("race-panel")?.scrollIntoView();
-  }, [characterClassName]);
 
   return (
     <>

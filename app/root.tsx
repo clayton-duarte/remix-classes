@@ -1,5 +1,6 @@
+import { useMemo } from "react";
 import {
-  ScrollRestoration,
+  // ScrollRestoration,
   MetaFunction,
   LiveReload,
   useParams,
@@ -154,12 +155,16 @@ export default function App() {
     characterRaceName,
   } = useParams<RouteParams>();
 
-  const pathParts = [
-    characterRole,
-    characterPower,
-    characterClassName,
-    characterRaceName,
-  ].filter(Boolean);
+  const pathParts = useMemo(
+    () =>
+      [
+        characterRole,
+        characterPower,
+        characterClassName,
+        characterRaceName,
+      ].filter(Boolean),
+    [characterRole, characterPower, characterClassName, characterRaceName]
+  );
 
   return (
     <html lang="en">
@@ -195,9 +200,6 @@ export default function App() {
             </ContentLayout>
             <FooterLayout>todo: footer</FooterLayout>
           </PageLayout>
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
           <Global
             styles={(theme) => css`
               html,
@@ -248,6 +250,9 @@ export default function App() {
             `}
           />
         </ThemeProvider>
+        <LiveReload />
+        {/* <ScrollRestoration /> */}
+        <Scripts />
       </body>
     </html>
   );
