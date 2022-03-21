@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 
-const ModifierLabel = styled.span`
+const ModifierLabel = styled.span<{ small?: boolean }>`
+  transform: scale(${({ small }) => (small ? 1 : 1.5)});
   border: 0.125rem solid ${({ theme }) => theme.bg};
   color: ${({ theme }) => theme.secondary};
   font-family: "Cinzel", serif;
-  transform: scale(1.5);
   border-radius: 1rem;
   place-items: center;
   position: relative;
@@ -15,7 +15,7 @@ const ModifierLabel = styled.span`
   height: 1rem;
   width: 1rem;
   @media all and (max-width: 768px) {
-    transform: scale(1.25);
+    transform: scale(${({ small }) => (small ? 0.825 : 1.25)});
   }
   &:before {
     position: absolute;

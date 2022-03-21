@@ -1,10 +1,9 @@
 import { useMemo } from "react";
 import { json, useLoaderData } from "remix";
-import { BiBadge } from "react-icons/bi";
+import { BiBadge, BiCheckbox } from "react-icons/bi";
 import styled from "@emotion/styled";
 
 import CharacterSkills from "~/components/CharacterSkills";
-import AbilityPoints from "~/components/AbilityPoints";
 import DataPanel from "~/components/DataPanel";
 import useStorage from "~/helpers/useStorage";
 import {
@@ -36,8 +35,7 @@ const StyledWrapper = styled.div`
   gap: 1rem;
   grid-template-areas:
     "warn-data warn-data"
-    "ability-data ability-data"
-    "skill-data .";
+    "ability-data ability-data";
 `;
 
 type LoaderResponse = {
@@ -78,16 +76,18 @@ export default function Page() {
 
   function RenderWarn({
     bonusesToSelect,
+    hasSkillChoices,
     pointsToSpend,
   }: {
     bonusesToSelect: number;
+    hasSkillChoices: number;
     pointsToSpend: number;
   }) {
     if (bonusesToSelect > 0) {
       return (
         <DataPanel color="warn" area="warn" title="action">
           Your have {bonusesToSelect} ability bonus to select. Please select
-          your racial bonuses by clicking on the <BiBadge /> bellow
+          your racial bonuses by clicking on the <BiBadge /> icons bellow
         </DataPanel>
       );
     }
@@ -103,26 +103,15 @@ export default function Page() {
       );
     }
 
-    if (
-      selectedAbilityBonus == null ||
-      scorePointsDistribution == null ||
-      trainedSkills == null
-    ) {
-      return null;
+    if (hasSkillChoices > 0) {
+      return (
+        <DataPanel color="warn" area="warn" title="action">
+          You can be trained in <strong>{hasSkillChoices}</strong> more skills.
+          Please select your class bonuses by clicking on the <BiCheckbox />{" "}
+          icons bellow
+        </DataPanel>
+      );
     }
-
-    return (
-      <DataPanel color="secondary" area="skill" title="Skills">
-        <CharacterSkills
-          scorePointsDistribution={scorePointsDistribution}
-          selectedAbilityBonus={selectedAbilityBonus}
-          setTrainedSkills={setTrainedSkills}
-          characterClass={characterClass}
-          trainedSkills={trainedSkills}
-          skillGlossary={skillGlossary}
-        />
-      </DataPanel>
-    );
 
     return (
       <DataPanel color="success" area="warn" title="Done">
@@ -138,7 +127,11 @@ export default function Page() {
     );
   }, [scorePointsDistribution]);
 
-  if (selectedAbilityBonus == null || scorePointsDistribution == null) {
+  if (
+    selectedAbilityBonus == null ||
+    scorePointsDistribution == null ||
+    trainedSkills == null
+  ) {
     return null;
   }
 
@@ -150,18 +143,22 @@ export default function Page() {
       </DataPanel>
       <StyledWrapper>
         <RenderWarn
+          hasSkillChoices={characterClass.skillChoices - trainedSkills.length}
           pointsToSpend={SCORE_POINTS_TO_DISTRIBUTE - sumOfPoints}
           bonusesToSelect={2 - selectedAbilityBonus.length}
         />
-        <DataPanel color="secondary" area="ability" title="Ability Scores">
-          <AbilityPoints
+        <DataPanel color="secondary" area="ability" title="Abilities/Skills">
+          <CharacterSkills
             setScorePointsDistribution={setScorePointsDistribution}
             setSelectedAbilityBonus={setSelectedAbilityBonus}
             scorePointsDistribution={scorePointsDistribution}
             selectedAbilityBonus={selectedAbilityBonus}
             characterAbilities={characterAbilities}
+            setTrainedSkills={setTrainedSkills}
             characterClass={characterClass}
             characterRace={characterRace}
+            trainedSkills={trainedSkills}
+            skillGlossary={skillGlossary}
           />
         </DataPanel>
       </StyledWrapper>

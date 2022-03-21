@@ -1,8 +1,8 @@
-import { Dispatch, Fragment, useEffect, useMemo } from "react";
+import { Dispatch, Fragment, useEffect } from "react";
 import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import AbilityPointSelector from "~/components/AbilityPoints/AbilityPointSelector";
+import AbilityPointSelector from "~/components/AbilityPointSelector";
 import BonusCheckbox from "~/components/BonusCheckbox";
 import ModifierLabel from "~/components/ModifierLabel";
 import {
@@ -79,7 +79,8 @@ export default function AbilityPoints({
 
   return (
     <StyledWrapper>
-      <span /> <StyledHeaders>bonus</StyledHeaders>
+      <span />
+      <StyledHeaders>bonus</StyledHeaders>
       <StyledHeaders>score</StyledHeaders>
       <StyledHeaders>mod.</StyledHeaders>
       {characterAbilities.map((ability) => {

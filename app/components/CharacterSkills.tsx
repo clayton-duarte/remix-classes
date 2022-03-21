@@ -1,109 +1,230 @@
-import { Dispatch, Fragment } from "react";
+import { Dispatch, Fragment, useEffect } from "react";
+import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import AbilityPointSelector from "~/components/AbilityPointSelector";
 import BonusCheckbox from "~/components/BonusCheckbox";
 import ModifierLabel from "~/components/ModifierLabel";
 import {
   initialScorePointsDistribution,
+  ABILITY_BONUS_LIMIT,
   BASE_ABILITY_SCORE,
   SCORE_COSTS,
 } from "~/components/AbilityPoints/consts";
 import {
   CharacterAbility,
   CharacterClass,
+  CharacterRace,
   SkillGlossary,
   SkillName,
 } from "~/helpers/dataTypes";
 
 const Wrapper = styled.div`
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto 1fr auto;
   justify-items: center;
+  align-items: center;
   gap: 0.6rem 1rem;
   display: grid;
 `;
 
-const StyledLabel = styled.summary`
-  justify-self: start;
+const StyledHelperText = styled.span`
+  justify-self: flex-start;
+  font-size: 0.75rem;
 `;
 
-const StyledHeader = styled.h5`
+const StyledAbilityLabel = styled.label<{ color: keyof Theme }>`
+  color: ${({ theme, color }) => theme[color]};
+  text-transform: uppercase;
+  justify-self: start;
+  font-size: 0.825rem;
+  font-weight: 700;
+`;
+
+const StyledSkillLabel = styled.summary`
+  justify-self: start;
   font-size: 0.75rem;
 `;
 
 export default function CharacterSkills({
+  setScorePointsDistribution,
+  setSelectedAbilityBonus,
   scorePointsDistribution,
   selectedAbilityBonus,
+  characterAbilities,
   setTrainedSkills,
   characterClass,
+  characterRace,
   trainedSkills,
   skillGlossary,
 }: {
+  setScorePointsDistribution: Dispatch<typeof initialScorePointsDistribution>;
   scorePointsDistribution: typeof initialScorePointsDistribution;
+  setSelectedAbilityBonus: Dispatch<CharacterAbility[]>;
   selectedAbilityBonus: CharacterAbility[];
   setTrainedSkills: Dispatch<SkillName[]>;
+  characterAbilities: CharacterAbility[];
   characterClass: CharacterClass;
   skillGlossary: SkillGlossary;
+  characterRace: CharacterRace;
   trainedSkills: SkillName[];
 }): JSX.Element {
-  console.log({
-    scorePointsDistribution,
-    selectedAbilityBonus,
-    setTrainedSkills,
-    characterClass,
-    trainedSkills,
-    skillGlossary,
-  });
+  const skillByAbilityMap = Object.values(skillGlossary).reduce(
+    (acc, { keyAbility, name }) => {
+      const currentList = acc[keyAbility] ?? [];
+      return {
+        ...acc,
+        [keyAbility]: [...currentList, name],
+      };
+    },
+    {} as { [key in CharacterAbility]: SkillName[] }
+  );
+
+  useEffect(() => {
+    if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
+      // just select them all!
+      return setSelectedAbilityBonus(characterRace.abilityBonus);
+    }
+
+    if (characterRace.abilityBonus.length > ABILITY_BONUS_LIMIT) {
+      // we could pre-select some of the class key abilities
+      const relevantAbilities = characterRace.abilityBonus.filter((ability) =>
+        characterClass.keyAbilities.includes(ability)
+      );
+      if (relevantAbilities.length <= ABILITY_BONUS_LIMIT) {
+        return setSelectedAbilityBonus(relevantAbilities);
+      }
+    }
+  }, [characterClass, characterRace]);
 
   return (
     <Wrapper>
-      <span />
-      <StyledHeader>ability</StyledHeader>
-      <StyledHeader>trained</StyledHeader>
-      <StyledHeader>mod.</StyledHeader>
-      {Object.values(skillGlossary).map(({ name, keyAbility }) => {
+      {characterAbilities.map((keyAbility) => {
+        const isAbilitySelected = selectedAbilityBonus.includes(keyAbility);
+        const classAbilityIndex =
+          characterClass.keyAbilities.indexOf(keyAbility);
+        const isRacialAbilityBonus =
+          characterRace.abilityBonus.includes(keyAbility);
+        const dontNeedToSelect =
+          characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT;
+        const reachedSelectionLimit =
+          selectedAbilityBonus.length === ABILITY_BONUS_LIMIT;
+        const racialBonus = isAbilitySelected ? 2 : 0;
+        const isMobile =
+          typeof window !== "undefined" && window.innerWidth < 769;
         const abilityModifier = Math.floor(
           (Number(SCORE_COSTS[scorePointsDistribution[keyAbility]]) +
-            Number(selectedAbilityBonus.includes(keyAbility) ? 2 : 0) -
+            Number(racialBonus) -
             BASE_ABILITY_SCORE) /
             2
         );
-        const canLearnSkill = characterClass.skillList.includes(name);
-        const isClassSkill = characterClass.trainedSkills.includes(name);
-        const skillChoiceLimit = characterClass.skillChoices;
-        const isSelected = trainedSkills.includes(name);
-        const reachedSelectionLimit = trainedSkills.length === skillChoiceLimit;
 
         return (
-          <Fragment key={`${name}-skill-row`}>
-            <StyledLabel>{name}</StyledLabel>
-            <h5>+{abilityModifier}</h5>
+          <Fragment key={`bonus-selector-${keyAbility}`}>
             <BonusCheckbox
+              checked={isAbilitySelected}
+              badge
               disabled={
-                (!isSelected && reachedSelectionLimit) || // cant select, but can un-select
-                !canLearnSkill || // cant select at all
-                isClassSkill // there's no other possible combination
+                (!isAbilitySelected && reachedSelectionLimit) || // cant select, but can un-select
+                !isRacialAbilityBonus || // cant select at all
+                dontNeedToSelect // there's no other possible combination
               }
-              checked={isSelected}
               onChange={() => {
-                const checkedIndex = trainedSkills.indexOf(name);
+                const checkedIndex = selectedAbilityBonus.indexOf(keyAbility);
 
                 if (
                   checkedIndex < 0 &&
-                  trainedSkills.length < skillChoiceLimit
+                  selectedAbilityBonus.length < ABILITY_BONUS_LIMIT
                 ) {
                   // add
-                  return setTrainedSkills([...trainedSkills, name]);
+                  return setSelectedAbilityBonus([
+                    ...selectedAbilityBonus,
+                    keyAbility,
+                  ]);
                 }
 
                 // remove by index
-                return setTrainedSkills(
-                  trainedSkills.filter((_, index) => checkedIndex !== index)
+                return setSelectedAbilityBonus(
+                  selectedAbilityBonus.filter(
+                    (_, index) => checkedIndex !== index
+                  )
                 );
               }}
             />
-            <ModifierLabel>
-              {Number(abilityModifier) + Number(isSelected ? 5 : 0)}
-            </ModifierLabel>
+            <StyledAbilityLabel
+              color={
+                classAbilityIndex < 0
+                  ? "secondary"
+                  : classAbilityIndex === 0
+                  ? "success"
+                  : "warn"
+              }
+            >
+              {isMobile ? keyAbility.slice(0, 3) : keyAbility}
+            </StyledAbilityLabel>
+            <AbilityPointSelector
+              setScorePointsDistribution={setScorePointsDistribution}
+              scorePointsDistribution={scorePointsDistribution}
+              baseScore={BASE_ABILITY_SCORE + racialBonus}
+              ability={keyAbility}
+            />
+            <ModifierLabel>{abilityModifier}</ModifierLabel>
+            {skillByAbilityMap[keyAbility].map((skillName, index) => {
+              const canLearnSkill =
+                characterClass.skillList.includes(skillName);
+              const isClassSkill =
+                characterClass.trainedSkills.includes(skillName);
+              const skillChoiceLimit = characterClass.skillChoices;
+              const isSkillSelected = trainedSkills.includes(skillName);
+              const reachedSelectionLimit =
+                trainedSkills.length === skillChoiceLimit;
+
+              return (
+                <Fragment key={`${skillName}-skill-row`}>
+                  {isMobile && <span />}
+                  <BonusCheckbox
+                    disabled={
+                      (!isSkillSelected && reachedSelectionLimit) || // cant select, but can un-select
+                      !canLearnSkill || // cant select at all
+                      isClassSkill // there's no other possible combination
+                    }
+                    checked={isSkillSelected}
+                    onChange={() => {
+                      const checkedIndex = trainedSkills.indexOf(skillName);
+
+                      if (
+                        checkedIndex < 0 &&
+                        trainedSkills.length < skillChoiceLimit
+                      ) {
+                        // add
+                        return setTrainedSkills([...trainedSkills, skillName]);
+                      }
+
+                      // remove by index
+                      return setTrainedSkills(
+                        trainedSkills.filter(
+                          (_, index) => checkedIndex !== index
+                        )
+                      );
+                    }}
+                  />
+                  {!isMobile && (
+                    <StyledSkillLabel>{skillName}</StyledSkillLabel>
+                  )}
+                  {isMobile ? (
+                    <StyledSkillLabel>{skillName}</StyledSkillLabel>
+                  ) : (
+                    <StyledHelperText>
+                      {`${Number(
+                        isSkillSelected ? 5 : 0
+                      )} from training +${abilityModifier} ability bonus`}
+                    </StyledHelperText>
+                  )}
+                  <ModifierLabel small>
+                    {Number(abilityModifier) + Number(isSkillSelected ? 5 : 0)}
+                  </ModifierLabel>
+                </Fragment>
+              );
+            })}
           </Fragment>
         );
       })}
