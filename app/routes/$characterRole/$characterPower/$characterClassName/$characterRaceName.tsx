@@ -1,30 +1,22 @@
-import {
-  useLoaderData,
-  useNavigate,
-  useParams,
-  redirect,
-  Outlet,
-  json,
-} from "remix";
+import { useLoaderData, useParams, redirect, Outlet, json } from "remix";
 
-import Selector from "~/components/Selector";
 import DataPanel from "~/components/DataPanel";
+import Selector from "~/components/Selector";
+import { buildDynamicRoute } from "~/helpers";
+import {
+  fetchCharacterRacesByAbilityBonus,
+  fetchCharacterClassByName,
+} from "~/helpers/dataFetch";
 import {
   CharacterClass,
   CharacterRace,
   RouteParams,
 } from "~/helpers/dataTypes";
-import {
-  fetchCharacterRacesByAbilityBonus,
-  fetchCharacterClassByName,
-} from "~/helpers/dataFetch";
-import { buildDynamicRoute } from "~/helpers";
-import { useEffect } from "react";
 
-type LoaderResponse = {
+interface LoaderResponse {
   characterClass: CharacterClass;
   raceList: CharacterRace[];
-};
+}
 
 export const loader = async ({
   params,
@@ -71,6 +63,7 @@ export const loader = async ({
 
 export default function Page() {
   const { raceList, characterClass } = useLoaderData<LoaderResponse>();
+
   const {
     characterRole,
     characterPower,

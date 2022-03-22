@@ -1,6 +1,6 @@
-import { useNavigate } from "remix";
-import styled from "@emotion/styled";
 import { Theme } from "@emotion/react";
+import styled from "@emotion/styled";
+import { useNavigate } from "remix";
 
 const StyledTitle = styled.h3<{ area: string }>`
   grid-area: ${({ area }) => area};
@@ -75,7 +75,6 @@ export default function Selector({
   title?: string;
 }) {
   const navigate = useNavigate();
-
   const badgeColorMap: (keyof Theme)[] = ["error", "error", "warn", "success"];
 
   return (

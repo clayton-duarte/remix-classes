@@ -1,13 +1,13 @@
 import { json, useLoaderData, Outlet, useParams } from "remix";
 
-import { CharacterRole, RouteParams } from "~/helpers/dataTypes";
-import { fetchCharacterRoles } from "~/helpers/dataFetch";
 import Selector from "~/components/Selector";
 import { buildDynamicRoute } from "~/helpers";
+import { fetchCharacterRoles } from "~/helpers/dataFetch";
+import { CharacterRole, RouteParams } from "~/helpers/dataTypes";
 
-type LoaderResponse = {
+interface LoaderResponse {
   roleList: CharacterRole[];
-};
+}
 
 export const loader = async () => {
   return json({ roleList: fetchCharacterRoles() });
@@ -15,6 +15,7 @@ export const loader = async () => {
 
 export default function Page() {
   const { roleList } = useLoaderData<LoaderResponse>();
+
   const {
     characterRole,
     characterPower,

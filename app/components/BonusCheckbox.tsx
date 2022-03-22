@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import styled from "@emotion/styled";
+
 import { Theme } from "@emotion/react";
+import styled from "@emotion/styled";
 import {
   BiBadge,
   BiBadgeCheck,
@@ -19,8 +20,10 @@ function getColor({
 }) {
   if (disabled) {
     if (checked) return theme.secondary;
+
     return theme.bg;
   }
+
   return theme.primary;
 }
 
@@ -53,8 +56,10 @@ export default function BonusCheckbox({
   const icon = useMemo(() => {
     if (checked) {
       if (badge) return <BiBadgeCheck />;
+
       return <BiCheckboxChecked />;
     }
+
     if (badge) return <BiBadge />;
 
     return <BiCheckbox />;

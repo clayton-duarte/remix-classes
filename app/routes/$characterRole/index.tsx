@@ -1,7 +1,8 @@
 import { useLoaderData, useParams, json } from "remix";
 
-import Selector from "~/components/Selector";
 import DataPanel from "~/components/DataPanel";
+import Selector from "~/components/Selector";
+import { buildDynamicRoute } from "~/helpers";
 import {
   fetchCharacterRolesGlossary,
   fetchCharacterPowerSources,
@@ -11,12 +12,11 @@ import {
   CharacterPowerSource,
   RouteParams,
 } from "~/helpers/dataTypes";
-import { buildDynamicRoute } from "~/helpers";
 
-type LoaderResponse = {
+interface LoaderResponse {
   characterRolesGlossary: CharacterRolesGlossary;
   powerList: CharacterPowerSource[];
-};
+}
 
 export const loader = async () => {
   return json<LoaderResponse>({
@@ -27,8 +27,10 @@ export const loader = async () => {
 
 export default function Page() {
   const { powerList, characterRolesGlossary } = useLoaderData<LoaderResponse>();
+
   const { characterRole, characterClassName, characterRaceName } =
     useParams<RouteParams>();
+
   return (
     <>
       <Selector

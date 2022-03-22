@@ -1,22 +1,22 @@
 import { json, useParams, useLoaderData, redirect } from "remix";
 
+import DataPanel from "~/components/DataPanel";
+import Selector from "~/components/Selector";
+import { buildDynamicRoute } from "~/helpers";
+import {
+  fetchCharacterClassByRoleAndPower,
+  fetchCharacterPowerSourcesGlossary,
+} from "~/helpers/dataFetch";
 import {
   CharacterPowerSourceGlossary,
   CharacterClass,
   RouteParams,
 } from "~/helpers/dataTypes";
-import {
-  fetchCharacterClassByRoleAndPower,
-  fetchCharacterPowerSourcesGlossary,
-} from "~/helpers/dataFetch";
-import Selector from "~/components/Selector";
-import DataPanel from "~/components/DataPanel";
-import { buildDynamicRoute } from "~/helpers";
 
-type LoaderResponse = {
+interface LoaderResponse {
   characterPowerSourceGlossary: CharacterPowerSourceGlossary;
   classList: CharacterClass[];
-};
+}
 
 export const loader = async ({
   params,
@@ -58,6 +58,7 @@ export const loader = async ({
 export default function Page() {
   const { classList, characterPowerSourceGlossary } =
     useLoaderData<LoaderResponse>();
+
   const { characterRole, characterPower, characterRaceName } =
     useParams<RouteParams>();
 

@@ -1,4 +1,5 @@
 import { Dispatch, Fragment } from "react";
+
 import styled from "@emotion/styled";
 
 import BonusCheckbox from "~/components/BonusCheckbox";
@@ -58,6 +59,7 @@ export default function CharacterSkills({
             BASE_ABILITY_SCORE) /
             2
         );
+
         const canLearnSkill = characterClass.skillList.includes(name);
         const isClassSkill = characterClass.trainedSkills.includes(name);
         const skillChoiceLimit = characterClass.skillChoices;

@@ -1,4 +1,5 @@
 import { Dispatch, Fragment, useEffect } from "react";
+
 import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -71,11 +72,12 @@ export default function AbilityPoints({
       const relevantAbilities = characterRace.abilityBonus.filter((ability) =>
         characterClass.keyAbilities.includes(ability)
       );
+
       if (relevantAbilities.length <= ABILITY_BONUS_LIMIT) {
         return setSelectedAbilityBonus(relevantAbilities);
       }
     }
-  }, [characterClass, characterRace]);
+  }, [characterClass, characterRace, setSelectedAbilityBonus]);
 
   return (
     <StyledWrapper>
@@ -86,13 +88,18 @@ export default function AbilityPoints({
       {characterAbilities.map((ability) => {
         const isSelected = selectedAbilityBonus.includes(ability);
         const classAbilityIndex = characterClass.keyAbilities.indexOf(ability);
+
         const isRacialAbilityBonus =
           characterRace.abilityBonus.includes(ability);
+
         const dontNeedToSelect =
           characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT;
+
         const reachedSelectionLimit =
           selectedAbilityBonus.length === ABILITY_BONUS_LIMIT;
+
         const racialBonus = isSelected ? 2 : 0;
+
         const isMobile =
           typeof window !== "undefined" && window.innerWidth < 769;
 

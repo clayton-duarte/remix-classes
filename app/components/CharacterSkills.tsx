@@ -1,4 +1,5 @@
 import { Dispatch, Fragment, useEffect } from "react";
+
 import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
@@ -73,6 +74,7 @@ export default function CharacterSkills({
   const skillByAbilityMap = Object.values(skillGlossary).reduce(
     (acc, { keyAbility, name }) => {
       const currentList = acc[keyAbility] ?? [];
+
       return {
         ...acc,
         [keyAbility]: [...currentList, name],
@@ -85,6 +87,7 @@ export default function CharacterSkills({
     if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
       // just select them all!
       setSelectedAbilityBonus(characterRace.abilityBonus);
+
       return;
     }
 
@@ -93,11 +96,12 @@ export default function CharacterSkills({
       const relevantAbilities = characterRace.abilityBonus.filter((ability) =>
         characterClass.keyAbilities.includes(ability)
       );
+
       if (relevantAbilities.length <= ABILITY_BONUS_LIMIT) {
         setSelectedAbilityBonus(relevantAbilities);
       }
     }
-  }, [characterClass, characterRace]);
+  }, [characterClass, characterRace, setSelectedAbilityBonus]);
 
   useEffect(() => {
     const { skillChoices, skillList } = characterClass;
@@ -107,23 +111,30 @@ export default function CharacterSkills({
       .slice(0, skillChoices);
 
     setTrainedSkills(filteredSkills);
-  }, [characterClass, characterRace]);
+  }, [characterClass, characterRace, setTrainedSkills, trainedSkills]);
 
   return (
     <Wrapper>
       {characterAbilities.map((keyAbility) => {
         const isAbilitySelected = selectedAbilityBonus.includes(keyAbility);
+
         const classAbilityIndex =
           characterClass.keyAbilities.indexOf(keyAbility);
+
         const isRacialAbilityBonus =
           characterRace.abilityBonus.includes(keyAbility);
+
         const dontNeedToSelect =
           characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT;
+
         const reachedSelectionLimit =
           selectedAbilityBonus.length === ABILITY_BONUS_LIMIT;
+
         const racialBonus = isAbilitySelected ? ABILITY_SCORE_BONUS_VALUE : 0;
+
         const isMobile =
           typeof window !== "undefined" && window.innerWidth < 769;
+
         const abilityModifier = Math.floor(
           (Number(SCORE_COSTS[scorePointsDistribution[keyAbility]]) +
             Number(racialBonus) -
@@ -184,10 +195,13 @@ export default function CharacterSkills({
             {skillByAbilityMap[keyAbility].map((skillName, index) => {
               const canLearnSkill =
                 characterClass.skillList.includes(skillName);
+
               const isClassSkill =
                 characterClass.trainedSkills.includes(skillName);
+
               const skillChoiceLimit = characterClass.skillChoices;
               const isSkillSelected = trainedSkills.includes(skillName);
+
               const reachedSelectionLimit =
                 trainedSkills.length === skillChoiceLimit;
 

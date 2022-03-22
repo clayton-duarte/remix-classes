@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
-import styled from "@emotion/styled";
+
 import { Theme } from "@emotion/react";
+import styled from "@emotion/styled";
 
 const StyledPanel = styled.div<{ area: string; color: keyof Theme }>`
   border: 0.125rem solid ${({ theme, color }) => theme[color]};

@@ -1,8 +1,9 @@
 import { Dispatch, useMemo } from "react";
+
 import styled from "@emotion/styled";
 
-import { CharacterAbility } from "~/helpers/dataTypes";
 import { COST_BY_SCORE, SCORE_POINTS_TO_DISTRIBUTE } from "~/helpers/consts";
+import { CharacterAbility } from "~/helpers/dataTypes";
 
 const StyledWrapper = styled.div<{ percent: number }>`
   background-image: linear-gradient(

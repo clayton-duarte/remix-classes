@@ -1,15 +1,21 @@
 import { useMemo } from "react";
-import { json, useLoaderData } from "remix";
-import { BiBadge, BiCheckbox } from "react-icons/bi";
+
 import styled from "@emotion/styled";
+import { BiBadge, BiCheckbox } from "react-icons/bi";
+import { json, useLoaderData } from "remix";
 
 import CharacterSkills from "~/components/CharacterSkills";
 import DataPanel from "~/components/DataPanel";
-import useStorage from "~/helpers/useStorage";
 import {
   initialScorePointsDistribution,
   SCORE_POINTS_TO_DISTRIBUTE,
 } from "~/helpers/consts";
+import {
+  fetchCharacterClassByName,
+  fetchCharacterRaceByName,
+  fetchCharacterAbilities,
+  fetchSkillGlossary,
+} from "~/helpers/dataFetch";
 import {
   CharacterAbility,
   CharacterClass,
@@ -18,12 +24,7 @@ import {
   RouteParams,
   SkillName,
 } from "~/helpers/dataTypes";
-import {
-  fetchCharacterClassByName,
-  fetchCharacterRaceByName,
-  fetchCharacterAbilities,
-  fetchSkillGlossary,
-} from "~/helpers/dataFetch";
+import useStorage from "~/helpers/useStorage";
 
 const StyledWrapper = styled.div`
   grid-template-columns: 1fr 1fr;
@@ -35,12 +36,12 @@ const StyledWrapper = styled.div`
     "ability-data ability-data";
 `;
 
-type LoaderResponse = {
+interface LoaderResponse {
   characterAbilities: CharacterAbility[];
   characterClass: CharacterClass;
   characterRace: CharacterRace;
   skillGlossary: SkillGlossary;
-};
+}
 
 export const loader = async ({ params }: { params: RouteParams }) => {
   if (!params.characterClassName || !params.characterRaceName) {
@@ -48,6 +49,7 @@ export const loader = async ({ params }: { params: RouteParams }) => {
       status: 404,
     });
   }
+
   return json<LoaderResponse>({
     characterClass: fetchCharacterClassByName(params.characterClassName),
     characterRace: fetchCharacterRaceByName(params.characterRaceName),
@@ -59,12 +61,15 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 export default function Page() {
   const { characterClass, characterRace, characterAbilities, skillGlossary } =
     useLoaderData<LoaderResponse>();
+
   const [trainedSkills, setTrainedSkills] = useStorage<SkillName[]>(
     "trainedSkills"
   )(characterClass.trainedSkills);
+
   const [scorePointsDistribution, setScorePointsDistribution] = useStorage<
     typeof initialScorePointsDistribution
   >("scorePointsDistribution")(initialScorePointsDistribution);
+
   const [selectedAbilityBonus, setSelectedAbilityBonus] = useStorage<
     CharacterAbility[]
   >("selectedAbilityBonus")([]);

@@ -89,6 +89,7 @@ export function fetchCharacterRacesByAbilityBonus(
   keyAbilities: CharacterAbility[]
 ): CharacterRace[] {
   const [coreAbility] = keyAbilities;
+
   return Object.values(characterRacesGlossary)
     .reduce((filteredRaces, currentRace): CharacterRace[] => {
       const withFilteredAbilities = {

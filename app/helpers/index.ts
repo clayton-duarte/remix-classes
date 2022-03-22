@@ -9,15 +9,18 @@ function getOnlyValidRouteMember(routeParams: RouteParams): string[] | never[] {
     routeParams?.characterClassName,
     routeParams?.characterRaceName,
   ];
+
   return orderedRouterParams.filter(Boolean) as string[];
 }
 
 export function useValidRouteParameters(): string[] {
   const params = useParams<RouteParams>();
+
   return getOnlyValidRouteMember(params);
 }
 
 export function buildDynamicRoute(routeParams: RouteParams): string {
   const validPathMembers = getOnlyValidRouteMember(routeParams);
+
   return `/${validPathMembers.join("/")}`;
 }
