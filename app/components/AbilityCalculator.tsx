@@ -1,12 +1,13 @@
-import { Dispatch, Fragment, useEffect, useMemo } from "react";
-import { useLoaderData } from "remix";
+import { Dispatch, useEffect, useMemo } from "react";
+
 import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useLoaderData } from "remix";
 
 import AbilityStepper from "~/components/AbilityStepper";
-import SkillCalculator from "~/components/SkillCalculator";
 import BonusCheckbox from "~/components/BonusCheckbox";
 import ModifierLabel from "~/components/ModifierLabel";
+import SkillCalculator from "~/components/SkillCalculator";
 import {
   initialScorePointsDistribution,
   ABILITY_SCORE_BONUS_VALUE,
@@ -49,18 +50,15 @@ export default function AbilityCalculator({
 }): JSX.Element {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
 
-  const { characterClass, characterRace, characterAbilities, skillGlossary } =
-    useLoaderData<{
-      characterAbilities: CharacterAbility[];
-      characterClass: CharacterClass;
-      characterRace: CharacterRace;
-      skillGlossary: SkillGlossary;
-    }>();
+  const { characterClass, characterRace, skillGlossary } = useLoaderData<{
+    characterAbilities: CharacterAbility[];
+    characterClass: CharacterClass;
+    characterRace: CharacterRace;
+    skillGlossary: SkillGlossary;
+  }>();
 
   const isAbilitySelected = selectedAbilityBonus.includes(keyAbility);
-
   const classAbilityIndex = characterClass.keyAbilities.indexOf(keyAbility);
-
   const isRacialAbilityBonus = characterRace.abilityBonus.includes(keyAbility);
 
   const dontNeedToSelect =
@@ -111,7 +109,7 @@ export default function AbilityCalculator({
   }, [characterClass, characterRace, setSelectedAbilityBonus]);
 
   return (
-    <Fragment key={`${keyAbility}-ability-selector`}>
+    <>
       <BonusCheckbox
         checked={isAbilitySelected}
         badge
@@ -160,12 +158,13 @@ export default function AbilityCalculator({
       <ModifierLabel>{abilityModifier}</ModifierLabel>
       {skillByAbilityMap[keyAbility].map((skillName) => (
         <SkillCalculator
-          abilityModifier={abilityModifier}
+          key={`${skillName}-skill-calculator`}
           setTrainedSkills={setTrainedSkills}
+          abilityModifier={abilityModifier}
           trainedSkills={trainedSkills}
           skillName={skillName}
         />
       ))}
-    </Fragment>
+    </>
   );
 }

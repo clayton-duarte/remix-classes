@@ -86,6 +86,12 @@ export default function Selector({
     setIsOpen(!active);
   }, [active]);
 
+  useEffect(() => {
+    const options = data.map(({ id }) => id);
+
+    setIsOpen(!options.includes(active));
+  }, [data, active]);
+
   return (
     <>
       <StyledTitle area={`${area}-title`}>{title ?? area}:</StyledTitle>

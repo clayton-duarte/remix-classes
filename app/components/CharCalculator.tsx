@@ -1,9 +1,9 @@
 import { Dispatch } from "react";
-import { useLoaderData } from "remix";
+
 import styled from "@emotion/styled";
+import { useLoaderData } from "remix";
 
 import AbilityCalculator from "~/components/AbilityCalculator";
-
 import { initialScorePointsDistribution } from "~/helpers/consts";
 import { CharacterAbility, SkillName } from "~/helpers/dataTypes";
 
@@ -38,6 +38,7 @@ export default function CharacterSkills({
     <Wrapper>
       {characterAbilities.map((keyAbility) => (
         <AbilityCalculator
+          key={`${keyAbility}-ability-calculator`}
           setScorePointsDistribution={setScorePointsDistribution}
           setSelectedAbilityBonus={setSelectedAbilityBonus}
           scorePointsDistribution={scorePointsDistribution}

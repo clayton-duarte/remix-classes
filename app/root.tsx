@@ -61,15 +61,18 @@ const FakeLogo = styled.h1`
   font-size: 1.25rem;
 `;
 
-const FooterLayout = styled.footer`
-  background: ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.white};
-  padding: 0.5rem 1rem;
-  font-size: 0.75rem;
-  grid-area: footer;
-  display: grid;
-  gap: 1rem;
-`;
+// const FooterLayout = styled.footer`
+//   background: ${({ theme }) => theme.primary};
+//   color: ${({ theme }) => theme.white};
+//   padding: 0.5rem 1rem;
+//   font-size: 0.75rem;
+//   grid-area: footer;
+//   position: sticky;
+//   display: grid;
+//   z-index: 999;
+//   gap: 1rem;
+//   bottom: 0;
+// `;
 
 const ContentLayout = styled.article`
   grid-template-columns: minmax(200px, auto) calc(50% - 200px - 1rem) 1fr;
@@ -168,7 +171,7 @@ export default function App() {
             <ContentLayout>
               <Outlet />
             </ContentLayout>
-            <FooterLayout>todo: footer</FooterLayout>
+            {/* <FooterLayout>todo: footer</FooterLayout> */}
           </PageLayout>
           <Global
             styles={(theme) => css`
@@ -180,7 +183,6 @@ export default function App() {
                 line-height: 1.2;
                 font-weight: 400;
                 font-size: 16px;
-                height: 100%;
                 margin: 0;
               }
 

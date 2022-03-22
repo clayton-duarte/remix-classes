@@ -1,6 +1,7 @@
-import { Dispatch, Fragment, useEffect, useMemo } from "react";
-import { useLoaderData } from "remix";
+import { Dispatch, useEffect, useMemo } from "react";
+
 import styled from "@emotion/styled";
+import { useLoaderData } from "remix";
 
 import BonusCheckbox from "~/components/BonusCheckbox";
 import ModifierLabel from "~/components/ModifierLabel";
@@ -16,6 +17,7 @@ const StyledSkillLabel = styled.summary`
   justify-self: start;
   font-size: 0.75rem;
 `;
+
 export default function SkillCalculator({
   setTrainedSkills,
   abilityModifier,
@@ -28,25 +30,26 @@ export default function SkillCalculator({
   skillName: SkillName;
 }) {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
+
   const { characterClass } =
     useLoaderData<{ characterClass: CharacterClass }>();
 
   const canLearnSkill = characterClass.skillList.includes(skillName);
-
   const isClassSkill = characterClass.trainedSkills.includes(skillName);
-
   const skillChoiceLimit = characterClass.skillChoices;
   const isSkillSelected = trainedSkills.includes(skillName);
-
   const reachedSelectionLimit = trainedSkills.length === skillChoiceLimit;
 
   const classSkills = useMemo(() => {
     const uniqueInitialSkills = [
       ...new Set([...characterClass.trainedSkills, ...trainedSkills]),
     ];
+
     return uniqueInitialSkills
       .filter((skillName) => characterClass.skillList.includes(skillName))
       .slice(0, characterClass.skillChoices);
+    // trainedSkills is an array and JS have trouble to understand it didn't changed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [characterClass]);
 
   useEffect(() => {
@@ -54,7 +57,7 @@ export default function SkillCalculator({
   }, [setTrainedSkills, classSkills]);
 
   return (
-    <Fragment key={`${skillName}-skill-selector`}>
+    <>
       {isMobile && <span />}
       <BonusCheckbox
         disabled={
@@ -91,6 +94,6 @@ export default function SkillCalculator({
         {Number(abilityModifier) +
           Number(isSkillSelected ? TRAINED_SKILL_BONUS_VALUE : 0)}
       </ModifierLabel>
-    </Fragment>
+    </>
   );
 }
