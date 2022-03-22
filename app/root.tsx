@@ -1,4 +1,6 @@
 import { useMemo } from "react";
+import { Theme, ThemeProvider, Global, css } from "@emotion/react";
+import styled from "@emotion/styled";
 import {
   // ScrollRestoration,
   MetaFunction,
@@ -10,8 +12,6 @@ import {
   Link,
   Meta,
 } from "remix";
-import { Theme, ThemeProvider, Global, css } from "@emotion/react";
-import styled from "@emotion/styled";
 
 import {
   CharacterPowerSource,
@@ -114,7 +114,7 @@ const ContentLayout = styled.article`
 
 const theme: Theme = {
   primary: "#17405F",
-  secondary: "#4B4C4D",
+  secondary: "#6B6C6D",
   success: "#619768",
   warn: "#D8941B",
   error: "#961233",

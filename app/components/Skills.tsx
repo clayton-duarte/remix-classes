@@ -7,7 +7,7 @@ import {
   initialScorePointsDistribution,
   BASE_ABILITY_SCORE,
   SCORE_COSTS,
-} from "~/components/AbilityPoints/consts";
+} from "~/helpers/consts";
 import {
   CharacterAbility,
   CharacterClass,

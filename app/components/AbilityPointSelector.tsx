@@ -2,10 +2,7 @@ import { Dispatch, useMemo } from "react";
 import styled from "@emotion/styled";
 
 import { CharacterAbility } from "~/helpers/dataTypes";
-import {
-  COST_BY_SCORE,
-  SCORE_POINTS_TO_DISTRIBUTE,
-} from "~/components/AbilityPoints/consts";
+import { COST_BY_SCORE, SCORE_POINTS_TO_DISTRIBUTE } from "~/helpers/consts";
 
 const StyledWrapper = styled.div<{ percent: number }>`
   background-image: linear-gradient(
@@ -22,10 +19,9 @@ const StyledWrapper = styled.div<{ percent: number }>`
 `;
 
 const StyledButton = styled.button<{ isSelected: boolean }>`
-  background: ${({ theme, isSelected }) =>
-    isSelected ? theme.primary : theme.secondary};
   transform: scale(${({ isSelected }) => (isSelected ? 1.75 : 1.25)});
   z-index: ${({ isSelected }) => (isSelected ? 99 : 9)};
+  background: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.white};
   font-family: "Cinzel", serif;
   transition: 0.3s ease;

@@ -9,7 +9,7 @@ import useStorage from "~/helpers/useStorage";
 import {
   initialScorePointsDistribution,
   SCORE_POINTS_TO_DISTRIBUTE,
-} from "~/components/AbilityPoints/consts";
+} from "~/helpers/consts";
 import {
   CharacterPowerSource,
   CharacterClassName,

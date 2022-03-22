@@ -10,7 +10,7 @@ import {
   ABILITY_BONUS_LIMIT,
   BASE_ABILITY_SCORE,
   SCORE_COSTS,
-} from "~/components/AbilityPoints/consts";
+} from "~/helpers/consts";
 import {
   CharacterAbility,
   CharacterClass,
@@ -153,7 +153,7 @@ export default function CharacterSkills({
             <StyledAbilityLabel
               color={
                 classAbilityIndex < 0
-                  ? "secondary"
+                  ? "black"
                   : classAbilityIndex === 0
                   ? "success"
                   : "warn"
