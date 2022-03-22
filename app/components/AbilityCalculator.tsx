@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
@@ -9,7 +9,6 @@ import BonusCheckbox from "~/components/BonusCheckbox";
 import ModifierLabel from "~/components/ModifierLabel";
 import SkillCalculator from "~/components/SkillCalculator";
 import {
-  initialScorePointsDistribution,
   ABILITY_SCORE_BONUS_VALUE,
   ABILITY_BONUS_LIMIT,
   BASE_ABILITY_SCORE,
@@ -22,6 +21,7 @@ import {
   SkillGlossary,
   SkillName,
 } from "~/helpers/dataTypes";
+import useCharCalculator from "~/helpers/useCharCalculator";
 
 const StyledAbilityLabel = styled.label<{ color: keyof Theme }>`
   color: ${({ theme, color }) => theme[color]};
@@ -32,23 +32,12 @@ const StyledAbilityLabel = styled.label<{ color: keyof Theme }>`
 `;
 
 export default function AbilityCalculator({
-  setScorePointsDistribution,
-  setSelectedAbilityBonus,
-  scorePointsDistribution,
-  selectedAbilityBonus,
-  setTrainedSkills,
-  trainedSkills,
   keyAbility,
 }: {
-  setScorePointsDistribution: Dispatch<typeof initialScorePointsDistribution>;
-  scorePointsDistribution: typeof initialScorePointsDistribution;
-  setSelectedAbilityBonus: Dispatch<CharacterAbility[]>;
-  selectedAbilityBonus: CharacterAbility[];
-  setTrainedSkills: Dispatch<SkillName[]>;
-  trainedSkills: SkillName[];
   keyAbility: CharacterAbility;
 }): JSX.Element {
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
+  const { scorePointsDistribution, selectedAbilityBonus, toggleAbility } =
+    useCharCalculator();
 
   const { characterClass, characterRace, skillGlossary } = useLoaderData<{
     characterAbilities: CharacterAbility[];
@@ -60,14 +49,14 @@ export default function AbilityCalculator({
   const isAbilitySelected = selectedAbilityBonus.includes(keyAbility);
   const classAbilityIndex = characterClass.keyAbilities.indexOf(keyAbility);
   const isRacialAbilityBonus = characterRace.abilityBonus.includes(keyAbility);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
+  const racialBonus = isAbilitySelected ? ABILITY_SCORE_BONUS_VALUE : 0;
 
   const dontNeedToSelect =
     characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT;
 
   const reachedSelectionLimit =
     selectedAbilityBonus.length === ABILITY_BONUS_LIMIT;
-
-  const racialBonus = isAbilitySelected ? ABILITY_SCORE_BONUS_VALUE : 0;
 
   const skillByAbilityMap = useMemo(() => {
     return Object.values(skillGlossary).reduce((acc, { keyAbility, name }) => {
@@ -88,29 +77,10 @@ export default function AbilityCalculator({
       ABILITY_SCORE_BONUS_VALUE
   );
 
-  useEffect(() => {
-    if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
-      // just select them all!
-      setSelectedAbilityBonus(characterRace.abilityBonus);
-
-      return;
-    }
-
-    if (characterRace.abilityBonus.length > ABILITY_BONUS_LIMIT) {
-      // we could pre-select some of the class key abilities
-      const relevantAbilities = characterRace.abilityBonus.filter((ability) =>
-        characterClass.keyAbilities.includes(ability)
-      );
-
-      if (relevantAbilities.length <= ABILITY_BONUS_LIMIT) {
-        setSelectedAbilityBonus(relevantAbilities);
-      }
-    }
-  }, [characterClass, characterRace, setSelectedAbilityBonus]);
-
   return (
     <>
       <BonusCheckbox
+        onChange={() => toggleAbility(keyAbility)}
         checked={isAbilitySelected}
         badge
         disabled={
@@ -118,25 +88,6 @@ export default function AbilityCalculator({
           !isRacialAbilityBonus || // cant select at all
           dontNeedToSelect // there's no other possible combination
         }
-        onChange={() => {
-          const checkedIndex = selectedAbilityBonus.indexOf(keyAbility);
-
-          if (
-            checkedIndex < 0 &&
-            selectedAbilityBonus.length < ABILITY_BONUS_LIMIT
-          ) {
-            // add
-            return setSelectedAbilityBonus([
-              ...selectedAbilityBonus,
-              keyAbility,
-            ]);
-          }
-
-          // remove by index
-          return setSelectedAbilityBonus(
-            selectedAbilityBonus.filter((_, index) => checkedIndex !== index)
-          );
-        }}
       />
       <StyledAbilityLabel
         color={
@@ -150,8 +101,6 @@ export default function AbilityCalculator({
         {isMobile ? keyAbility.slice(0, 3) : keyAbility}
       </StyledAbilityLabel>
       <AbilityStepper
-        setScorePointsDistribution={setScorePointsDistribution}
-        scorePointsDistribution={scorePointsDistribution}
         baseScore={BASE_ABILITY_SCORE + racialBonus}
         ability={keyAbility}
       />
@@ -159,9 +108,7 @@ export default function AbilityCalculator({
       {skillByAbilityMap[keyAbility].map((skillName) => (
         <SkillCalculator
           key={`${skillName}-skill-calculator`}
-          setTrainedSkills={setTrainedSkills}
           abilityModifier={abilityModifier}
-          trainedSkills={trainedSkills}
           skillName={skillName}
         />
       ))}

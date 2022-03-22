@@ -1,9 +1,8 @@
-import { Dispatch, useMemo } from "react";
-
 import styled from "@emotion/styled";
 
 import { COST_BY_SCORE, SCORE_POINTS_TO_DISTRIBUTE } from "~/helpers/consts";
 import { CharacterAbility } from "~/helpers/dataTypes";
+import useCharCalculator from "~/helpers/useCharCalculator";
 
 const StyledWrapper = styled.div<{ percent: number }>`
   background-image: linear-gradient(
@@ -42,25 +41,15 @@ const StyledButton = styled.button<{ isSelected: boolean }>`
   }
 `;
 
-type ScorePoints = Record<CharacterAbility, typeof COST_BY_SCORE[number]>;
-
 export default function AbilityPointSelector({
-  setScorePointsDistribution,
-  scorePointsDistribution,
   baseScore,
   ability,
 }: {
-  setScorePointsDistribution: Dispatch<ScorePoints>;
-  scorePointsDistribution: ScorePoints;
   ability: CharacterAbility;
   baseScore: number;
 }): JSX.Element {
-  const sumOfPoints = useMemo(() => {
-    return Object.values(scorePointsDistribution).reduce(
-      (acc, curr) => Number(acc) + Number(curr),
-      0 as number
-    );
-  }, [scorePointsDistribution]);
+  const { setScorePointsDistribution, scorePointsDistribution, sumOfPoints } =
+    useCharCalculator();
 
   const currentPoints = scorePointsDistribution[ability];
   const currentIndex = COST_BY_SCORE.indexOf(currentPoints);
