@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { BiBadge, BiCheckbox } from "react-icons/bi";
 import { json, useLoaderData } from "remix";
 
-import CharacterSkills from "~/components/CharacterSkills";
+import CharCalculator from "~/components/CharCalculator";
 import DataPanel from "~/components/DataPanel";
 import {
   initialScorePointsDistribution,
@@ -106,8 +106,7 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 };
 
 export default function Page() {
-  const { characterClass, characterRace, characterAbilities, skillGlossary } =
-    useLoaderData<LoaderResponse>();
+  const { characterClass, characterRace } = useLoaderData<LoaderResponse>();
 
   const [trainedSkills, setTrainedSkills] = useStorage<SkillName[]>(
     "trainedSkills"
@@ -150,17 +149,13 @@ export default function Page() {
           pointsToSpend={SCORE_POINTS_TO_DISTRIBUTE - sumOfPoints}
         />
         <DataPanel color="secondary" area="ability" title="Abilities/Skills">
-          <CharacterSkills
+          <CharCalculator
             setScorePointsDistribution={setScorePointsDistribution}
             setSelectedAbilityBonus={setSelectedAbilityBonus}
             scorePointsDistribution={scorePointsDistribution}
             selectedAbilityBonus={selectedAbilityBonus}
-            characterAbilities={characterAbilities}
             setTrainedSkills={setTrainedSkills}
-            characterClass={characterClass}
-            characterRace={characterRace}
             trainedSkills={trainedSkills}
-            skillGlossary={skillGlossary}
           />
         </DataPanel>
       </StyledWrapper>
