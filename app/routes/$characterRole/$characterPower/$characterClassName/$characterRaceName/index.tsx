@@ -9,6 +9,7 @@ import DataPanel from "~/components/DataPanel";
 import {
   initialScorePointsDistribution,
   SCORE_POINTS_TO_DISTRIBUTE,
+  ABILITY_BONUS_LIMIT,
 } from "~/helpers/consts";
 import {
   fetchCharacterClassByName,
@@ -43,6 +44,52 @@ interface LoaderResponse {
   skillGlossary: SkillGlossary;
 }
 
+function RenderWarn({
+  bonusesToSelect,
+  hasSkillChoices,
+  pointsToSpend,
+}: {
+  bonusesToSelect: number;
+  hasSkillChoices: number;
+  pointsToSpend: number;
+}) {
+  if (bonusesToSelect > 0) {
+    return (
+      <DataPanel color="warn" area="warn" title="action">
+        Your have {bonusesToSelect} ability bonus to select. Please select your
+        racial bonuses by clicking on the <BiBadge /> icons bellow.
+      </DataPanel>
+    );
+  }
+
+  if (pointsToSpend > 0) {
+    return (
+      <DataPanel color="warn" area="warn" title="action">
+        You have <strong>{pointsToSpend}</strong> ability points to spend.
+        Please spend your ability score points by selecting the values from{" "}
+        <strong>10</strong> to <strong>20</strong> bellow. Higher scores consume
+        more points.
+      </DataPanel>
+    );
+  }
+
+  if (hasSkillChoices > 0) {
+    return (
+      <DataPanel color="warn" area="warn" title="action">
+        You can be trained in <strong>{hasSkillChoices}</strong> more skills.
+        Please select your class bonuses by clicking on the <BiCheckbox /> icons
+        bellow.
+      </DataPanel>
+    );
+  }
+
+  return (
+    <DataPanel color="success" area="warn" title="Done">
+      You are all set.
+    </DataPanel>
+  );
+}
+
 export const loader = async ({ params }: { params: RouteParams }) => {
   if (!params.characterClassName || !params.characterRaceName) {
     throw new Response("Not Found", {
@@ -74,52 +121,6 @@ export default function Page() {
     CharacterAbility[]
   >("selectedAbilityBonus")([]);
 
-  function RenderWarn({
-    bonusesToSelect,
-    hasSkillChoices,
-    pointsToSpend,
-  }: {
-    bonusesToSelect: number;
-    hasSkillChoices: number;
-    pointsToSpend: number;
-  }) {
-    if (bonusesToSelect > 0) {
-      return (
-        <DataPanel color="warn" area="warn" title="action">
-          Your have {bonusesToSelect} ability bonus to select. Please select
-          your racial bonuses by clicking on the <BiBadge /> icons bellow.
-        </DataPanel>
-      );
-    }
-
-    if (pointsToSpend > 0) {
-      return (
-        <DataPanel color="warn" area="warn" title="action">
-          You have <strong>{pointsToSpend}</strong> ability points to spend.
-          Please spend your ability score points by selecting the values from{" "}
-          <strong>10</strong> to <strong>20</strong> bellow. Higher scores
-          consume more points.
-        </DataPanel>
-      );
-    }
-
-    if (hasSkillChoices > 0) {
-      return (
-        <DataPanel color="warn" area="warn" title="action">
-          You can be trained in <strong>{hasSkillChoices}</strong> more skills.
-          Please select your class bonuses by clicking on the <BiCheckbox />{" "}
-          icons bellow.
-        </DataPanel>
-      );
-    }
-
-    return (
-      <DataPanel color="success" area="warn" title="Done">
-        You are all set.
-      </DataPanel>
-    );
-  }
-
   const sumOfPoints = useMemo(() => {
     return Object.values(scorePointsDistribution ?? {}).reduce(
       (acc, curr) => Number(acc) + Number(curr),
@@ -132,6 +133,7 @@ export default function Page() {
     scorePointsDistribution == null ||
     trainedSkills == null
   ) {
+    // TODO: loader
     return null;
   }
 
@@ -144,8 +146,8 @@ export default function Page() {
       <StyledWrapper>
         <RenderWarn
           hasSkillChoices={characterClass.skillChoices - trainedSkills.length}
+          bonusesToSelect={ABILITY_BONUS_LIMIT - selectedAbilityBonus.length}
           pointsToSpend={SCORE_POINTS_TO_DISTRIBUTE - sumOfPoints}
-          bonusesToSelect={2 - selectedAbilityBonus.length}
         />
         <DataPanel color="secondary" area="ability" title="Abilities/Skills">
           <CharacterSkills

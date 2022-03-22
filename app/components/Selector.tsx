@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react";
+
 import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useNavigate } from "remix";
 
 const StyledTitle = styled.h3<{ area: string }>`
   grid-area: ${({ area }) => area};
-  margin-bottom: -0.5rem;
   font-size: 1.25rem;
   display: grid;
 `;
@@ -12,6 +13,7 @@ const StyledTitle = styled.h3<{ area: string }>`
 const StyledList = styled.ul<{ area: string }>`
   border: 0.125rem solid ${({ theme }) => theme.bg};
   grid-area: ${({ area }) => area};
+  overflow: hidden;
   padding: 0.25rem;
   display: grid;
   gap: 0.25rem;
@@ -58,6 +60,8 @@ const Badge = styled.span<{ color: keyof Theme }>`
   top: 0;
 `;
 
+const badgeColorMap: (keyof Theme)[] = ["error", "error", "warn", "success"];
+
 export default function Selector({
   active = "",
   title,
@@ -74,25 +78,38 @@ export default function Selector({
   active?: string;
   title?: string;
 }) {
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
+  const [isOpen, setIsOpen] = useState<boolean>(!active);
   const navigate = useNavigate();
-  const badgeColorMap: (keyof Theme)[] = ["error", "error", "warn", "success"];
+
+  useEffect(() => {
+    setIsOpen(!active);
+  }, [active]);
 
   return (
     <>
-      <StyledTitle area={`${area}-title`}>{title ?? area}</StyledTitle>
+      <StyledTitle area={`${area}-title`}>{title ?? area}:</StyledTitle>
       <StyledList area={`${area}-select`}>
-        {data.map(({ id, link, label, badge }) => (
-          <StyledListItem key={id}>
-            <StyledButton
-              onClick={() => navigate(link)}
-              isSelected={id === active}
-              disabled={id === active}
-            >
-              {label}
-            </StyledButton>
-            {badge && <Badge color={badgeColorMap[badge]} />}
-          </StyledListItem>
-        ))}
+        {!isMobile || isOpen ? (
+          <>
+            {data.map(({ id, link, label, badge }) => (
+              <StyledListItem key={id}>
+                <StyledButton
+                  onClick={() => navigate(link)}
+                  isSelected={id === active}
+                  disabled={id === active}
+                >
+                  {label}
+                </StyledButton>
+                {badge && <Badge color={badgeColorMap[badge]} />}
+              </StyledListItem>
+            ))}
+          </>
+        ) : (
+          <StyledButton isSelected onClick={() => setIsOpen(true)}>
+            {active}
+          </StyledButton>
+        )}
       </StyledList>
     </>
   );

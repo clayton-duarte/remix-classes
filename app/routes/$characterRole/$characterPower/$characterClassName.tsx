@@ -32,8 +32,6 @@ export const loader: LoaderFunction = async ({
   params: RouteParams;
   request: Request;
 }) => {
-  console.log();
-
   if (!params.characterRole || !params.characterPower) {
     throw new Response("Not Found", { status: 404 });
   }

@@ -6,41 +6,44 @@ export default function <StoredValue>(storageName: string) {
     options?: { sessionOnly: false }
   ): [StoredValue | null, Dispatch<StoredValue>] {
     const [value, setValue] = useState<StoredValue>(initialValue);
-    const isServer = typeof window === "undefined";
 
     const storageMethod = useMemo(() => {
-      if (isServer) return;
+      if (typeof window === "undefined") return;
 
-      if ((options?.sessionOnly, isServer)) return window.sessionStorage;
+      if (options?.sessionOnly) return window.sessionStorage;
 
       return window.localStorage;
-    }, [options?.sessionOnly, isServer]);
+    }, [options?.sessionOnly]);
 
     const getStoredValue = useCallback(() => {
-      if (isServer) return initialValue;
+      if (typeof window === "undefined") return initialValue;
 
       const rawValue = storageMethod?.getItem(storageName);
 
       if (rawValue == null) return initialValue;
 
       return JSON.parse(rawValue) as StoredValue;
-    }, [initialValue, isServer, storageMethod]);
+    }, [initialValue, storageMethod]);
 
     const storedValue = useMemo(() => {
-      if (isServer || !value) return null;
+      if (typeof window === "undefined" || !value) return null;
 
       return getStoredValue();
-    }, [value, getStoredValue, isServer]);
+    }, [value, getStoredValue]);
 
     useEffect(() => {
       setValue(getStoredValue());
-    }, [getStoredValue]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-    function setStorageValue(newValue: StoredValue): void {
-      setValue(newValue);
+    const setStorageValue = useCallback(
+      (newValue: StoredValue): void => {
+        setValue(newValue);
 
-      storageMethod?.setItem(storageName, JSON.stringify(newValue));
-    }
+        storageMethod?.setItem(storageName, JSON.stringify(newValue));
+      },
+      [storageMethod]
+    );
 
     return [storedValue, setStorageValue];
   };

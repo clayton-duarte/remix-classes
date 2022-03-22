@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, useEffect } from "react";
+import { Dispatch, Fragment, useEffect, useMemo } from "react";
 
 import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
@@ -71,17 +71,28 @@ export default function CharacterSkills({
   characterRace: CharacterRace;
   trainedSkills: SkillName[];
 }): JSX.Element {
-  const skillByAbilityMap = Object.values(skillGlossary).reduce(
-    (acc, { keyAbility, name }) => {
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
+
+  const skillByAbilityMap = useMemo(() => {
+    return Object.values(skillGlossary).reduce((acc, { keyAbility, name }) => {
       const currentList = acc[keyAbility] ?? [];
 
       return {
         ...acc,
         [keyAbility]: [...currentList, name],
       };
-    },
-    {} as { [key in CharacterAbility]: SkillName[] }
-  );
+    }, {} as { [key in CharacterAbility]: SkillName[] });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const classSkills = useMemo(() => {
+    const uniqueInitialSkills = [
+      ...new Set([...characterClass.trainedSkills, ...trainedSkills]),
+    ];
+    return uniqueInitialSkills
+      .filter((skillName) => characterClass.skillList.includes(skillName))
+      .slice(0, characterClass.skillChoices);
+  }, [characterClass]);
 
   useEffect(() => {
     if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
@@ -104,14 +115,8 @@ export default function CharacterSkills({
   }, [characterClass, characterRace, setSelectedAbilityBonus]);
 
   useEffect(() => {
-    const { skillChoices, skillList } = characterClass;
-
-    const filteredSkills = trainedSkills
-      .filter((skillName) => skillList.includes(skillName))
-      .slice(0, skillChoices);
-
-    setTrainedSkills(filteredSkills);
-  }, [characterClass, characterRace, setTrainedSkills, trainedSkills]);
+    setTrainedSkills(classSkills);
+  }, [setTrainedSkills, classSkills]);
 
   return (
     <Wrapper>
@@ -131,9 +136,6 @@ export default function CharacterSkills({
           selectedAbilityBonus.length === ABILITY_BONUS_LIMIT;
 
         const racialBonus = isAbilitySelected ? ABILITY_SCORE_BONUS_VALUE : 0;
-
-        const isMobile =
-          typeof window !== "undefined" && window.innerWidth < 769;
 
         const abilityModifier = Math.floor(
           (Number(SCORE_COSTS[scorePointsDistribution[keyAbility]]) +
