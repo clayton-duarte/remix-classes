@@ -1,11 +1,16 @@
-import { json, useParams, useLoaderData, Outlet } from "remix";
+import {
+  LoaderFunction,
+  useLoaderData,
+  useParams,
+  redirect,
+  Outlet,
+  json,
+} from "remix";
 
 import {
   CharacterPowerSourceGlossary,
-  CharacterPowerSource,
-  CharacterClassName,
   CharacterClass,
-  CharacterRole,
+  RouteParams,
 } from "~/helpers/dataTypes";
 import {
   fetchCharacterPowerSourcesGlossary,
@@ -13,53 +18,92 @@ import {
 } from "~/helpers/dataFetch";
 import Selector from "~/components/Selector";
 import DataPanel from "~/components/DataPanel";
+import { buildDynamicRoute } from "~/helpers";
 
 type LoaderResponse = {
   characterPowerSourceGlossary: CharacterPowerSourceGlossary;
   classList: CharacterClass[];
 };
 
-type RouteParams = {
-  characterRole: CharacterRole;
-  characterPower: CharacterPowerSource;
-  characterClassName: CharacterClassName;
-};
+export const loader: LoaderFunction = async ({
+  params,
+  request,
+}: {
+  params: RouteParams;
+  request: Request;
+}) => {
+  console.log();
 
-export const loader = async ({ params }: { params: RouteParams }) => {
+  if (!params.characterRole || !params.characterPower) {
+    throw new Response("Not Found", { status: 404 });
+  }
+
+  const classList = fetchCharacterClassByRoleAndPower(
+    params.characterRole,
+    params.characterPower
+  );
+
+  if (classList.length === 1) {
+    const nextRoute = buildDynamicRoute({
+      characterClassName: classList[0].name,
+      characterRaceName: params.characterRaceName,
+      characterPower: params.characterPower,
+      characterRole: params.characterRole,
+    });
+
+    const url = new URL(request.url);
+
+    if (nextRoute !== url.pathname) {
+      return redirect(nextRoute);
+    }
+  }
+
   return json<LoaderResponse>({
     characterPowerSourceGlossary: fetchCharacterPowerSourcesGlossary(),
-    classList: fetchCharacterClassByRoleAndPower(
-      params.characterRole,
-      params.characterPower
-    ),
+    classList,
   });
 };
 
 export default function Page() {
-  const { characterRole, characterPower, characterClassName } =
-    useParams<RouteParams>();
   const { classList, characterPowerSourceGlossary } =
     useLoaderData<LoaderResponse>();
+  const {
+    characterRole,
+    characterPower,
+    characterClassName,
+    characterRaceName,
+  } = useParams<RouteParams>();
 
   return (
     <>
-      {
-        <Selector
-          area="class"
-          active={characterClassName}
-          data={classList.map(({ name }) => ({
-            link: `/${characterRole}/${characterPower}/${name}`,
-            label: name,
-            id: name,
-          }))}
-        />
-      }
       {characterPower && (
         <DataPanel area="power">
           {characterPowerSourceGlossary[characterPower].description} - {}
         </DataPanel>
       )}
-      <Outlet />
+      {classList.length === 0 ? (
+        <DataPanel area="class" color="error" title="error">
+          There are no {characterRole}/{characterPower} classes available
+        </DataPanel>
+      ) : (
+        <>
+          <Selector
+            area="class"
+            active={characterClassName}
+            data={classList.map(({ name }) => ({
+              link: buildDynamicRoute({
+                characterClassName: name,
+                characterRaceName,
+                characterPower,
+                characterRole,
+              }),
+              label: name,
+              id: name,
+            }))}
+          />
+          <Outlet />
+        </>
+      )}
     </>
   );
 }

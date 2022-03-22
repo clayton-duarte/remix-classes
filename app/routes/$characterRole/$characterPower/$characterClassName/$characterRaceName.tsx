@@ -1,33 +1,42 @@
-import { json, useLoaderData, useParams, Outlet } from "remix";
+import {
+  useLoaderData,
+  useNavigate,
+  useParams,
+  redirect,
+  Outlet,
+  json,
+} from "remix";
 
 import Selector from "~/components/Selector";
 import DataPanel from "~/components/DataPanel";
 import {
-  CharacterPowerSource,
-  CharacterClassName,
-  CharacterRaceName,
   CharacterClass,
-  CharacterRole,
   CharacterRace,
+  RouteParams,
 } from "~/helpers/dataTypes";
 import {
   fetchCharacterRacesByAbilityBonus,
   fetchCharacterClassByName,
 } from "~/helpers/dataFetch";
+import { buildDynamicRoute } from "~/helpers";
+import { useEffect } from "react";
 
 type LoaderResponse = {
   characterClass: CharacterClass;
   raceList: CharacterRace[];
 };
 
-type RouteParams = {
-  characterRole: CharacterRole;
-  characterPower: CharacterPowerSource;
-  characterClassName: CharacterClassName;
-  characterRaceName: CharacterRaceName;
-};
+export const loader = async ({
+  params,
+  request,
+}: {
+  params: RouteParams;
+  request: Request;
+}) => {
+  if (!params.characterClassName) {
+    throw new Response("Not Found", { status: 404 });
+  }
 
-export const loader = async ({ params }: { params: RouteParams }) => {
   const characterClass = fetchCharacterClassByName(params.characterClassName);
 
   if (characterClass == null) {
@@ -36,9 +45,27 @@ export const loader = async ({ params }: { params: RouteParams }) => {
     });
   }
 
+  const raceList = fetchCharacterRacesByAbilityBonus(
+    characterClass.keyAbilities
+  );
+
+  if (raceList.find(({ name }) => name === params.characterRaceName) == null) {
+    const nextRoute = buildDynamicRoute({
+      characterClassName: params.characterClassName,
+      characterPower: params.characterPower,
+      characterRole: params.characterRole,
+    });
+
+    const url = new URL(request.url);
+
+    if (nextRoute !== url.pathname) {
+      return redirect(nextRoute);
+    }
+  }
+
   return json<LoaderResponse>({
-    raceList: fetchCharacterRacesByAbilityBonus(characterClass.keyAbilities),
     characterClass,
+    raceList,
   });
 };
 
@@ -57,7 +84,12 @@ export default function Page() {
         area="race"
         active={characterRaceName}
         data={raceList.map(({ name: raceName, abilityBonus }) => ({
-          link: `/${characterRole}/${characterPower}/${characterClassName}/${raceName}`,
+          link: buildDynamicRoute({
+            characterRaceName: raceName,
+            characterClassName,
+            characterPower,
+            characterRole,
+          }),
           badge: abilityBonus.length,
           label: raceName,
           id: raceName,

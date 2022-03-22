@@ -1,11 +1,9 @@
-import { useMemo } from "react";
 import { Theme, ThemeProvider, Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import {
   // ScrollRestoration,
   MetaFunction,
   LiveReload,
-  useParams,
   Scripts,
   Outlet,
   Links,
@@ -13,12 +11,7 @@ import {
   Meta,
 } from "remix";
 
-import {
-  CharacterPowerSource,
-  CharacterClassName,
-  CharacterRaceName,
-  CharacterRole,
-} from "~/helpers/dataTypes";
+import { useValidRouteParameters } from "./helpers/index";
 
 const PageLayout = styled.main`
   grid-template-rows: auto 1fr;
@@ -123,13 +116,6 @@ const theme: Theme = {
   bg: "#DCDBCC",
 };
 
-type RouteParams = {
-  characterRole: CharacterRole;
-  characterPower: CharacterPowerSource;
-  characterClassName: CharacterClassName;
-  characterRaceName: CharacterRaceName;
-};
-
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
 };
@@ -148,23 +134,7 @@ export function links() {
 }
 
 export default function App() {
-  const {
-    characterRole,
-    characterPower,
-    characterClassName,
-    characterRaceName,
-  } = useParams<RouteParams>();
-
-  const pathParts = useMemo(
-    () =>
-      [
-        characterRole,
-        characterPower,
-        characterClassName,
-        characterRaceName,
-      ].filter(Boolean),
-    [characterRole, characterPower, characterClassName, characterRaceName]
-  );
+  const pathParts = useValidRouteParameters();
 
   return (
     <html lang="en">

@@ -9,16 +9,13 @@ import {
 import {
   CharacterRolesGlossary,
   CharacterPowerSource,
-  CharacterRole,
+  RouteParams,
 } from "~/helpers/dataTypes";
+import { buildDynamicRoute } from "~/helpers";
 
 type LoaderResponse = {
   characterRolesGlossary: CharacterRolesGlossary;
   powerList: CharacterPowerSource[];
-};
-
-type RouteParams = {
-  characterRole: CharacterRole;
 };
 
 export const loader = async () => {
@@ -30,14 +27,19 @@ export const loader = async () => {
 
 export default function Page() {
   const { powerList, characterRolesGlossary } = useLoaderData<LoaderResponse>();
-  const { characterRole } = useParams<RouteParams>();
-
+  const { characterRole, characterClassName, characterRaceName } =
+    useParams<RouteParams>();
   return (
     <>
       <Selector
         area="power"
         data={powerList.map((power) => ({
-          link: `/${characterRole}/${power}`,
+          link: buildDynamicRoute({
+            characterPower: power,
+            characterClassName,
+            characterRaceName,
+            characterRole,
+          }),
           label: power,
           id: power,
         }))}

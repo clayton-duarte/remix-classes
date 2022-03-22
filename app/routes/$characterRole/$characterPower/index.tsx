@@ -1,11 +1,9 @@
-import { useEffect } from "react";
-import { json, useParams, useLoaderData, useNavigate } from "remix";
+import { json, useParams, useLoaderData, redirect } from "remix";
 
 import {
   CharacterPowerSourceGlossary,
-  CharacterPowerSource,
   CharacterClass,
-  CharacterRole,
+  RouteParams,
 } from "~/helpers/dataTypes";
 import {
   fetchCharacterClassByRoleAndPower,
@@ -13,45 +11,55 @@ import {
 } from "~/helpers/dataFetch";
 import Selector from "~/components/Selector";
 import DataPanel from "~/components/DataPanel";
+import { buildDynamicRoute } from "~/helpers";
 
 type LoaderResponse = {
   characterPowerSourceGlossary: CharacterPowerSourceGlossary;
   classList: CharacterClass[];
 };
 
-type RouteParams = {
-  characterRole: CharacterRole;
-  characterPower: CharacterPowerSource;
-};
+export const loader = async ({
+  params,
+  request,
+}: {
+  params: RouteParams;
+  request: Request;
+}) => {
+  if (!params.characterRole || !params.characterPower) {
+    throw new Response("Not Found", { status: 404 });
+  }
 
-export const loader = async ({ params }: { params: RouteParams }) => {
+  const classList = fetchCharacterClassByRoleAndPower(
+    params.characterRole,
+    params.characterPower
+  );
+
+  if (classList.length === 1) {
+    const nextRoute = buildDynamicRoute({
+      characterClassName: classList[0].name,
+      characterRaceName: params.characterRaceName,
+      characterPower: params.characterPower,
+      characterRole: params.characterRole,
+    });
+
+    const url = new URL(request.url);
+
+    if (nextRoute !== url.pathname) {
+      return redirect(nextRoute);
+    }
+  }
+
   return json<LoaderResponse>({
     characterPowerSourceGlossary: fetchCharacterPowerSourcesGlossary(),
-    classList: fetchCharacterClassByRoleAndPower(
-      params.characterRole,
-      params.characterPower
-    ),
+    classList,
   });
 };
 
 export default function Page() {
-  const { characterRole, characterPower } = useParams<RouteParams>();
   const { classList, characterPowerSourceGlossary } =
     useLoaderData<LoaderResponse>();
-  const navigate = useNavigate();
-
-  const hasJustOneClass = classList.length === 1;
-  const hasNoClass = classList.length === 0;
-
-  useEffect(() => {
-    if (hasJustOneClass) {
-      navigate(`/${characterRole}/${characterPower}/${classList[0].name}`);
-    }
-  }, [classList]);
-
-  if (hasJustOneClass) {
-    return null;
-  }
+  const { characterRole, characterPower, characterRaceName } =
+    useParams<RouteParams>();
 
   return (
     <>
@@ -61,9 +69,9 @@ export default function Page() {
         </DataPanel>
       )}
 
-      {hasNoClass ? (
+      {classList.length === 0 ? (
         <DataPanel area="class" color="error" title="error">
-          There are no {characterRole}/{characterPower} classes available
+          There are no {characterRole}/{characterPower} classes available.
         </DataPanel>
       ) : (
         <>
@@ -73,7 +81,12 @@ export default function Page() {
           <Selector
             area="class"
             data={classList.map(({ name }) => ({
-              link: `/${characterRole}/${characterPower}/${name}`,
+              link: buildDynamicRoute({
+                characterClassName: name,
+                characterRaceName,
+                characterPower,
+                characterRole,
+              }),
               label: name,
               id: name,
             }))}

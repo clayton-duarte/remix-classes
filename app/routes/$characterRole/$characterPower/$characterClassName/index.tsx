@@ -3,30 +3,28 @@ import DataPanel from "~/components/DataPanel";
 
 import Selector from "~/components/Selector";
 import {
-  CharacterPowerSource,
-  CharacterClassName,
   CharacterClass,
-  CharacterRole,
   CharacterRace,
+  RouteParams,
 } from "~/helpers/dataTypes";
 import {
   fetchCharacterRacesByAbilityBonus,
-  fetchCharacterClassGlossary,
   fetchCharacterClassByName,
 } from "~/helpers/dataFetch";
+import { buildDynamicRoute } from "~/helpers";
 
 type LoaderResponse = {
   characterClass: CharacterClass;
   raceList: CharacterRace[];
 };
 
-type RouteParams = {
-  characterRole: CharacterRole;
-  characterPower: CharacterPowerSource;
-  characterClassName: CharacterClassName;
-};
-
 export const loader = async ({ params }: { params: RouteParams }) => {
+  if (!params.characterClassName) {
+    throw new Response("Not Found", {
+      status: 404,
+    });
+  }
+
   const characterClass = fetchCharacterClassByName(params.characterClassName);
 
   if (characterClass == null) {
@@ -51,7 +49,12 @@ export default function Page() {
       <Selector
         area="race"
         data={raceList.map(({ name, abilityBonus }) => ({
-          link: `/${characterRole}/${characterPower}/${characterClassName}/${name}`,
+          link: buildDynamicRoute({
+            characterRaceName: name,
+            characterClassName,
+            characterPower,
+            characterRole,
+          }),
           badge: abilityBonus.length,
           label: name,
           id: name,
@@ -62,7 +65,7 @@ export default function Page() {
         <br />- {characterClass.book}, p.{characterClass.page}
       </DataPanel>
       <DataPanel area="race" color="warn" title="action">
-        Please select a "Race" from the menu
+        Please select a compatible "Race" from the menu.
       </DataPanel>
     </>
   );

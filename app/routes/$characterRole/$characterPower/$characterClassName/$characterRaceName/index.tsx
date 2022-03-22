@@ -11,14 +11,11 @@ import {
   SCORE_POINTS_TO_DISTRIBUTE,
 } from "~/helpers/consts";
 import {
-  CharacterPowerSource,
-  CharacterClassName,
-  CharacterRaceName,
   CharacterAbility,
   CharacterClass,
-  CharacterRole,
   CharacterRace,
   SkillGlossary,
+  RouteParams,
   SkillName,
 } from "~/helpers/dataTypes";
 import {
@@ -45,14 +42,12 @@ type LoaderResponse = {
   skillGlossary: SkillGlossary;
 };
 
-type RouteParams = {
-  characterRole: CharacterRole;
-  characterClassName: CharacterClassName;
-  characterPower: CharacterPowerSource;
-  characterRaceName: CharacterRaceName;
-};
-
 export const loader = async ({ params }: { params: RouteParams }) => {
+  if (!params.characterClassName || !params.characterRaceName) {
+    throw new Response("Not Found", {
+      status: 404,
+    });
+  }
   return json<LoaderResponse>({
     characterClass: fetchCharacterClassByName(params.characterClassName),
     characterRace: fetchCharacterRaceByName(params.characterRaceName),
@@ -87,7 +82,7 @@ export default function Page() {
       return (
         <DataPanel color="warn" area="warn" title="action">
           Your have {bonusesToSelect} ability bonus to select. Please select
-          your racial bonuses by clicking on the <BiBadge /> icons bellow
+          your racial bonuses by clicking on the <BiBadge /> icons bellow.
         </DataPanel>
       );
     }
@@ -108,14 +103,14 @@ export default function Page() {
         <DataPanel color="warn" area="warn" title="action">
           You can be trained in <strong>{hasSkillChoices}</strong> more skills.
           Please select your class bonuses by clicking on the <BiCheckbox />{" "}
-          icons bellow
+          icons bellow.
         </DataPanel>
       );
     }
 
     return (
       <DataPanel color="success" area="warn" title="Done">
-        You are all set
+        You are all set.
       </DataPanel>
     );
   }

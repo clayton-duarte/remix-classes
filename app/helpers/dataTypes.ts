@@ -1027,3 +1027,10 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     abilityBonus: [CharacterAbility.Strength, CharacterAbility.Intelligence],
   },
 };
+
+export type RouteParams = Partial<{
+  characterClassName: CharacterClassName;
+  characterPower: CharacterPowerSource;
+  characterRaceName: CharacterRaceName;
+  characterRole: CharacterRole;
+}>;
