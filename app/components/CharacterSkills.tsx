@@ -7,6 +7,8 @@ import BonusCheckbox from "~/components/BonusCheckbox";
 import ModifierLabel from "~/components/ModifierLabel";
 import {
   initialScorePointsDistribution,
+  TRAINED_SKILL_BONUS_VALUE,
+  ABILITY_SCORE_BONUS_VALUE,
   ABILITY_BONUS_LIMIT,
   BASE_ABILITY_SCORE,
   SCORE_COSTS,
@@ -82,7 +84,8 @@ export default function CharacterSkills({
   useEffect(() => {
     if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
       // just select them all!
-      return setSelectedAbilityBonus(characterRace.abilityBonus);
+      setSelectedAbilityBonus(characterRace.abilityBonus);
+      return;
     }
 
     if (characterRace.abilityBonus.length > ABILITY_BONUS_LIMIT) {
@@ -91,9 +94,19 @@ export default function CharacterSkills({
         characterClass.keyAbilities.includes(ability)
       );
       if (relevantAbilities.length <= ABILITY_BONUS_LIMIT) {
-        return setSelectedAbilityBonus(relevantAbilities);
+        setSelectedAbilityBonus(relevantAbilities);
       }
     }
+  }, [characterClass, characterRace]);
+
+  useEffect(() => {
+    const { skillChoices, skillList } = characterClass;
+
+    const filteredSkills = trainedSkills
+      .filter((skillName) => skillList.includes(skillName))
+      .slice(0, skillChoices);
+
+    setTrainedSkills(filteredSkills);
   }, [characterClass, characterRace]);
 
   return (
@@ -108,18 +121,18 @@ export default function CharacterSkills({
           characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT;
         const reachedSelectionLimit =
           selectedAbilityBonus.length === ABILITY_BONUS_LIMIT;
-        const racialBonus = isAbilitySelected ? 2 : 0;
+        const racialBonus = isAbilitySelected ? ABILITY_SCORE_BONUS_VALUE : 0;
         const isMobile =
           typeof window !== "undefined" && window.innerWidth < 769;
         const abilityModifier = Math.floor(
           (Number(SCORE_COSTS[scorePointsDistribution[keyAbility]]) +
             Number(racialBonus) -
             BASE_ABILITY_SCORE) /
-            2
+            ABILITY_SCORE_BONUS_VALUE
         );
 
         return (
-          <Fragment key={`bonus-selector-${keyAbility}`}>
+          <Fragment key={`${keyAbility}-ability-selector`}>
             <BonusCheckbox
               checked={isAbilitySelected}
               badge
@@ -179,7 +192,7 @@ export default function CharacterSkills({
                 trainedSkills.length === skillChoiceLimit;
 
               return (
-                <Fragment key={`${skillName}-skill-row`}>
+                <Fragment key={`${skillName}-skill-selector`}>
                   {isMobile && <span />}
                   <BonusCheckbox
                     disabled={
@@ -215,12 +228,13 @@ export default function CharacterSkills({
                   ) : (
                     <StyledHelperText>
                       {`${Number(
-                        isSkillSelected ? 5 : 0
+                        isSkillSelected ? TRAINED_SKILL_BONUS_VALUE : 0
                       )} from training +${abilityModifier} ability bonus`}
                     </StyledHelperText>
                   )}
                   <ModifierLabel small>
-                    {Number(abilityModifier) + Number(isSkillSelected ? 5 : 0)}
+                    {Number(abilityModifier) +
+                      Number(isSkillSelected ? TRAINED_SKILL_BONUS_VALUE : 0)}
                   </ModifierLabel>
                 </Fragment>
               );

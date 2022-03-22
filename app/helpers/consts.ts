@@ -12,6 +12,10 @@ export const SCORE_COSTS = [
 
 export const COST_BY_SCORE = [0, 1, 2, 3, 5, 7, 9, 12, 16] as const;
 
+export const ABILITY_SCORE_BONUS_VALUE = 2;
+
+export const TRAINED_SKILL_BONUS_VALUE = 5;
+
 export const initialScorePointsDistribution = Object.values(
   CharacterAbility
 ).reduce(
