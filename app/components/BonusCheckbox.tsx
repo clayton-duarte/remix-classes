@@ -49,11 +49,13 @@ export default function BonusCheckbox({
   disabled,
   checked,
   badge = false,
+  id,
 }: {
   onChange: () => void;
   disabled: boolean;
   checked: boolean;
   badge?: boolean;
+  id?: string;
 }) {
   const icon = useMemo(() => {
     if (checked) {
@@ -72,13 +74,14 @@ export default function BonusCheckbox({
   }, [checked, badge]);
 
   return (
-    <StyledCheckboxLabel disabled={disabled} checked={checked}>
+    <StyledCheckboxLabel disabled={disabled} checked={checked} htmlFor={id}>
       {icon}
       <HiddenInput
         onChange={onChange}
         disabled={disabled}
         checked={checked}
         type="checkbox"
+        id={id}
       />
     </StyledCheckboxLabel>
   );

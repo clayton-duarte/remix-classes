@@ -27,7 +27,7 @@ const StyledAbilityLabel = styled.label<{ color: keyof Theme }>`
   color: ${({ theme, color }) => theme[color]};
   text-transform: uppercase;
   justify-self: start;
-  font-size: 0.825rem;
+  font-size: 0.9rem;
   font-weight: 700;
 `;
 
@@ -86,6 +86,7 @@ export default function AbilityCalculator({
     <>
       <BonusCheckbox
         onChange={() => toggleAbility(keyAbility)}
+        id={`${keyAbility}-ability-checkbox`}
         checked={isAbilitySelected}
         badge
         disabled={
@@ -95,6 +96,7 @@ export default function AbilityCalculator({
         }
       />
       <StyledAbilityLabel
+        htmlFor={`${keyAbility}-ability-checkbox`}
         color={
           classAbilityIndex < 0
             ? "black"

@@ -12,9 +12,11 @@ const StyledHelperText = styled.span`
   font-size: 0.75rem;
 `;
 
-const StyledSkillLabel = styled.summary`
+const StyledSkillLabel = styled.label`
+  text-transform: capitalize;
   justify-self: start;
   font-size: 0.75rem;
+  font-weight: 700;
 `;
 
 export default function SkillCalculator({
@@ -41,6 +43,7 @@ export default function SkillCalculator({
       {isMobile && <span />}
       <BonusCheckbox
         onChange={() => toggleSkill(skillName)}
+        id={`skill-${skillName}-checkbox`}
         checked={isSkillSelected}
         disabled={
           (!isSkillSelected && reachedSelectionLimit) || // cant select, but can un-select
@@ -48,9 +51,15 @@ export default function SkillCalculator({
           isClassSkill // there's no other possible combination
         }
       />
-      {!isMobile && <StyledSkillLabel>{skillName}</StyledSkillLabel>}
+      {!isMobile && (
+        <StyledSkillLabel htmlFor={`skill-${skillName}-checkbox`}>
+          {skillName}
+        </StyledSkillLabel>
+      )}
       {isMobile ? (
-        <StyledSkillLabel>{skillName}</StyledSkillLabel>
+        <StyledSkillLabel htmlFor={`skill-${skillName}-checkbox`}>
+          {skillName}
+        </StyledSkillLabel>
       ) : (
         <StyledHelperText>
           {`${Number(
