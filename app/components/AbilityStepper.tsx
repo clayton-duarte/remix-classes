@@ -27,14 +27,13 @@ const StyledButton = styled.button<{ isSelected: boolean }>`
   transition: 0.3s ease;
   border-radius: 1rem;
   place-items: center;
-  font-size: 1rem;
-  font-weight: 700;
   line-height: 1.25;
-  cursor: pointer;
-  display: grid;
+  font-weight: 700;
+  font-size: 1rem;
   height: 1.5rem;
-  border: none;
   width: 1.5rem;
+  display: grid;
+  border: none;
   padding: 0;
   &:disabled {
     background: ${({ theme }) => theme.bg};

@@ -39,7 +39,6 @@ const StyledButton = styled.button<{ isSelected: boolean }>`
   padding: 0.25rem 0.5rem;
   font-weight: 700;
   font-size: 1rem;
-  cursor: pointer;
   border: none;
   width: 100%;
   margin: 0;

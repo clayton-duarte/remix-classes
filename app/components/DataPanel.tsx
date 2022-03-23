@@ -3,9 +3,9 @@ import { ReactNode } from "react";
 import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const StyledPanel = styled.div<{ area: string; color: keyof Theme }>`
+const StyledPanel = styled.div<{ area?: string; color: keyof Theme }>`
   border: 0.125rem solid ${({ theme, color }) => theme[color]};
-  grid-area: ${({ area }) => area};
+  ${({ area }) => area && `grid-area: ${area}-data`};
   align-items: center;
   display: grid;
   gap: 0;
@@ -27,13 +27,13 @@ export default function DataPanel({
   title,
   area,
 }: {
-  area: string;
   children: ReactNode;
   color?: keyof Theme;
   title?: string;
+  area?: string;
 }) {
   return (
-    <StyledPanel id={`${area}-panel`} color={color} area={`${area}-data`}>
+    <StyledPanel area={area} color={color}>
       {title && <StyledLegend color={color}>{title}</StyledLegend>}
       <StyledWrapper>{children}</StyledWrapper>
     </StyledPanel>

@@ -1,6 +1,12 @@
+import styled from "@emotion/styled";
 import { BiBadge, BiCheckbox } from "react-icons/bi";
 
 import DataPanel from "~/components/DataPanel";
+
+const StyledPanel = styled(DataPanel)`
+  position: sticky;
+  bottom: 0;
+`;
 
 export default function CalculatorWarn({
   bonusesToSelect,
@@ -13,37 +19,37 @@ export default function CalculatorWarn({
 }) {
   if (bonusesToSelect > 0) {
     return (
-      <DataPanel color="warn" area="warn" title="action">
+      <StyledPanel color="warn" title="action">
         Your have {bonusesToSelect} ability bonus to select. Please select your
         racial bonuses by clicking on the <BiBadge /> icons bellow.
-      </DataPanel>
+      </StyledPanel>
     );
   }
 
   if (pointsToSpend > 0) {
     return (
-      <DataPanel color="warn" area="warn" title="action">
+      <StyledPanel color="warn" title="action">
         You have <strong>{pointsToSpend}</strong> ability points to spend.
         Please spend your ability score points by selecting the values from{" "}
         <strong>10</strong> to <strong>20</strong> bellow. Higher scores consume
         more points.
-      </DataPanel>
+      </StyledPanel>
     );
   }
 
   if (hasSkillChoices > 0) {
     return (
-      <DataPanel color="warn" area="warn" title="action">
+      <StyledPanel color="warn" title="action">
         You can be trained in <strong>{hasSkillChoices}</strong> more skills.
         Please select your class bonuses by clicking on the <BiCheckbox /> icons
         bellow.
-      </DataPanel>
+      </StyledPanel>
     );
   }
 
   return (
-    <DataPanel color="success" area="warn" title="Done">
+    <StyledPanel color="success" title="Done">
       You are all set.
-    </DataPanel>
+    </StyledPanel>
   );
 }

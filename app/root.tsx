@@ -11,7 +11,8 @@ import {
   Meta,
 } from "remix";
 
-import { useValidRouteParameters } from "./helpers/index";
+import { useValidRouteParameters } from "~/helpers";
+import { ToasterProvider } from "~/helpers/useToaster";
 
 const RootLayout = styled.main`
   grid-template-rows: auto 1fr;
@@ -23,7 +24,8 @@ const RootLayout = styled.main`
   grid-template-areas:
     "header"
     "content"
-    "footer";
+    /* "footer" */
+    "toaster";
 `;
 
 const HeaderLayout = styled.header`
@@ -168,9 +170,11 @@ export default function App() {
                 )}
               </BreadCrumbs>
             </HeaderLayout>
-            <ContentLayout>
-              <Outlet />
-            </ContentLayout>
+            <ToasterProvider>
+              <ContentLayout>
+                <Outlet />
+              </ContentLayout>
+            </ToasterProvider>
             {/* <FooterLayout>todo: footer</FooterLayout> */}
           </RootLayout>
           <Global
@@ -200,6 +204,12 @@ export default function App() {
               a {
                 text-decoration: underline;
                 color: inherit;
+              }
+
+              [role="button"],
+              button,
+              a {
+                cursor: pointer;
               }
 
               p {
