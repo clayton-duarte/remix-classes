@@ -31,15 +31,18 @@ function removeItemFromByIndex<T>(list: T[], itemIndex: number): T[] {
   return list.filter((_, index) => itemIndex !== index);
 }
 
-function getInitialAbilityBonusSelection({
-  characterClass,
-  characterRace,
-}: {
-  characterClass: CharacterClass;
-  characterRace: CharacterRace;
-}): CharacterAbility[] {
+function getInitialAbilityBonusSelection(
+  {
+    characterClass,
+    characterRace,
+  }: {
+    characterClass: CharacterClass;
+    characterRace: CharacterRace;
+  },
+  callback: Dispatch<CharacterAbility[]>
+): void {
   if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
-    return characterRace.abilityBonus;
+    return callback(characterRace.abilityBonus);
   }
 
   if (characterRace.abilityBonus.length > ABILITY_BONUS_LIMIT) {
@@ -48,11 +51,9 @@ function getInitialAbilityBonusSelection({
     );
 
     if (relevantAbilities.length <= ABILITY_BONUS_LIMIT) {
-      return relevantAbilities;
+      return callback(relevantAbilities);
     }
   }
-
-  return [];
 }
 
 // context
@@ -88,13 +89,16 @@ export function CharCalculatorProvider({ children }: { children: ReactNode }) {
   >("selectedAbilityBonus")([]);
 
   useEffect(() => {
-    setSelectedAbilityBonus(
-      getInitialAbilityBonusSelection({ characterRace, characterClass })
+    getInitialAbilityBonusSelection(
+      { characterRace, characterClass },
+      setSelectedAbilityBonus
     );
   }, [characterClass, characterRace, setSelectedAbilityBonus]);
 
   const classSkills = useMemo(() => {
-    if (trainedSkills == null) return [];
+    if (trainedSkills == null) {
+      return [];
+    }
 
     const uniqueInitialSkills = [
       ...new Set([...characterClass.trainedSkills, ...trainedSkills]),
@@ -192,8 +196,9 @@ export default function useCharCalculator() {
   const reset = () => {
     setScorePointsDistribution(initialScorePointsDistribution);
 
-    setSelectedAbilityBonus(
-      getInitialAbilityBonusSelection({ characterRace, characterClass })
+    getInitialAbilityBonusSelection(
+      { characterRace, characterClass },
+      setSelectedAbilityBonus
     );
 
     setTrainedSkills([]);

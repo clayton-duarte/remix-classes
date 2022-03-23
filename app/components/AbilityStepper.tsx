@@ -7,15 +7,15 @@ import useCharCalculator from "~/helpers/useCharCalculator";
 const StyledWrapper = styled.div<{ percent: number }>`
   background-image: linear-gradient(
     ${({ theme, percent }) =>
-      `90deg, ${theme.secondary} ${percent}%, ${theme.bg} ${percent}%`}
+      `90deg, ${theme.primary} ${percent}%, ${theme.bg} ${percent}%`}
   );
   justify-content: space-between;
   border-radius: 1.25rem;
   grid-auto-flow: column;
   justify-self: stretch;
   transition: 0.3s ease;
-  display: grid;
   align-items: center;
+  display: grid;
 `;
 
 const StyledButton = styled.button<{ isSelected: boolean }>`

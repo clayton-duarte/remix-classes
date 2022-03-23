@@ -13,7 +13,7 @@ import {
 
 import { useValidRouteParameters } from "./helpers/index";
 
-const PageLayout = styled.main`
+const RootLayout = styled.main`
   grid-template-rows: auto 1fr;
   align-items: flex-start;
   display: grid;
@@ -149,7 +149,7 @@ export default function App() {
       </head>
       <body>
         <ThemeProvider theme={theme}>
-          <PageLayout>
+          <RootLayout>
             <HeaderLayout>
               <FakeLogo>Character Builder</FakeLogo>
               <BreadCrumbs>
@@ -172,7 +172,7 @@ export default function App() {
               <Outlet />
             </ContentLayout>
             {/* <FooterLayout>todo: footer</FooterLayout> */}
-          </PageLayout>
+          </RootLayout>
           <Global
             styles={(theme) => css`
               html,

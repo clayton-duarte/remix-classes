@@ -5,6 +5,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
   ],
   rules: {
+    curly: "error",
     "import/exports-last": ["error"],
     "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
     "padding-line-between-statements": [

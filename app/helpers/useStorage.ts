@@ -6,19 +6,27 @@ export default function <StoredValue>(storageName: string) {
     options?: { sessionOnly: false }
   ): [StoredValue | null, Dispatch<StoredValue>] {
     const storageMethod = useMemo(() => {
-      if (typeof window === "undefined") return;
+      if (typeof window === "undefined") {
+        return;
+      }
 
-      if (options?.sessionOnly) return window.sessionStorage;
+      if (options?.sessionOnly) {
+        return window.sessionStorage;
+      }
 
       return window.localStorage;
     }, [options?.sessionOnly]);
 
     const getStoredValue = useCallback(() => {
-      if (typeof window === "undefined") return initialValue;
+      if (typeof window === "undefined") {
+        return initialValue;
+      }
 
       const rawValue = storageMethod?.getItem(storageName);
 
-      if (rawValue == null) return initialValue;
+      if (rawValue == null || rawValue === "undefined") {
+        return initialValue;
+      }
 
       return JSON.parse(rawValue) as StoredValue;
     }, [initialValue, storageMethod]);
@@ -27,7 +35,9 @@ export default function <StoredValue>(storageName: string) {
     const [localValue, setLocalValue] = useState<StoredValue>(getStoredValue());
 
     const storedValue = useMemo(() => {
-      if (typeof window === "undefined" || !localValue) return null;
+      if (typeof window === "undefined" || !localValue) {
+        return null;
+      }
 
       return getStoredValue();
     }, [localValue, getStoredValue]);

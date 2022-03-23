@@ -19,7 +19,9 @@ function getColor({
   theme: Theme;
 }) {
   if (disabled) {
-    if (checked) return theme.secondary;
+    if (checked) {
+      return theme.secondary;
+    }
 
     return theme.bg;
   }
@@ -55,12 +57,16 @@ export default function BonusCheckbox({
 }) {
   const icon = useMemo(() => {
     if (checked) {
-      if (badge) return <BiBadgeCheck />;
+      if (badge) {
+        return <BiBadgeCheck />;
+      }
 
       return <BiCheckboxChecked />;
     }
 
-    if (badge) return <BiBadge />;
+    if (badge) {
+      return <BiBadge />;
+    }
 
     return <BiCheckbox />;
   }, [checked, badge]);
