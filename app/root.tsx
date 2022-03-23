@@ -187,7 +187,8 @@ export default function App() {
               }
 
               button {
-                font-family: "Spectral", serif;
+                font-family: "Cinzel", serif;
+                font-weight: 700;
                 line-height: 1.2;
                 font-size: 1rem;
               }

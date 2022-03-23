@@ -36,8 +36,13 @@ export default function AbilityCalculator({
 }: {
   keyAbility: CharacterAbility;
 }): JSX.Element {
-  const { scorePointsDistribution, selectedAbilityBonus, toggleAbility } =
-    useCharCalculator();
+  const {
+    scorePointsDistribution,
+    selectedAbilityBonus,
+    bonusesToSelect,
+    pointsToSpend,
+    toggleAbility,
+  } = useCharCalculator();
 
   const { characterClass, characterRace, skillGlossary } = useLoaderData<{
     characterAbilities: CharacterAbility[];
@@ -105,13 +110,15 @@ export default function AbilityCalculator({
         ability={keyAbility}
       />
       <ModifierLabel>{abilityModifier}</ModifierLabel>
-      {skillByAbilityMap[keyAbility].map((skillName) => (
-        <SkillCalculator
-          key={`${skillName}-skill-calculator`}
-          abilityModifier={abilityModifier}
-          skillName={skillName}
-        />
-      ))}
+      {bonusesToSelect === 0 &&
+        pointsToSpend === 0 &&
+        skillByAbilityMap[keyAbility].map((skillName) => (
+          <SkillCalculator
+            key={`${skillName}-skill-calculator`}
+            abilityModifier={abilityModifier}
+            skillName={skillName}
+          />
+        ))}
     </>
   );
 }

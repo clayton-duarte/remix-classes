@@ -4,12 +4,17 @@ import { useLoaderData } from "remix";
 import AbilityCalculator from "~/components/AbilityCalculator";
 import CalculatorWarn from "~/components/CalculatorWarn";
 import DataPanel from "~/components/DataPanel";
-import {
-  SCORE_POINTS_TO_DISTRIBUTE,
-  ABILITY_BONUS_LIMIT,
-} from "~/helpers/consts";
-import { CharacterAbility, CharacterClass } from "~/helpers/dataTypes";
+import { CharacterAbility } from "~/helpers/dataTypes";
 import useCharCalculator from "~/helpers/useCharCalculator";
+
+const StyledButton = styled.button`
+  background: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.white};
+  grid-area: reset-button;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: none;
+`;
 
 const Wrapper = styled.div`
   grid-template-columns: auto auto 1fr auto;
@@ -26,24 +31,24 @@ const StyledWrapper = styled.div`
   gap: 1rem;
   grid-template-areas:
     "warn-data warn-data"
-    "ability-data ability-data";
+    "ability-data ability-data"
+    ". reset-button";
 `;
 
 export default function CharacterSkills(): JSX.Element {
-  const { selectedAbilityBonus, trainedSkills, sumOfPoints } =
+  const { pointsToSpend, bonusesToSelect, hasSkillChoices, reset } =
     useCharCalculator();
 
-  const { characterAbilities, characterClass } = useLoaderData<{
+  const { characterAbilities } = useLoaderData<{
     characterAbilities: CharacterAbility[];
-    characterClass: CharacterClass;
   }>();
 
   return (
     <StyledWrapper>
       <CalculatorWarn
-        hasSkillChoices={characterClass.skillChoices - trainedSkills.length}
-        bonusesToSelect={ABILITY_BONUS_LIMIT - selectedAbilityBonus.length}
-        pointsToSpend={SCORE_POINTS_TO_DISTRIBUTE - sumOfPoints}
+        hasSkillChoices={hasSkillChoices}
+        bonusesToSelect={bonusesToSelect}
+        pointsToSpend={pointsToSpend}
       />
       <DataPanel color="secondary" area="ability" title="Abilities/Skills">
         <Wrapper>
@@ -55,6 +60,7 @@ export default function CharacterSkills(): JSX.Element {
           ))}
         </Wrapper>
       </DataPanel>
+      <StyledButton onClick={reset}>reset stats</StyledButton>
     </StyledWrapper>
   );
 }

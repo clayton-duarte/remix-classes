@@ -1,17 +1,18 @@
 import {
   createContext,
-  Dispatch,
-  ReactNode,
   useContext,
+  ReactNode,
   useEffect,
+  Dispatch,
   useMemo,
 } from "react";
 
 import { useLoaderData } from "remix";
 
 import {
-  ABILITY_BONUS_LIMIT,
   initialScorePointsDistribution,
+  SCORE_POINTS_TO_DISTRIBUTE,
+  ABILITY_BONUS_LIMIT,
 } from "~/helpers/consts";
 import {
   CharacterAbility,
@@ -21,6 +22,7 @@ import {
 } from "~/helpers/dataTypes";
 import useStorage from "~/helpers/useStorage";
 
+// local helpers
 function addItemToList<T>(list: T[], item: T): T[] {
   return [...list, item];
 }
@@ -29,6 +31,31 @@ function removeItemFromByIndex<T>(list: T[], itemIndex: number): T[] {
   return list.filter((_, index) => itemIndex !== index);
 }
 
+function getInitialAbilityBonusSelection({
+  characterClass,
+  characterRace,
+}: {
+  characterClass: CharacterClass;
+  characterRace: CharacterRace;
+}): CharacterAbility[] {
+  if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
+    return characterRace.abilityBonus;
+  }
+
+  if (characterRace.abilityBonus.length > ABILITY_BONUS_LIMIT) {
+    const relevantAbilities = characterRace.abilityBonus.filter((ability) =>
+      characterClass.keyAbilities.includes(ability)
+    );
+
+    if (relevantAbilities.length <= ABILITY_BONUS_LIMIT) {
+      return relevantAbilities;
+    }
+  }
+
+  return [];
+}
+
+// context
 interface CharCalculatorCtxType {
   trainedSkills: SkillName[];
   setTrainedSkills: Dispatch<SkillName[]>;
@@ -61,19 +88,9 @@ export function CharCalculatorProvider({ children }: { children: ReactNode }) {
   >("selectedAbilityBonus")([]);
 
   useEffect(() => {
-    if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
-      // just select them all!
-      setSelectedAbilityBonus(characterRace.abilityBonus);
-    } else if (characterRace.abilityBonus.length > ABILITY_BONUS_LIMIT) {
-      // we could pre-select some of the class key abilities
-      const relevantAbilities = characterRace.abilityBonus.filter((ability) =>
-        characterClass.keyAbilities.includes(ability)
-      );
-
-      if (relevantAbilities.length <= ABILITY_BONUS_LIMIT) {
-        setSelectedAbilityBonus(relevantAbilities);
-      }
-    }
+    setSelectedAbilityBonus(
+      getInitialAbilityBonusSelection({ characterRace, characterClass })
+    );
   }, [characterClass, characterRace, setSelectedAbilityBonus]);
 
   const classSkills = useMemo(() => {
@@ -129,16 +146,29 @@ export default function useCharCalculator() {
     trainedSkills,
   } = useContext(CharCalculatorCtx);
 
-  const { characterClass } = useLoaderData<{
+  const { characterClass, characterRace } = useLoaderData<{
     characterClass: CharacterClass;
+    characterRace: CharacterRace;
   }>();
 
-  const skillChoiceLimit = characterClass.skillChoices;
+  const sumOfPoints = useMemo(() => {
+    return Object.values(scorePointsDistribution ?? {}).reduce(
+      (acc, curr) => Number(acc) + Number(curr),
+      0 as number
+    );
+  }, [scorePointsDistribution]);
+
+  const hasSkillChoices = characterClass.skillChoices - trainedSkills.length;
+  const bonusesToSelect = ABILITY_BONUS_LIMIT - selectedAbilityBonus.length;
+  const pointsToSpend = SCORE_POINTS_TO_DISTRIBUTE - sumOfPoints;
 
   const toggleSkill = (skillName: SkillName) => {
     const checkedIndex = trainedSkills.indexOf(skillName);
 
-    if (checkedIndex < 0 && trainedSkills.length < skillChoiceLimit) {
+    if (
+      checkedIndex < 0 &&
+      trainedSkills.length < characterClass.skillChoices
+    ) {
       return setTrainedSkills(addItemToList(trainedSkills, skillName));
     }
 
@@ -159,22 +189,32 @@ export default function useCharCalculator() {
     );
   };
 
-  const sumOfPoints = useMemo(() => {
-    return Object.values(scorePointsDistribution ?? {}).reduce(
-      (acc, curr) => Number(acc) + Number(curr),
-      0 as number
+  const reset = () => {
+    setScorePointsDistribution(initialScorePointsDistribution);
+
+    setSelectedAbilityBonus(
+      getInitialAbilityBonusSelection({ characterRace, characterClass })
     );
-  }, [scorePointsDistribution]);
+
+    setTrainedSkills([]);
+  };
 
   return {
+    // state
     setScorePointsDistribution,
     setSelectedAbilityBonus,
     scorePointsDistribution,
     selectedAbilityBonus,
     setTrainedSkills,
     trainedSkills,
+    // actions
     toggleAbility,
-    sumOfPoints,
     toggleSkill,
+    reset,
+    // consts
+    hasSkillChoices,
+    bonusesToSelect,
+    pointsToSpend,
+    sumOfPoints,
   };
 }
