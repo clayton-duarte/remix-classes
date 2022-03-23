@@ -20,6 +20,7 @@ import {
   CharacterRace,
   SkillName,
 } from "~/helpers/dataTypes";
+import useCalculatorWarn from "~/helpers/useCalculatorWarn";
 import useStorage from "~/helpers/useStorage";
 
 // local helpers
@@ -127,12 +128,12 @@ export function CharCalculatorProvider({ children }: { children: ReactNode }) {
   return (
     <CharCalculatorCtx.Provider
       value={{
-        trainedSkills,
-        setTrainedSkills,
-        scorePointsDistribution,
         setScorePointsDistribution,
-        selectedAbilityBonus,
         setSelectedAbilityBonus,
+        scorePointsDistribution,
+        selectedAbilityBonus,
+        setTrainedSkills,
+        trainedSkills,
       }}
     >
       {children}
@@ -165,6 +166,8 @@ export default function useCharCalculator() {
   const hasSkillChoices = characterClass.skillChoices - trainedSkills.length;
   const bonusesToSelect = ABILITY_BONUS_LIMIT - selectedAbilityBonus.length;
   const pointsToSpend = SCORE_POINTS_TO_DISTRIBUTE - sumOfPoints;
+
+  useCalculatorWarn({ pointsToSpend, bonusesToSelect, hasSkillChoices });
 
   const toggleSkill = (skillName: SkillName) => {
     const checkedIndex = trainedSkills.indexOf(skillName);

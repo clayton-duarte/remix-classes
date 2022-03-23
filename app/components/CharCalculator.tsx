@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { useLoaderData } from "remix";
 
 import AbilityCalculator from "~/components/AbilityCalculator";
-import CalculatorWarn from "~/components/CalculatorWarn";
 import DataPanel from "~/components/DataPanel";
 import { CharacterAbility } from "~/helpers/dataTypes";
 import useCharCalculator from "~/helpers/useCharCalculator";
@@ -33,8 +32,7 @@ const ParentCalculatorWrapper = styled.div`
 `;
 
 export default function CharacterSkills(): JSX.Element {
-  const { pointsToSpend, bonusesToSelect, hasSkillChoices, reset } =
-    useCharCalculator();
+  const { reset } = useCharCalculator();
 
   const { characterAbilities } = useLoaderData<{
     characterAbilities: CharacterAbility[];
@@ -54,11 +52,6 @@ export default function CharacterSkills(): JSX.Element {
           </CalculatorWrapper>
         </DataPanel>
         <StyledButton onClick={reset}>reset stats</StyledButton>
-        <CalculatorWarn
-          hasSkillChoices={hasSkillChoices}
-          bonusesToSelect={bonusesToSelect}
-          pointsToSpend={pointsToSpend}
-        />
       </ParentCalculatorWrapper>
     </>
   );

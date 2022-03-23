@@ -4,6 +4,7 @@ import {
   ReactNode,
   useState,
   Dispatch,
+  useEffect,
 } from "react";
 
 import { Theme } from "@emotion/react";
@@ -53,17 +54,26 @@ interface ToasterState {
   content: ReactNode;
   status: keyof Pick<Theme, "error" | "warn" | "success">;
   onClose?: (...args: unknown[]) => void;
+  dismissible?: boolean;
   title?: string;
 }
 
-function Toaster({ content, status, title, onClose }: ToasterState) {
+function Toaster({
+  dismissible = true,
+  content,
+  onClose,
+  status,
+  title,
+}: ToasterState) {
   return (
     <ToasterWrapper color={status}>
       <TitleWrapper color={status}>
         <span>{title ?? status}</span>
-        <IconButton onClick={onClose}>
-          <BiX />
-        </IconButton>
+        {dismissible && (
+          <IconButton onClick={onClose}>
+            <BiX />
+          </IconButton>
+        )}
       </TitleWrapper>
       <ContentWrapper>{content}</ContentWrapper>
     </ToasterWrapper>
@@ -103,9 +113,17 @@ export function ToasterProvider({
 export default function useToaster() {
   const context = useContext(ToasterContext);
 
+  useEffect(() => {
+    // just call this on component unmount
+    return () => setToasterProps(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (context === null) {
     throw new Error("useToaster must be used within a ToasterProvider");
   }
 
-  return context;
+  const [toasterProps, setToasterProps] = context;
+
+  return { showToaster: setToasterProps, toaster: toasterProps };
 }
