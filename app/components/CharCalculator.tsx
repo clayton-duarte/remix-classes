@@ -16,15 +16,18 @@ const StyledButton = styled.button`
   border: none;
 `;
 
-const Wrapper = styled.div`
+const CalculatorWrapper = styled.div`
   grid-template-columns: auto auto 1fr auto;
   justify-items: center;
   align-items: center;
-  gap: 0.6rem 1rem;
+  gap: 1rem;
   display: grid;
+  @media all and (max-width: 768px) {
+    gap: 0.25rem 0.5rem;
+  }
 `;
 
-const StyledWrapper = styled.div`
+const ParentCalculatorWrapper = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-area: char-data;
   display: grid;
@@ -33,6 +36,13 @@ const StyledWrapper = styled.div`
     "warn-data warn-data"
     "ability-data ability-data"
     ". reset-button";
+  @media all and (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "warn-data"
+      "ability-data"
+      "reset-button";
+  }
 `;
 
 export default function CharacterSkills(): JSX.Element {
@@ -44,23 +54,23 @@ export default function CharacterSkills(): JSX.Element {
   }>();
 
   return (
-    <StyledWrapper>
+    <ParentCalculatorWrapper>
       <CalculatorWarn
         hasSkillChoices={hasSkillChoices}
         bonusesToSelect={bonusesToSelect}
         pointsToSpend={pointsToSpend}
       />
       <DataPanel color="secondary" area="ability" title="Abilities/Skills">
-        <Wrapper>
+        <CalculatorWrapper>
           {characterAbilities.map((keyAbility) => (
             <AbilityCalculator
               key={`${keyAbility}-ability-calculator`}
               keyAbility={keyAbility}
             />
           ))}
-        </Wrapper>
+        </CalculatorWrapper>
       </DataPanel>
       <StyledButton onClick={reset}>reset stats</StyledButton>
-    </StyledWrapper>
+    </ParentCalculatorWrapper>
   );
 }

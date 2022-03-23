@@ -8,15 +8,21 @@ import { CharacterClass, SkillName } from "~/helpers/dataTypes";
 import useCharCalculator from "~/helpers/useCharCalculator";
 
 const StyledHelperText = styled.span`
+  color: ${({ theme }) => theme.secondary};
   justify-self: flex-start;
   font-size: 0.75rem;
 `;
 
 const StyledSkillLabel = styled.label`
   text-transform: capitalize;
-  justify-self: start;
+  justify-self: stretch;
   font-size: 0.75rem;
   font-weight: 700;
+  @media all and (max-width: 768px) {
+    background-image: linear-gradient(
+      ${({ theme }) => `90deg, ${theme.white} , ${theme.bg}`}
+    );
+  }
 `;
 
 export default function SkillCalculator({

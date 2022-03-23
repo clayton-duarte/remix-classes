@@ -19,7 +19,7 @@ const StyledWrapper = styled.div<{ percent: number }>`
 `;
 
 const StyledButton = styled.button<{ isSelected: boolean }>`
-  transform: scale(${({ isSelected }) => (isSelected ? 1.75 : 1.25)});
+  transform: scale(${({ isSelected }) => (isSelected ? 1.25 : 1)});
   z-index: ${({ isSelected }) => (isSelected ? 99 : 9)};
   background: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.white};
@@ -27,17 +27,22 @@ const StyledButton = styled.button<{ isSelected: boolean }>`
   transition: 0.3s ease;
   border-radius: 1rem;
   place-items: center;
-  font-size: 0.5rem;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.25;
   cursor: pointer;
   display: grid;
-  height: 1rem;
+  height: 1.5rem;
   border: none;
-  width: 1rem;
+  width: 1.5rem;
   padding: 0;
   &:disabled {
     background: ${({ theme }) => theme.bg};
+  }
+  @media all and (max-width: 768px) {
+    font-size: 0.825rem;
+    height: 1.25rem;
+    width: 1.25rem;
   }
 `;
 
