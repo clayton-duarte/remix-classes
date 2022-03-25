@@ -165,8 +165,9 @@ export function ErrorBoundary({ error }: { error: Error }) {
           <h1>Oh no!</h1>
           {/* add the UI you want your users to see */}
           <Link to="/">Go home</Link>
-          <Scripts />
         </Layout>
+        <LiveReload />
+        <Scripts />
       </body>
     </html>
   );
@@ -189,6 +190,7 @@ export function CatchBoundary() {
           </h1>
           <Link to="/">Go home</Link>
         </Layout>
+        <LiveReload />
         <Scripts />
       </body>
     </html>
