@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { json, useLoaderData, useNavigate } from "remix";
+import { json, useLoaderData, useNavigate, useParams } from "remix";
 
 import Button from "~/components/Button";
 import DataPanel from "~/components/DataPanel";
@@ -17,9 +17,10 @@ import {
   CharacterClass,
   CharacterRace,
   SkillGlossary,
-  RouteParams,
+  CharBuilderChoices,
   SkillName,
 } from "~/helpers/dataTypes";
+import useStorage from "~/helpers/useStorage";
 
 interface LoaderResponse {
   characterAbilities: CharacterAbility[];
@@ -28,7 +29,7 @@ interface LoaderResponse {
   skillGlossary: SkillGlossary;
 }
 
-export const loader = async ({ params }: { params: RouteParams }) => {
+export const loader = async ({ params }: { params: CharBuilderChoices }) => {
   if (!params.characterClassName || !params.characterRaceName) {
     throw new Response("Not Found", {
       status: 404,
@@ -44,10 +45,12 @@ export const loader = async ({ params }: { params: RouteParams }) => {
 };
 
 export default function Page() {
+  const params = useParams<CharBuilderChoices>();
+  const [, setCharChoices] = useStorage("charChoices")(params);
+  const navigate = useNavigate();
+
   const { characterRace, characterClass, skillGlossary } =
     useLoaderData<LoaderResponse>();
-
-  const navigate = useNavigate();
 
   const humanizedAbilityList = useMemo(() => {
     return characterRace.abilityBonus.map((ability) => {
@@ -109,11 +112,13 @@ export default function Page() {
           </p>
           <p>
             <strong>{characterClass.skillChoices} Skills</strong>
-            <ul>{humanizedSkillList}</ul>
           </p>
+          <ul>{humanizedSkillList}</ul>
         </Grid>
         <Button
           onClick={() => {
+            setCharChoices(params);
+
             navigate("/calculator/ability");
           }}
         >

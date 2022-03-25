@@ -10,7 +10,7 @@ import {
 import {
   CharacterClass,
   CharacterRace,
-  RouteParams,
+  CharBuilderChoices,
 } from "~/helpers/dataTypes";
 
 interface LoaderResponse {
@@ -18,7 +18,7 @@ interface LoaderResponse {
   raceList: CharacterRace[];
 }
 
-export const loader = async ({ params }: { params: RouteParams }) => {
+export const loader = async ({ params }: { params: CharBuilderChoices }) => {
   if (!params.characterClassName) {
     throw new Response("Not Found", {
       status: 404,
@@ -43,7 +43,7 @@ export default function Page() {
   const { raceList, characterClass } = useLoaderData<LoaderResponse>();
 
   const { characterRole, characterPower, characterClassName } =
-    useParams<RouteParams>();
+    useParams<CharBuilderChoices>();
 
   return (
     <>

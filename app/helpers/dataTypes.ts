@@ -1028,7 +1028,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
   },
 };
 
-export type RouteParams = Partial<{
+export type CharBuilderChoices = Partial<{
   characterClassName: CharacterClassName;
   characterPower: CharacterPowerSource;
   characterRaceName: CharacterRaceName;

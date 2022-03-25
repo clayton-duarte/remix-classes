@@ -5,7 +5,7 @@ import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
 import { fetchCharacterRoles } from "~/helpers/dataFetch";
-import { CharacterRole, RouteParams } from "~/helpers/dataTypes";
+import { CharacterRole, CharBuilderChoices } from "~/helpers/dataTypes";
 
 interface LoaderResponse {
   roleList: CharacterRole[];
@@ -19,7 +19,7 @@ export default function Page() {
   const { roleList } = useLoaderData<LoaderResponse>();
 
   const { characterPower, characterClassName, characterRaceName } =
-    useParams<RouteParams>();
+    useParams<CharBuilderChoices>();
 
   return (
     <BuilderLayout>

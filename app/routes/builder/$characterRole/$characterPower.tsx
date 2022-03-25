@@ -10,7 +10,7 @@ import {
 import {
   CharacterRolesGlossary,
   CharacterPowerSource,
-  RouteParams,
+  CharBuilderChoices,
 } from "~/helpers/dataTypes";
 
 interface LoaderResponse {
@@ -33,7 +33,7 @@ export default function Page() {
     characterPower,
     characterClassName,
     characterRaceName,
-  } = useParams<RouteParams>();
+  } = useParams<CharBuilderChoices>();
 
   return (
     <>

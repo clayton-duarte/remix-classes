@@ -1,8 +1,10 @@
 import { useParams } from "remix";
 
-import { RouteParams } from "~/helpers/dataTypes";
+import { CharBuilderChoices } from "~/helpers/dataTypes";
 
-function getOnlyValidRouteMember(routeParams: RouteParams): string[] | never[] {
+function getOnlyValidRouteMember(
+  routeParams: CharBuilderChoices
+): string[] | never[] {
   const orderedRouterParams = [
     routeParams?.characterRole,
     routeParams?.characterPower,
@@ -14,12 +16,12 @@ function getOnlyValidRouteMember(routeParams: RouteParams): string[] | never[] {
 }
 
 export function useValidRouteParameters(): string[] {
-  const params = useParams<RouteParams>();
+  const params = useParams<CharBuilderChoices>();
 
   return getOnlyValidRouteMember(params);
 }
 
-export function builderDynamicRoute(routeParams: RouteParams): string {
+export function builderDynamicRoute(routeParams: CharBuilderChoices): string {
   const validPathMembers = getOnlyValidRouteMember(routeParams);
 
   return `/builder/${validPathMembers.join("/")}`;

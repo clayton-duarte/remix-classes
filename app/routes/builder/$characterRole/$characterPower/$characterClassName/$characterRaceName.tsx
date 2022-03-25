@@ -10,7 +10,7 @@ import {
 import {
   CharacterClass,
   CharacterRace,
-  RouteParams,
+  CharBuilderChoices,
 } from "~/helpers/dataTypes";
 
 interface LoaderResponse {
@@ -22,7 +22,7 @@ export const loader = async ({
   params,
   request,
 }: {
-  params: RouteParams;
+  params: CharBuilderChoices;
   request: Request;
 }) => {
   if (!params.characterClassName) {
@@ -69,7 +69,7 @@ export default function Page() {
     characterPower,
     characterClassName,
     characterRaceName,
-  } = useParams<RouteParams>();
+  } = useParams<CharBuilderChoices>();
 
   return (
     <>
