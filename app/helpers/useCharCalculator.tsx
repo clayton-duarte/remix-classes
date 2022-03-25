@@ -77,17 +77,17 @@ export function CharCalculatorProvider({ children }: { children: ReactNode }) {
     characterRace: CharacterRace;
   }>();
 
-  const [trainedSkills, setTrainedSkills] = useStorage<SkillName[]>(
-    "trainedSkills"
-  )(characterClass.trainedSkills);
+  const [trainedSkills, setTrainedSkills] = useStorage("trainedSkills")(
+    characterClass.trainedSkills
+  );
 
-  const [scorePointsDistribution, setScorePointsDistribution] = useStorage<
-    typeof initialScorePointsDistribution
-  >("scorePointsDistribution")(initialScorePointsDistribution);
+  const [scorePointsDistribution, setScorePointsDistribution] = useStorage(
+    "scorePointsDistribution"
+  )(initialScorePointsDistribution);
 
-  const [selectedAbilityBonus, setSelectedAbilityBonus] = useStorage<
-    CharacterAbility[]
-  >("selectedAbilityBonus")([]);
+  const [selectedAbilityBonus, setSelectedAbilityBonus] = useStorage(
+    "selectedAbilityBonus"
+  )<CharacterAbility[]>([]);
 
   useEffect(() => {
     getInitialAbilityBonusSelection(

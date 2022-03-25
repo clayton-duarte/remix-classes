@@ -1,10 +1,10 @@
 import { Dispatch, useState, useCallback, useMemo } from "react";
 
-export default function <StoredValue>(storageName: string) {
-  return function (
-    initialValue: StoredValue,
+export default function (storageName: string) {
+  return function <StoreValueType>(
+    initialValue: StoreValueType,
     options?: { sessionOnly: false }
-  ): [StoredValue | null, Dispatch<StoredValue>] {
+  ): [StoreValueType | null, Dispatch<StoreValueType>] {
     const storageMethod = useMemo(() => {
       if (typeof window === "undefined") {
         return;
@@ -28,11 +28,13 @@ export default function <StoredValue>(storageName: string) {
         return initialValue;
       }
 
-      return JSON.parse(rawValue) as StoredValue;
+      return JSON.parse(rawValue) as StoreValueType;
     }, [initialValue, storageMethod]);
 
     // IMPORTANT: when the initial value of useState changes, nothing happens
-    const [localValue, setLocalValue] = useState<StoredValue>(getStoredValue());
+    const [localValue, setLocalValue] = useState<StoreValueType>(
+      getStoredValue()
+    );
 
     const storedValue = useMemo(() => {
       if (typeof window === "undefined" || !localValue) {
@@ -43,7 +45,7 @@ export default function <StoredValue>(storageName: string) {
     }, [localValue, getStoredValue]);
 
     const setStorageValue = useCallback(
-      (newValue: StoredValue): void => {
+      (newValue: StoreValueType): void => {
         setLocalValue(newValue);
 
         storageMethod?.setItem(storageName, JSON.stringify(newValue));
