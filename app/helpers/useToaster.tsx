@@ -99,8 +99,6 @@ export function ToasterProvider({
           onClose={() => {
             setToasterProps(null);
 
-            console.log("onClose");
-
             toasterProps.onClose?.();
           }}
         />

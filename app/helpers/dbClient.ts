@@ -21,19 +21,92 @@ import {
   SkillName,
 } from "~/helpers/dataTypes";
 
+// https://www.mongodb.com/docs/atlas/api/data-api-resources/#base-url
+enum TransactionName {
+  findOne = "findOne",
+  findMany = "find",
+  insertOne = "insertOne",
+  insertMany = "insertMany",
+  updateOne = "updateOne",
+  updateMany = "updateMany",
+  deleteOne = "deleteOne",
+  deleteMany = "deleteMany",
+}
+
 class DbClient {
-  private async client<TParams, TData>(
-    action: string,
-    collection: string,
-    projection: TParams
-  ): Promise<TData> {
-    const response = await axios.post<{ documents: TData }>(
-      `https://data.mongodb-api.com/app/data-izifl/endpoint/data/beta/action/${action}`,
+  private async operator<TParams, TData>(args: {
+    actionName: TransactionName.findOne;
+    collection: string;
+    filter: TParams;
+  }): Promise<{ document: TData | null }>;
+  private async operator<TParams, TData>(args: {
+    actionName: TransactionName.findMany;
+    collection: string;
+    filter: TParams;
+    sort?: Partial<TParams>;
+    limit?: number;
+    skip?: number;
+  }): Promise<TData[]>;
+  private async operator<TParams>(args: {
+    actionName: TransactionName.insertOne;
+    collection: string;
+    document: TParams;
+  }): Promise<{ insertedId: string }>;
+  private async operator<TData>(args: {
+    actionName: TransactionName.insertOne;
+    collection: string;
+    documents: TData[];
+  }): Promise<{ insertedIds: string[] }>;
+  private async operator<TFilter, TData>(args: {
+    actionName: TransactionName.updateOne;
+    collection: string;
+    filter: TFilter;
+    update: TData;
+  }): Promise<{ matchedCount: 1; modifiedCount: 1 }>;
+  private async operator<TFilter, TData>(args: {
+    actionName: TransactionName.updateOne;
+    collection: string;
+    filter: TFilter;
+    update: TData;
+    upsert: true;
+  }): Promise<{ matchedCount: 0; modifiedCount: 0; upsertedId: string }>;
+  private async operator<TFilter, TData>(args: {
+    actionName: TransactionName.updateMany;
+    collection: string;
+    filter: TFilter;
+    update: TData;
+  }): Promise<{ matchedCount: number; modifiedCount: number }>;
+  private async operator<TFilter, TData>(args: {
+    actionName: TransactionName.updateMany;
+    collection: string;
+    filter: TFilter;
+    update: TData;
+    upsert: true;
+  }): Promise<{ matchedCount: 0; modifiedCount: 0; upsertedId: string }>;
+  private async operator<TFilter>(args: {
+    actionName: TransactionName.deleteOne;
+    collection: string;
+    filter: TFilter;
+  }): Promise<{ deletedCount: 1 }>;
+  private async operator<TFilter>(args: {
+    actionName: TransactionName.deleteMany;
+    collection: string;
+    filter: TFilter;
+  }): Promise<{ deletedCount: number }>;
+  private async operator<TData>({
+    actionName,
+    ...args
+  }: {
+    [key: string]: unknown;
+    actionName: TransactionName;
+    collection: string;
+  }): Promise<TData> {
+    const response = await axios.post<TData>(
+      `https://data.mongodb-api.com/app/data-izifl/endpoint/data/beta/action/${actionName}`,
       {
         database: "dnd_4e_db",
         dataSource: "Cluster0",
-        projection,
-        collection,
+        ...args,
       },
       {
         headers: {
@@ -44,15 +117,16 @@ class DbClient {
       }
     );
 
-    return response.data.documents;
+    return response.data;
   }
 
-  public async findAllCharacterRoles() {
-    return this.client<Partial<CharacterRole>, CharacterRole[]>(
-      "find",
-      "character_role",
-      {}
-    );
+  public async findAllCharacterRoles(): Promise<CharacterRole[]> {
+    return this.operator<Partial<CharacterRole>, CharacterRole>({
+      actionName: TransactionName.findMany,
+      collection: "character_role",
+      filter: {},
+      limit: 10,
+    });
   }
 
   public fetchSkillNames(): SkillName[] {

@@ -12,10 +12,6 @@ interface LoaderResponse {
 }
 
 export const loader = async () => {
-  const response = await dbClient.findAllCharacterRoles();
-
-  console.log(response);
-
   return json({ roleList: dbClient.fetchCharacterRoles() });
 };
 
