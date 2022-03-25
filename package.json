@@ -8,7 +8,8 @@
     "build": "cross-env NODE_ENV=production remix build",
     "dev": "cross-env NODE_ENV=development remix dev",
     "lint": "eslint --fix --ext .ts,.tsx .",
-    "postinstall": "remix setup node"
+    "postinstall": "remix setup node",
+    "tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",

@@ -3,15 +3,15 @@ import { json, useLoaderData, Outlet, useParams } from "remix";
 import BuilderLayout from "~/components/BuilderLayout";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
-import { fetchCharacterRoles } from "~/helpers/dataFetch";
 import { CharacterRoleName, CharBuilderChoices } from "~/helpers/dataTypes";
+import dbClient from "~/helpers/dbClient";
 
 interface LoaderResponse {
   roleList: CharacterRoleName[];
 }
 
 export const loader = async () => {
-  return json({ roleList: fetchCharacterRoles() });
+  return json({ roleList: dbClient.fetchCharacterRoles() });
 };
 
 export default function Page() {

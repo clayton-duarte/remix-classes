@@ -7,12 +7,6 @@ import DataPanel from "~/components/DataPanel";
 import Grid from "~/components/Grid";
 import { ABILITY_BONUS_LIMIT } from "~/helpers/consts";
 import {
-  fetchCharacterClassByName,
-  fetchCharacterRaceByName,
-  fetchCharacterAbilities,
-  fetchSkillGlossary,
-} from "~/helpers/dataFetch";
-import {
   CharBuilderChoices,
   CharacterAbility,
   CharacterClass,
@@ -20,6 +14,7 @@ import {
   SkillGlossary,
   SkillName,
 } from "~/helpers/dataTypes";
+import dbClient from "~/helpers/dbClient";
 import useStorage from "~/helpers/useStorage";
 
 interface LoaderResponse {
@@ -37,10 +32,12 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
   }
 
   return json<LoaderResponse>({
-    characterClass: fetchCharacterClassByName(params.characterClassName),
-    characterRace: fetchCharacterRaceByName(params.characterRaceName),
-    characterAbilities: fetchCharacterAbilities(),
-    skillGlossary: fetchSkillGlossary(),
+    characterRace: dbClient.fetchCharacterRaceByName(params.characterRaceName),
+    characterAbilities: dbClient.fetchCharacterAbilities(),
+    skillGlossary: dbClient.fetchSkillGlossary(),
+    characterClass: dbClient.fetchCharacterClassByName(
+      params.characterClassName
+    ),
   });
 };
 

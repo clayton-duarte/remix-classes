@@ -4,19 +4,19 @@ import BuilderLayout from "~/components/BuilderLayout";
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
-import dataFetch, { fetchCharacterRoles } from "~/helpers/dataFetch";
 import { CharacterRoleName, CharBuilderChoices } from "~/helpers/dataTypes";
+import dbClient from "~/helpers/dbClient";
 
 interface LoaderResponse {
   roleList: CharacterRoleName[];
 }
 
 export const loader = async () => {
-  // const response = await dataFetch.findAllCharacterRoles();
+  const response = await dbClient.findAllCharacterRoles();
 
-  // console.log(response);
+  console.log(response);
 
-  return json({ roleList: fetchCharacterRoles() });
+  return json({ roleList: dbClient.fetchCharacterRoles() });
 };
 
 export default function Page() {

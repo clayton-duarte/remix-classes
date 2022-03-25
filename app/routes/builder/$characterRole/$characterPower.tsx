@@ -4,14 +4,11 @@ import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
 import {
-  fetchCharacterPowerSources,
-  fetchCharacterRolesGlossary,
-} from "~/helpers/dataFetch";
-import {
   CharacterRolesGlossary,
   PowerSourceName,
   CharBuilderChoices,
 } from "~/helpers/dataTypes";
+import dbClient from "~/helpers/dbClient";
 
 interface LoaderResponse {
   characterRolesGlossary: CharacterRolesGlossary;
@@ -20,8 +17,8 @@ interface LoaderResponse {
 
 export const loader = async () => {
   return json<LoaderResponse>({
-    characterRolesGlossary: fetchCharacterRolesGlossary(),
-    powerList: fetchCharacterPowerSources(),
+    characterRolesGlossary: dbClient.fetchCharacterRolesGlossary(),
+    powerList: dbClient.fetchCharacterPowerSources(),
   });
 };
 

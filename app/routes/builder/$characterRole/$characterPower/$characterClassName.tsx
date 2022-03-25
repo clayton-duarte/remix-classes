@@ -11,14 +11,11 @@ import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
 import {
-  fetchCharacterPowerSourcesGlossary,
-  fetchCharacterClassByRoleAndPower,
-} from "~/helpers/dataFetch";
-import {
   CharacterPowerSourceGlossary,
   CharacterClass,
   CharBuilderChoices,
 } from "~/helpers/dataTypes";
+import dbClient from "~/helpers/dbClient";
 
 interface LoaderResponse {
   characterPowerSourceGlossary: CharacterPowerSourceGlossary;
@@ -36,7 +33,7 @@ export const loader: LoaderFunction = async ({
     throw new Response("Not Found", { status: 404 });
   }
 
-  const classList = fetchCharacterClassByRoleAndPower(
+  const classList = dbClient.fetchCharacterClassByRoleAndPower(
     params.characterRole,
     params.characterPower
   );
@@ -57,7 +54,7 @@ export const loader: LoaderFunction = async ({
   }
 
   return json<LoaderResponse>({
-    characterPowerSourceGlossary: fetchCharacterPowerSourcesGlossary(),
+    characterPowerSourceGlossary: dbClient.fetchCharacterPowerSourcesGlossary(),
     classList,
   });
 };

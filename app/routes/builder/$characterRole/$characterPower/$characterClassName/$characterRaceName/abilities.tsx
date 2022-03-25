@@ -3,18 +3,13 @@ import { json, useLoaderData } from "remix";
 import CharCalculator from "~/components/CharCalculator";
 import DataPanel from "~/components/DataPanel";
 import {
-  fetchCharacterClassByName,
-  fetchCharacterRaceByName,
-  fetchCharacterAbilities,
-  fetchSkillGlossary,
-} from "~/helpers/dataFetch";
-import {
   CharBuilderChoices,
   CharacterAbility,
   CharacterClass,
   CharacterRace,
   SkillGlossary,
 } from "~/helpers/dataTypes";
+import dbClient from "~/helpers/dbClient";
 import { CharCalculatorProvider } from "~/helpers/useCharCalculator";
 
 interface LoaderResponse {
@@ -32,10 +27,12 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
   }
 
   return json<LoaderResponse>({
-    characterClass: fetchCharacterClassByName(params.characterClassName),
-    characterRace: fetchCharacterRaceByName(params.characterRaceName),
-    characterAbilities: fetchCharacterAbilities(),
-    skillGlossary: fetchSkillGlossary(),
+    characterRace: dbClient.fetchCharacterRaceByName(params.characterRaceName),
+    characterAbilities: dbClient.fetchCharacterAbilities(),
+    skillGlossary: dbClient.fetchSkillGlossary(),
+    characterClass: dbClient.fetchCharacterClassByName(
+      params.characterClassName
+    ),
   });
 };
 

@@ -6,12 +6,12 @@ import {
   characterClassesGlossary,
   CharacterClassGlossary,
   CharacterClassName,
-  CharacterRole,
+  CharacterRoleName,
   characterRacesGlossary,
   CharacterRacesGlossary,
   CharacterRace,
   CharacterRaceName,
-  CharacterPowerSource,
+  PowerSourceName,
   CharacterAbility,
   SkillName,
   SkillGlossary,
@@ -30,16 +30,16 @@ export function fetchCharacterAbilities(): CharacterAbility[] {
   return Object.values(CharacterAbility);
 }
 
-export function fetchCharacterRoles(): CharacterRole[] {
-  return Object.values(CharacterRole);
+export function fetchCharacterRoles(): CharacterRoleName[] {
+  return Object.values(CharacterRoleName);
 }
 
 export function fetchCharacterRolesGlossary(): CharacterRolesGlossary {
   return characterRolesGlossary;
 }
 
-export function fetchCharacterPowerSources(): CharacterPowerSource[] {
-  return Object.values(CharacterPowerSource);
+export function fetchCharacterPowerSources(): PowerSourceName[] {
+  return Object.values(PowerSourceName);
 }
 
 export function fetchCharacterPowerSourcesGlossary(): CharacterPowerSourceGlossary {

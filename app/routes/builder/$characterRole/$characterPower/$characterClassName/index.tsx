@@ -4,14 +4,11 @@ import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
 import {
-  fetchCharacterRacesByAbilityBonus,
-  fetchCharacterClassByName,
-} from "~/helpers/dataFetch";
-import {
   CharacterClass,
   CharacterRace,
   CharBuilderChoices,
 } from "~/helpers/dataTypes";
+import dbClient from "~/helpers/dbClient";
 
 interface LoaderResponse {
   characterClass: CharacterClass;
@@ -25,7 +22,9 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
     });
   }
 
-  const characterClass = fetchCharacterClassByName(params.characterClassName);
+  const characterClass = dbClient.fetchCharacterClassByName(
+    params.characterClassName
+  );
 
   if (characterClass == null) {
     throw new Response("Not Found", {
@@ -34,7 +33,9 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
   }
 
   return json<LoaderResponse>({
-    raceList: fetchCharacterRacesByAbilityBonus(characterClass.keyAbilities),
+    raceList: dbClient.fetchCharacterRacesByAbilityBonus(
+      characterClass.keyAbilities
+    ),
     characterClass,
   });
 };
