@@ -2,16 +2,10 @@ import styled from "@emotion/styled";
 import { useLoaderData } from "remix";
 
 import AbilityCalculator from "~/components/AbilityCalculator";
+import Button from "~/components/Button";
 import DataPanel from "~/components/DataPanel";
 import { CharacterAbility } from "~/helpers/dataTypes";
 import useCharCalculator from "~/helpers/useCharCalculator";
-
-const StyledButton = styled.button`
-  background: ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.white};
-  padding: 0.5rem 1rem;
-  border: none;
-`;
 
 const CalculatorWrapper = styled.div`
   grid-template-columns: auto auto 1fr auto;
@@ -51,7 +45,7 @@ export default function CharacterSkills(): JSX.Element {
             ))}
           </CalculatorWrapper>
         </DataPanel>
-        <StyledButton onClick={reset}>reset stats</StyledButton>
+        <Button onClick={reset}>reset stats</Button>
       </ParentCalculatorWrapper>
     </>
   );

@@ -63,7 +63,6 @@ export default function Page() {
       />
       <DataPanel area="class">
         <em>{characterClass.flavorText}</em>
-        <br />- {characterClass.book}, p.{characterClass.page}
       </DataPanel>
       <DataPanel area="race" color="warn" title="action">
         Please select a compatible "Race" from the menu.
