@@ -13,11 +13,11 @@ import {
   fetchSkillGlossary,
 } from "~/helpers/dataFetch";
 import {
+  CharBuilderChoices,
   CharacterAbility,
   CharacterClass,
   CharacterRace,
   SkillGlossary,
-  CharBuilderChoices,
   SkillName,
 } from "~/helpers/dataTypes";
 import useStorage from "~/helpers/useStorage";
