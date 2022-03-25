@@ -119,7 +119,7 @@ export default function Page() {
           onClick={() => {
             setCharChoices(params);
 
-            navigate("/calculator/ability");
+            navigate(`${window.location.pathname}/abilities`);
           }}
         >
           accept
