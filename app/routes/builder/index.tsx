@@ -4,14 +4,18 @@ import BuilderLayout from "~/components/BuilderLayout";
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
-import { fetchCharacterRoles } from "~/helpers/dataFetch";
-import { CharacterRole, CharBuilderChoices } from "~/helpers/dataTypes";
+import dataFetch, { fetchCharacterRoles } from "~/helpers/dataFetch";
+import { CharacterRoleName, CharBuilderChoices } from "~/helpers/dataTypes";
 
 interface LoaderResponse {
-  roleList: CharacterRole[];
+  roleList: CharacterRoleName[];
 }
 
 export const loader = async () => {
+  // const response = await dataFetch.findAllCharacterRoles();
+
+  // console.log(response);
+
   return json({ roleList: fetchCharacterRoles() });
 };
 

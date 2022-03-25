@@ -9,13 +9,13 @@ import {
 } from "~/helpers/dataFetch";
 import {
   CharacterRolesGlossary,
-  CharacterPowerSource,
+  PowerSourceName,
   CharBuilderChoices,
 } from "~/helpers/dataTypes";
 
 interface LoaderResponse {
   characterRolesGlossary: CharacterRolesGlossary;
-  powerList: CharacterPowerSource[];
+  powerList: PowerSourceName[];
 }
 
 export const loader = async () => {

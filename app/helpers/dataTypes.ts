@@ -1,4 +1,4 @@
-export enum CharacterRole {
+export enum CharacterRoleName {
   Controller = "controller",
   Defender = "defender",
   Leader = "leader",
@@ -6,31 +6,38 @@ export enum CharacterRole {
 }
 
 export type CharacterRolesGlossary = {
-  [key in CharacterRole]: {
+  [key in CharacterRoleName]: {
     description: string;
+    name: key;
   };
 };
 
+export type CharacterRole = CharacterRolesGlossary[CharacterRoleName];
+
 export const characterRolesGlossary: CharacterRolesGlossary = {
-  [CharacterRole.Controller]: {
+  [CharacterRoleName.Controller]: {
+    name: CharacterRoleName.Controller,
     description:
       "Controllers deal with large numbers of enemies at the same time. They favor offense over defense, using powers that deal damage to multiple foes at once, as well as subtler powers that weaken, confuse, or delay their foes.",
   },
-  [CharacterRole.Defender]: {
+  [CharacterRoleName.Defender]: {
+    name: CharacterRoleName.Defender,
     description:
       "Defenders have the highest defenses in the game and good close-up offense. They are the party's front-line combatants; wherever they're standing, that's where the action is. Defenders have abilities and powers that make it difficult for enemies to move past them or to ignore them in battle.",
   },
-  [CharacterRole.Leader]: {
+  [CharacterRoleName.Leader]: {
+    name: CharacterRoleName.Leader,
     description:
       "Leaders inspire, heal, and aid the other characters in an adventuring group. Leaders have good defenses, but their strength lies in powers that protect their companions and target specific foes for the party to concentrate on.",
   },
-  [CharacterRole.Striker]: {
+  [CharacterRoleName.Striker]: {
+    name: CharacterRoleName.Striker,
     description:
       "Strikers specialize in dealing high amounts of damage to a single target at a time. They have the most concentrated offense of any character in the game. Strikers rely on superior mobility, trickery, or magic to move around tough foes and single out the enemy they want to attack.",
   },
 };
 
-export enum CharacterPowerSource {
+export enum PowerSourceName {
   Arcane = "arcane",
   Divine = "divine",
   Martial = "martial",
@@ -39,29 +46,29 @@ export enum CharacterPowerSource {
 }
 
 export type CharacterPowerSourceGlossary = {
-  [key in CharacterPowerSource]: {
+  [key in PowerSourceName]: {
     description: string;
   };
 };
 
 export const characterPowerSourceGlossary: CharacterPowerSourceGlossary = {
-  [CharacterPowerSource.Arcane]: {
+  [PowerSourceName.Arcane]: {
     description:
       "This source of powers is drawn from a supernatural source from another world, a powerful entity or some occult knowledge. Arcane powers are called Spells.",
   },
-  [CharacterPowerSource.Divine]: {
+  [PowerSourceName.Divine]: {
     description:
       "This source of powers is drawn from a deity, channeling it through faith to protect a god's philosophy. Divine powers are called Prayers.",
   },
-  [CharacterPowerSource.Martial]: {
+  [PowerSourceName.Martial]: {
     description:
       "This source of powers is drawn from training, determination, physical toughness, and natural proficiency. Martial powers are called Exploits.",
   },
-  [CharacterPowerSource.Primal]: {
+  [PowerSourceName.Primal]: {
     description:
       "This source of powers is drawn from the connection to the natural world, to all living beings around and to its spirits. Primal powers are called Evocations.",
   },
-  [CharacterPowerSource.Psionic]: {
+  [PowerSourceName.Psionic]: {
     description:
       "This source of powers is drawn from a strong connection to ones mind, meditation, and focus to manifest it on the physical world. Psionic powers are called Disciplines.",
   },
@@ -205,8 +212,8 @@ export enum CharacterClassName {
 export type CharacterClassGlossary = {
   [key in CharacterClassName]: {
     name: key;
-    powerSource: CharacterPowerSource;
-    mainRole: CharacterRole;
+    powerSource: PowerSourceName;
+    mainRole: CharacterRoleName;
     keyAbilities: CharacterAbility[];
     skillChoices: number;
     trainedSkills: SkillName[];
@@ -224,8 +231,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 1",
     page: 60,
     name: CharacterClassName.Cleric,
-    mainRole: CharacterRole.Leader,
-    powerSource: CharacterPowerSource.Divine,
+    mainRole: CharacterRoleName.Leader,
+    powerSource: PowerSourceName.Divine,
     flavorText: "“Have courage, my friends! Pelor favors us today!”",
     skillChoices: 4,
     trainedSkills: [SkillName.Religion],
@@ -247,8 +254,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 1",
     page: 75,
     name: CharacterClassName.Fighter,
-    mainRole: CharacterRole.Defender,
-    powerSource: CharacterPowerSource.Martial,
+    mainRole: CharacterRoleName.Defender,
+    powerSource: PowerSourceName.Martial,
     flavorText: "“You'll have to deal with me first, dragon!”",
     skillChoices: 3,
     trainedSkills: [],
@@ -270,8 +277,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 1",
     page: 89,
     name: CharacterClassName.Paladin,
-    mainRole: CharacterRole.Defender,
-    powerSource: CharacterPowerSource.Divine,
+    mainRole: CharacterRoleName.Defender,
+    powerSource: PowerSourceName.Divine,
     flavorText:
       "“I am the righteous shield of Moradin and a sword in his mighty hand! I fear no evil!”",
     skillChoices: 4,
@@ -295,8 +302,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 1",
     page: 103,
     name: CharacterClassName.Ranger,
-    mainRole: CharacterRole.Striker,
-    powerSource: CharacterPowerSource.Martial,
+    mainRole: CharacterRoleName.Striker,
+    powerSource: PowerSourceName.Martial,
     flavorText:
       "“I'll get the one in the back. That's one hobgoblin who'll regret ever lifting a bow.”",
     skillChoices: 5,
@@ -320,8 +327,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 1",
     page: 116,
     name: CharacterClassName.Rogue,
-    mainRole: CharacterRole.Striker,
-    powerSource: CharacterPowerSource.Martial,
+    mainRole: CharacterRoleName.Striker,
+    powerSource: PowerSourceName.Martial,
     flavorText:
       "“You look surprised to see me. If you'd been paying attention, you might still be alive.”",
     skillChoices: 6,
@@ -348,8 +355,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 1",
     page: 129,
     name: CharacterClassName.Warlock,
-    mainRole: CharacterRole.Striker,
-    powerSource: CharacterPowerSource.Arcane,
+    mainRole: CharacterRoleName.Striker,
+    powerSource: PowerSourceName.Arcane,
     flavorText:
       "“The darkness holds no terror for me, demon! I curse you now under the Sign of Ill Omen!”",
     skillChoices: 4,
@@ -374,8 +381,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 1",
     page: 143,
     name: CharacterClassName.Warlord,
-    mainRole: CharacterRole.Leader,
-    powerSource: CharacterPowerSource.Martial,
+    mainRole: CharacterRoleName.Leader,
+    powerSource: PowerSourceName.Martial,
     flavorText: "“Onward to victory! They cannot stand before us!”",
     skillChoices: 4,
     trainedSkills: [],
@@ -397,8 +404,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 1",
     page: 156,
     name: CharacterClassName.Wizard,
-    mainRole: CharacterRole.Controller,
-    powerSource: CharacterPowerSource.Arcane,
+    mainRole: CharacterRoleName.Controller,
+    powerSource: PowerSourceName.Arcane,
     flavorText:
       "“I am the fire that burns, the choking fog, the storm that rains devastation on our foes.”",
     skillChoices: 4,
@@ -422,8 +429,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 2",
     page: 32,
     name: CharacterClassName.Avenger,
-    mainRole: CharacterRole.Striker,
-    powerSource: CharacterPowerSource.Divine,
+    mainRole: CharacterRoleName.Striker,
+    powerSource: PowerSourceName.Divine,
     flavorText: "“You'll have to deal with me first, dragon!”",
     skillChoices: 4,
     trainedSkills: [SkillName.Religion],
@@ -448,8 +455,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 2",
     page: 48,
     name: CharacterClassName.Barbarian,
-    mainRole: CharacterRole.Striker,
-    powerSource: CharacterPowerSource.Primal,
+    mainRole: CharacterRoleName.Striker,
+    powerSource: PowerSourceName.Primal,
     flavorText: "“My strength is the fury of the wild.”",
     skillChoices: 3,
     trainedSkills: [],
@@ -472,8 +479,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 2",
     page: 66,
     name: CharacterClassName.Bard,
-    mainRole: CharacterRole.Leader,
-    powerSource: CharacterPowerSource.Arcane,
+    mainRole: CharacterRoleName.Leader,
+    powerSource: PowerSourceName.Arcane,
     flavorText:
       "“The clash of blades, a note. A battle fought, a verse. The hero's war, a song.”",
     skillChoices: 5,
@@ -504,8 +511,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 2",
     page: 82,
     name: CharacterClassName.Druid,
-    mainRole: CharacterRole.Controller,
-    powerSource: CharacterPowerSource.Primal,
+    mainRole: CharacterRoleName.Controller,
+    powerSource: PowerSourceName.Primal,
     flavorText: "“I am the seeker. I am the stalker. I am the storm.”",
     skillChoices: 4,
     trainedSkills: [SkillName.Nature],
@@ -530,8 +537,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 2",
     page: 100,
     name: CharacterClassName.Invoker,
-    mainRole: CharacterRole.Controller,
-    powerSource: CharacterPowerSource.Divine,
+    mainRole: CharacterRoleName.Controller,
+    powerSource: PowerSourceName.Divine,
     flavorText:
       "“The only thing stronger than my faith is the fire I use to burn away those who stand against the will of the gods.”",
     skillChoices: 4,
@@ -555,8 +562,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 2",
     page: 118,
     name: CharacterClassName.Shaman,
-    mainRole: CharacterRole.Leader,
-    powerSource: CharacterPowerSource.Primal,
+    mainRole: CharacterRoleName.Leader,
+    powerSource: PowerSourceName.Primal,
     flavorText:
       "“The spirits surround us, guide us, and hold all the knowledge of the world.”",
     skillChoices: 4,
@@ -582,8 +589,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 2",
     page: 136,
     name: CharacterClassName.Sorcerer,
-    mainRole: CharacterRole.Striker,
-    powerSource: CharacterPowerSource.Arcane,
+    mainRole: CharacterRoleName.Striker,
+    powerSource: PowerSourceName.Arcane,
     flavorText: "“I am in the arcane, and the arcane is in me.”",
     skillChoices: 4,
     trainedSkills: [SkillName.Arcana],
@@ -609,8 +616,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 2",
     page: 152,
     name: CharacterClassName.Warden,
-    mainRole: CharacterRole.Defender,
-    powerSource: CharacterPowerSource.Primal,
+    mainRole: CharacterRoleName.Defender,
+    powerSource: PowerSourceName.Primal,
     flavorText:
       "“Get past me? You might as well try to push the mountains aside.”",
     skillChoices: 4,
@@ -634,8 +641,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 3",
     page: 22,
     name: CharacterClassName.Ardent,
-    mainRole: CharacterRole.Leader,
-    powerSource: CharacterPowerSource.Psionic,
+    mainRole: CharacterRoleName.Leader,
+    powerSource: PowerSourceName.Psionic,
     flavorText: "“The fate of the world rests on the fire of your passions”",
     skillChoices: 4,
     trainedSkills: [],
@@ -660,8 +667,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 3",
     page: 42,
     name: CharacterClassName.Battlemind,
-    mainRole: CharacterRole.Defender,
-    powerSource: CharacterPowerSource.Psionic,
+    mainRole: CharacterRoleName.Defender,
+    powerSource: PowerSourceName.Psionic,
     flavorText:
       "“My mind is a far deadlier weapon than some ill-crafted bit of iron”",
     skillChoices: 3,
@@ -686,8 +693,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 3",
     page: 62,
     name: CharacterClassName.Monk,
-    mainRole: CharacterRole.Striker,
-    powerSource: CharacterPowerSource.Psionic,
+    mainRole: CharacterRoleName.Striker,
+    powerSource: PowerSourceName.Psionic,
     flavorText:
       "“You fight well, but without discipline and focus, you will fall.”",
     skillChoices: 4,
@@ -714,8 +721,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 3",
     page: 80,
     name: CharacterClassName.Psion,
-    mainRole: CharacterRole.Controller,
-    powerSource: CharacterPowerSource.Psionic,
+    mainRole: CharacterRoleName.Controller,
+    powerSource: PowerSourceName.Psionic,
     flavorText:
       "“I can bend the desire of the mortals and immortals to my will”",
     skillChoices: 4,
@@ -740,8 +747,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 3",
     page: 98,
     name: CharacterClassName.Runepriest,
-    mainRole: CharacterRole.Leader,
-    powerSource: CharacterPowerSource.Divine,
+    mainRole: CharacterRoleName.Leader,
+    powerSource: PowerSourceName.Divine,
     flavorText:
       "“The divine runes of might are stronger than any steel, more dangerous than any spell”",
     skillChoices: 4,
@@ -766,8 +773,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Player's Handbook 3",
     page: 116,
     name: CharacterClassName.Seeker,
-    mainRole: CharacterRole.Controller,
-    powerSource: CharacterPowerSource.Primal,
+    mainRole: CharacterRoleName.Controller,
+    powerSource: PowerSourceName.Primal,
     flavorText:
       "“I am the lightning strike, the earth's upheaval, the unruly sea. I am the bringer of your destruction.”",
     skillChoices: 4,
@@ -793,8 +800,8 @@ export const characterClassesGlossary: CharacterClassGlossary = {
     book: "Forgotten Realms Player's Guide",
     page: 24,
     name: CharacterClassName.SwordMage,
-    mainRole: CharacterRole.Defender,
-    powerSource: CharacterPowerSource.Arcane,
+    mainRole: CharacterRoleName.Defender,
+    powerSource: PowerSourceName.Arcane,
     flavorText:
       "“Under the leaves of Myth Drannor I learned the ancient eladrin way of battle. Spells are my armor, and words of ruin are bound to my blade”",
     skillChoices: 4,
@@ -1030,7 +1037,7 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
 
 export type CharBuilderChoices = Partial<{
   characterClassName: CharacterClassName;
-  characterPower: CharacterPowerSource;
+  characterPower: PowerSourceName;
   characterRaceName: CharacterRaceName;
-  characterRole: CharacterRole;
+  characterRole: CharacterRoleName;
 }>;

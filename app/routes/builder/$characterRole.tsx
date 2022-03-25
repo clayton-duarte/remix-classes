@@ -4,10 +4,10 @@ import BuilderLayout from "~/components/BuilderLayout";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
 import { fetchCharacterRoles } from "~/helpers/dataFetch";
-import { CharacterRole, CharBuilderChoices } from "~/helpers/dataTypes";
+import { CharacterRoleName, CharBuilderChoices } from "~/helpers/dataTypes";
 
 interface LoaderResponse {
-  roleList: CharacterRole[];
+  roleList: CharacterRoleName[];
 }
 
 export const loader = async () => {

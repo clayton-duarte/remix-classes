@@ -9,11 +9,11 @@ import {
   fetchSkillGlossary,
 } from "~/helpers/dataFetch";
 import {
+  CharBuilderChoices,
   CharacterAbility,
   CharacterClass,
   CharacterRace,
   SkillGlossary,
-  CharBuilderChoices,
 } from "~/helpers/dataTypes";
 import { CharCalculatorProvider } from "~/helpers/useCharCalculator";
 
