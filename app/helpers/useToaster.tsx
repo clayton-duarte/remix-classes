@@ -11,11 +11,10 @@ import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { BiX } from "react-icons/bi";
 
-const ToasterWrapper = styled.div<{ area?: string; color: keyof Theme }>`
+const ToasterWrapper = styled.div<{ color: keyof Theme }>`
   box-shadow: 0 0 1rem 0.125rem ${({ theme }) => theme.black}33;
   border: 0.125rem solid ${({ theme, color }) => theme[color]};
   background: ${({ theme }) => theme.white};
-  ${({ area }) => area && `grid-area: ${area}-data`};
   width: calc(100% - 2rem);
   align-items: center;
   position: sticky;

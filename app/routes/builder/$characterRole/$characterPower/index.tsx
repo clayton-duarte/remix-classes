@@ -2,7 +2,7 @@ import { json, useParams, useLoaderData, redirect } from "remix";
 
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
-import { buildDynamicRoute } from "~/helpers";
+import { builderDynamicRoute } from "~/helpers";
 import {
   fetchCharacterClassByRoleAndPower,
   fetchCharacterPowerSourcesGlossary,
@@ -35,7 +35,7 @@ export const loader = async ({
   );
 
   if (classList.length === 1) {
-    const nextRoute = buildDynamicRoute({
+    const nextRoute = builderDynamicRoute({
       characterClassName: classList[0].name,
       characterRaceName: params.characterRaceName,
       characterPower: params.characterPower,
@@ -82,7 +82,7 @@ export default function Page() {
           <Selector
             area="class"
             data={classList.map(({ name }) => ({
-              link: buildDynamicRoute({
+              link: builderDynamicRoute({
                 characterClassName: name,
                 characterRaceName,
                 characterPower,

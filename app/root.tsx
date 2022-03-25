@@ -1,9 +1,9 @@
 import { Theme, ThemeProvider, Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import {
-  // ScrollRestoration,
   MetaFunction,
   LiveReload,
+  useCatch,
   Scripts,
   Outlet,
   Links,
@@ -11,21 +11,15 @@ import {
   Meta,
 } from "remix";
 
-import { useValidRouteParameters } from "~/helpers";
 import { ToasterProvider } from "~/helpers/useToaster";
 
 const RootLayout = styled.main`
-  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
   align-items: flex-start;
   display: grid;
-  height: 100%;
   padding: 0;
   gap: 1rem;
-  grid-template-areas:
-    "header"
-    "content"
-    /* "footer" */
-    "toaster";
 `;
 
 const HeaderLayout = styled.header`
@@ -33,7 +27,6 @@ const HeaderLayout = styled.header`
   color: ${({ theme }) => theme.white};
   grid-template-columns: auto 1fr;
   justify-content: flex-start;
-  grid-area: header;
   position: sticky;
   display: grid;
   padding: 1rem;
@@ -46,68 +39,15 @@ const HeaderLayout = styled.header`
   }
 `;
 
-const BreadCrumbs = styled.nav`
-  justify-content: flex-start;
-  text-transform: capitalize;
-  grid-auto-flow: column;
-  align-items: center;
-  font-size: 0.825rem;
+const ContentLayout = styled.article`
+  grid-auto-flow: row;
   display: grid;
+  padding: 1rem;
   gap: 1rem;
-  @media all and (max-width: 768px) {
-    gap: 0.5rem;
-  }
 `;
 
 const FakeLogo = styled.h1`
   font-size: 1.25rem;
-`;
-
-// const FooterLayout = styled.footer`
-//   background: ${({ theme }) => theme.primary};
-//   color: ${({ theme }) => theme.white};
-//   padding: 0.5rem 1rem;
-//   font-size: 0.75rem;
-//   grid-area: footer;
-//   position: sticky;
-//   display: grid;
-//   z-index: 999;
-//   gap: 1rem;
-//   bottom: 0;
-// `;
-
-const ContentLayout = styled.article`
-  grid-template-columns: minmax(200px, auto) calc(50% - 200px - 1rem) 1fr;
-  align-items: flex-start;
-  grid-area: content;
-  padding: 0 1rem;
-  display: grid;
-  gap: 1rem;
-  grid-template-areas:
-    "role-title . char-data"
-    "role-select role-data char-data"
-    "power-title . char-data"
-    "power-select power-data char-data"
-    "class-title . char-data"
-    "class-select class-data char-data"
-    "race-title . char-data"
-    "race-select race-data char-data"
-    ". . char-data";
-  @media all and (max-width: 768px) {
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 0.5rem;
-    grid-template-areas:
-      "role-title role-select"
-      "role-data role-data"
-      "power-title power-select"
-      "power-data power-data"
-      "class-title class-select"
-      "class-data class-data"
-      "race-title race-select"
-      "race-data race-data"
-      "char-data char-data";
-  }
 `;
 
 const theme: Theme = {
@@ -120,6 +60,46 @@ const theme: Theme = {
   white: "#FEFEFE",
   bg: "#DCDBCC",
 };
+
+// TODO
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {/* add the UI you want your users to see */}
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  return (
+    <html>
+      <head>
+        <title>Oops!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <h1>
+          {caught.status} {caught.statusText}
+        </h1>
+        <Link to="/">Go home</Link>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
 
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
@@ -139,8 +119,6 @@ export function links() {
 }
 
 export default function App() {
-  const pathParts = useValidRouteParameters();
-
   return (
     <html lang="en">
       <head>
@@ -153,29 +131,15 @@ export default function App() {
         <ThemeProvider theme={theme}>
           <RootLayout>
             <HeaderLayout>
-              <FakeLogo>Character Builder</FakeLogo>
-              <BreadCrumbs>
-                <Link to="/">home</Link>
-                {pathParts.map((param, index) =>
-                  pathParts.length === index + 1 ? (
-                    <p key={param}>{param}</p>
-                  ) : (
-                    <Link
-                      to={pathParts.slice(0, index + 1).join("/")}
-                      key={param}
-                    >
-                      {param}
-                    </Link>
-                  )
-                )}
-              </BreadCrumbs>
+              <Link to="/">
+                <FakeLogo>D&D4 Tools</FakeLogo>
+              </Link>
             </HeaderLayout>
             <ToasterProvider>
               <ContentLayout>
                 <Outlet />
               </ContentLayout>
             </ToasterProvider>
-            {/* <FooterLayout>todo: footer</FooterLayout> */}
           </RootLayout>
           <Global
             styles={(theme) => css`
@@ -234,7 +198,6 @@ export default function App() {
           />
         </ThemeProvider>
         <LiveReload />
-        {/* <ScrollRestoration /> */}
         <Scripts />
       </body>
     </html>

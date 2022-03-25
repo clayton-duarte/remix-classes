@@ -9,7 +9,7 @@ import {
 
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
-import { buildDynamicRoute } from "~/helpers";
+import { builderDynamicRoute } from "~/helpers";
 import {
   fetchCharacterPowerSourcesGlossary,
   fetchCharacterClassByRoleAndPower,
@@ -42,7 +42,7 @@ export const loader: LoaderFunction = async ({
   );
 
   if (classList.length === 1) {
-    const nextRoute = buildDynamicRoute({
+    const nextRoute = builderDynamicRoute({
       characterClassName: classList[0].name,
       characterRaceName: params.characterRaceName,
       characterPower: params.characterPower,
@@ -90,7 +90,7 @@ export default function Page() {
             area="class"
             active={characterClassName}
             data={classList.map(({ name }) => ({
-              link: buildDynamicRoute({
+              link: builderDynamicRoute({
                 characterClassName: name,
                 characterRaceName,
                 characterPower,

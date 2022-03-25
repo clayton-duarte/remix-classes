@@ -1,8 +1,8 @@
-import { useLoaderData, useParams, redirect, Outlet, json } from "remix";
+import { json, useLoaderData, useParams } from "remix";
 
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
-import { buildDynamicRoute } from "~/helpers";
+import { builderDynamicRoute } from "~/helpers";
 import {
   fetchCharacterRacesByAbilityBonus,
   fetchCharacterClassByName,
@@ -18,15 +18,11 @@ interface LoaderResponse {
   raceList: CharacterRace[];
 }
 
-export const loader = async ({
-  params,
-  request,
-}: {
-  params: RouteParams;
-  request: Request;
-}) => {
+export const loader = async ({ params }: { params: RouteParams }) => {
   if (!params.characterClassName) {
-    throw new Response("Not Found", { status: 404 });
+    throw new Response("Not Found", {
+      status: 404,
+    });
   }
 
   const characterClass = fetchCharacterClassByName(params.characterClassName);
@@ -37,62 +33,41 @@ export const loader = async ({
     });
   }
 
-  const raceList = fetchCharacterRacesByAbilityBonus(
-    characterClass.keyAbilities
-  );
-
-  if (raceList.find(({ name }) => name === params.characterRaceName) == null) {
-    const nextRoute = buildDynamicRoute({
-      characterClassName: params.characterClassName,
-      characterPower: params.characterPower,
-      characterRole: params.characterRole,
-    });
-
-    const url = new URL(request.url);
-
-    if (nextRoute !== url.pathname) {
-      return redirect(nextRoute);
-    }
-  }
-
   return json<LoaderResponse>({
+    raceList: fetchCharacterRacesByAbilityBonus(characterClass.keyAbilities),
     characterClass,
-    raceList,
   });
 };
 
 export default function Page() {
   const { raceList, characterClass } = useLoaderData<LoaderResponse>();
 
-  const {
-    characterRole,
-    characterPower,
-    characterClassName,
-    characterRaceName,
-  } = useParams<RouteParams>();
+  const { characterRole, characterPower, characterClassName } =
+    useParams<RouteParams>();
 
   return (
     <>
       <Selector
         area="race"
-        active={characterRaceName}
-        data={raceList.map(({ name: raceName, abilityBonus }) => ({
-          link: buildDynamicRoute({
-            characterRaceName: raceName,
+        data={raceList.map(({ name, abilityBonus }) => ({
+          link: builderDynamicRoute({
+            characterRaceName: name,
             characterClassName,
             characterPower,
             characterRole,
           }),
           badge: abilityBonus.length,
-          label: raceName,
-          id: raceName,
+          label: name,
+          id: name,
         }))}
       />
       <DataPanel area="class">
         <em>{characterClass.flavorText}</em>
         <br />- {characterClass.book}, p.{characterClass.page}
       </DataPanel>
-      <Outlet />
+      <DataPanel area="race" color="warn" title="action">
+        Please select a compatible "Race" from the menu.
+      </DataPanel>
     </>
   );
 }

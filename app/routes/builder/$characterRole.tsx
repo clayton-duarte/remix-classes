@@ -1,7 +1,8 @@
 import { json, useLoaderData, Outlet, useParams } from "remix";
 
+import BuilderLayout from "~/components/BuilderLayout";
 import Selector from "~/components/Selector";
-import { buildDynamicRoute } from "~/helpers";
+import { builderDynamicRoute } from "~/helpers";
 import { fetchCharacterRoles } from "~/helpers/dataFetch";
 import { CharacterRole, RouteParams } from "~/helpers/dataTypes";
 
@@ -24,12 +25,12 @@ export default function Page() {
   } = useParams<RouteParams>();
 
   return (
-    <>
+    <BuilderLayout>
       <Selector
         area="role"
         active={characterRole}
         data={roleList.map((role) => ({
-          link: buildDynamicRoute({
+          link: builderDynamicRoute({
             characterRole: role,
             characterClassName,
             characterRaceName,
@@ -40,6 +41,6 @@ export default function Page() {
         }))}
       />
       <Outlet />
-    </>
+    </BuilderLayout>
   );
 }

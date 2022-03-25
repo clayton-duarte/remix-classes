@@ -2,7 +2,7 @@ import { useLoaderData, useParams, json } from "remix";
 
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
-import { buildDynamicRoute } from "~/helpers";
+import { builderDynamicRoute } from "~/helpers";
 import {
   fetchCharacterRolesGlossary,
   fetchCharacterPowerSources,
@@ -36,7 +36,7 @@ export default function Page() {
       <Selector
         area="power"
         data={powerList.map((power) => ({
-          link: buildDynamicRoute({
+          link: builderDynamicRoute({
             characterPower: power,
             characterClassName,
             characterRaceName,

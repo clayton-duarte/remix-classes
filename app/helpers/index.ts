@@ -19,8 +19,8 @@ export function useValidRouteParameters(): string[] {
   return getOnlyValidRouteMember(params);
 }
 
-export function buildDynamicRoute(routeParams: RouteParams): string {
+export function builderDynamicRoute(routeParams: RouteParams): string {
   const validPathMembers = getOnlyValidRouteMember(routeParams);
 
-  return `/${validPathMembers.join("/")}`;
+  return `/builder/${validPathMembers.join("/")}`;
 }
