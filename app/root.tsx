@@ -180,6 +180,20 @@ export default function App() {
                 margin: 0;
               }
 
+              p,
+              h1,
+              h2,
+              h3,
+              h4,
+              h5,
+              h6,
+              legend,
+              summary {
+                &:first-letter {
+                  text-transform: capitalize;
+                }
+              }
+
               h1,
               h2,
               h3,
@@ -189,7 +203,6 @@ export default function App() {
               legend,
               summary {
                 font-family: "Cinzel", serif;
-                text-transform: capitalize;
                 font-weight: 700;
                 line-height: 1;
                 margin: 0;
