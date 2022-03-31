@@ -13,7 +13,7 @@ import {
   Meta,
 } from "remix";
 
-import { ToasterProvider } from "~/helpers/useToaster";
+import { ToasterProvider } from "~/hooks/useToaster";
 
 const RootLayout = styled.main`
   grid-template-columns: 1fr;

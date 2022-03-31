@@ -15,7 +15,7 @@ import {
   SkillName,
 } from "~/helpers/dataTypes";
 import dbClient from "~/helpers/dbClient";
-import useStorage from "~/helpers/useStorage";
+import useStorage from "~/hooks/useStorage";
 
 interface LoaderResponse {
   characterAbilities: CharacterAbility[];

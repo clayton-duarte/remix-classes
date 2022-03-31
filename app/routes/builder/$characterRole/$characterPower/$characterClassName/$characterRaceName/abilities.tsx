@@ -10,7 +10,7 @@ import {
   SkillGlossary,
 } from "~/helpers/dataTypes";
 import dbClient from "~/helpers/dbClient";
-import { CharCalculatorProvider } from "~/helpers/useCharCalculator";
+import { CharCalculatorProvider } from "~/hooks/useCharCalculator";
 
 interface LoaderResponse {
   characterAbilities: CharacterAbility[];

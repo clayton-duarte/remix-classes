@@ -5,7 +5,7 @@ import BonusCheckbox from "~/components/BonusCheckbox";
 import ModifierLabel from "~/components/ModifierLabel";
 import { TRAINED_SKILL_BONUS_VALUE } from "~/helpers/consts";
 import { CharacterClass, SkillName } from "~/helpers/dataTypes";
-import useCharCalculator from "~/helpers/useCharCalculator";
+import useCharCalculator from "~/hooks/useCharCalculator";
 
 const StyledHelperText = styled.span`
   color: ${({ theme }) => theme.secondary};
@@ -34,8 +34,9 @@ export default function SkillCalculator({
 }) {
   const { trainedSkills, toggleSkill } = useCharCalculator();
 
-  const { characterClass } =
-    useLoaderData<{ characterClass: CharacterClass }>();
+  const { characterClass } = useLoaderData<{
+    characterClass: CharacterClass;
+  }>();
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
   const isClassSkill = characterClass.trainedSkills.includes(skillName);

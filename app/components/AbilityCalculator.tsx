@@ -21,7 +21,7 @@ import {
   SkillGlossary,
   SkillName,
 } from "~/helpers/dataTypes";
-import useCharCalculator from "~/helpers/useCharCalculator";
+import useCharCalculator from "~/hooks/useCharCalculator";
 
 const StyledAbilityLabel = styled.label<{ color: keyof Theme }>`
   color: ${({ theme, color }) => theme[color]};

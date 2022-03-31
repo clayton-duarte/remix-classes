@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 
 import { BiBadge, BiCheckbox } from "react-icons/bi";
 
-import useToaster from "~/helpers/useToaster";
+import useToaster from "~/hooks/useToaster";
 
 export default function useCalculatorWarn({
   bonusesToSelect,

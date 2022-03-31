@@ -5,7 +5,7 @@ import AbilityCalculator from "~/components/AbilityCalculator";
 import Button from "~/components/Button";
 import DataPanel from "~/components/DataPanel";
 import { CharacterAbility } from "~/helpers/dataTypes";
-import useCharCalculator from "~/helpers/useCharCalculator";
+import useCharCalculator from "~/hooks/useCharCalculator";
 
 const CalculatorWrapper = styled.div`
   grid-template-columns: auto auto 1fr auto;

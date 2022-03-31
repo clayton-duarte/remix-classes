@@ -21,7 +21,7 @@ import {
   SkillName,
 } from "~/helpers/dataTypes";
 
-// https://www.mongodb.com/docs/atlas/api/data-api-resources/#base-url
+// https://www.mongodb.com/docs/atlas/api/data-api-resources
 enum TransactionName {
   findOne = "findOne",
   findMany = "find",

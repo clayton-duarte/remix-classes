@@ -20,8 +20,8 @@ import {
   CharacterRace,
   SkillName,
 } from "~/helpers/dataTypes";
-import useCalculatorWarn from "~/helpers/useCalculatorWarn";
-import useStorage from "~/helpers/useStorage";
+import useCalculatorWarn from "~/hooks/useCalculatorWarn";
+import useStorage from "~/hooks/useStorage";
 
 // local helpers
 function addItemToList<T>(list: T[], item: T): T[] {
