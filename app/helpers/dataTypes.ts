@@ -45,30 +45,38 @@ export enum PowerSourceName {
   Psionic = "psionic",
 }
 
+export type PowerSource = CharacterPowerSourceGlossary[PowerSourceName];
+
 export type CharacterPowerSourceGlossary = {
   [key in PowerSourceName]: {
     description: string;
+    name: key;
   };
 };
 
 export const characterPowerSourceGlossary: CharacterPowerSourceGlossary = {
   [PowerSourceName.Arcane]: {
+    name: PowerSourceName.Arcane,
     description:
       "This source of powers is drawn from a supernatural source from another world, a powerful entity or some occult knowledge. Arcane powers are called Spells.",
   },
   [PowerSourceName.Divine]: {
+    name: PowerSourceName.Divine,
     description:
       "This source of powers is drawn from a deity, channeling it through faith to protect a god's philosophy. Divine powers are called Prayers.",
   },
   [PowerSourceName.Martial]: {
+    name: PowerSourceName.Martial,
     description:
       "This source of powers is drawn from training, determination, physical toughness, and natural proficiency. Martial powers are called Exploits.",
   },
   [PowerSourceName.Primal]: {
+    name: PowerSourceName.Primal,
     description:
       "This source of powers is drawn from the connection to the natural world, to all living beings around and to its spirits. Primal powers are called Evocations.",
   },
   [PowerSourceName.Psionic]: {
+    name: PowerSourceName.Psionic,
     description:
       "This source of powers is drawn from a strong connection to ones mind, meditation, and focus to manifest it on the physical world. Psionic powers are called Disciplines.",
   },
