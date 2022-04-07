@@ -8,12 +8,11 @@ import {
   CharacterClass,
   PowerSource,
 } from "~/helpers/dataTypes";
-import dbClient from "~/helpers/dbClient";
-import FaunaCrud from "~/libs/FaunaCrud";
+import { CharacterClassCrud, PowerSourcesCrud } from "~/libs/FaunaCrud";
 
 interface LoaderResponse {
   powerSource: PowerSource;
-  classList: CharacterClass[];
+  characterClassList: CharacterClass[];
 }
 
 export const loader = async ({
@@ -27,15 +26,18 @@ export const loader = async ({
     throw new Response("Not Found", { status: 404 });
   }
 
-  const classList = dbClient.fetchCharacterClassByRoleAndPower(
-    params.characterRole,
-    params.characterPower
-  );
+  const characterClassClient = new CharacterClassCrud();
 
-  if (classList.length === 1) {
+  const { data: characterClassList } =
+    await characterClassClient.getCharacterClassByRoleAndPowerSource(
+      params.characterRole,
+      params.characterPower
+    );
+
+  if (characterClassList.length === 1) {
     const nextRoute = builderDynamicRoute({
       ...params,
-      characterClassName: classList[0].name,
+      characterClassName: characterClassList[0].name,
     });
 
     const url = new URL(request.url);
@@ -45,7 +47,7 @@ export const loader = async ({
     }
   }
 
-  const powerSourceClient = new FaunaCrud<PowerSource>("power_sources");
+  const powerSourceClient = new PowerSourcesCrud();
 
   const { data: powerSource } = await powerSourceClient.getOneByName(
     params.characterPower
@@ -53,19 +55,19 @@ export const loader = async ({
 
   return json<LoaderResponse>({
     powerSource,
-    classList,
+    characterClassList,
   });
 };
 
 export default function Page() {
-  const { classList, powerSource } = useLoaderData<LoaderResponse>();
+  const { characterClassList, powerSource } = useLoaderData<LoaderResponse>();
   const params = useParams<CharBuilderChoices>();
 
   return (
     <>
       <DataPanel area="power">{powerSource.description}</DataPanel>
 
-      {classList.length === 0 ? (
+      {characterClassList.length === 0 ? (
         <DataPanel area="class" color="error" title="error">
           There are no {params.characterRole}/{params.characterPower} classes
           available.
@@ -77,7 +79,7 @@ export default function Page() {
           </DataPanel>
           <Selector
             area="class"
-            data={classList.map(({ name }) => ({
+            data={characterClassList.map(({ name }) => ({
               link: builderDynamicRoute({
                 ...params,
                 characterClassName: name,

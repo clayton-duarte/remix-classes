@@ -11,6 +11,7 @@ import {
 } from "~/helpers/dataTypes";
 import dbClient from "~/helpers/dbClient";
 import { CharCalculatorProvider } from "~/hooks/useCharCalculator";
+import { CharacterClassCrud } from "~/libs/FaunaCrud";
 
 interface LoaderResponse {
   characterAbilities: CharacterAbility[];
@@ -26,13 +27,17 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
     });
   }
 
+  const characterClassClient = new CharacterClassCrud();
+
+  const [{ data: characterClass }] = await Promise.all([
+    characterClassClient.getOneByName(params.characterClassName),
+  ]);
+
   return json<LoaderResponse>({
     characterRace: dbClient.fetchCharacterRaceByName(params.characterRaceName),
     characterAbilities: dbClient.fetchCharacterAbilities(),
     skillGlossary: dbClient.fetchSkillGlossary(),
-    characterClass: dbClient.fetchCharacterClassByName(
-      params.characterClassName
-    ),
+    characterClass,
   });
 };
 

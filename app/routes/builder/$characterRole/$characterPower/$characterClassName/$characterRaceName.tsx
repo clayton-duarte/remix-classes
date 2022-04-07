@@ -9,6 +9,7 @@ import {
   CharBuilderChoices,
 } from "~/helpers/dataTypes";
 import dbClient from "~/helpers/dbClient";
+import { CharacterClassCrud } from "~/libs/FaunaCrud";
 
 interface LoaderResponse {
   characterClass: CharacterClass;
@@ -26,14 +27,14 @@ export const loader = async ({
     throw new Response("Not Found", { status: 404 });
   }
 
-  const characterClass = dbClient.fetchCharacterClassByName(
+  const characterClassClient = new CharacterClassCrud();
+
+  const { data: characterClass } = await characterClassClient.getOneByName(
     params.characterClassName
   );
 
   if (characterClass == null) {
-    throw new Response("Not Found", {
-      status: 404,
-    });
+    throw new Response("Not Found", { status: 404 });
   }
 
   const raceList = dbClient.fetchCharacterRacesByAbilityBonus(
