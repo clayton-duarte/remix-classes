@@ -28,15 +28,15 @@ export default function Page() {
     <BuilderLayout>
       <Selector
         area="role"
-        data={roleList.map(({ name: roleName }) => ({
+        data={roleList.map(({ name }) => ({
           link: builderDynamicRoute({
-            characterRole: roleName,
+            characterRole: name,
             characterClassName,
             characterRaceName,
             characterPower,
           }),
-          label: roleName,
-          id: roleName,
+          label: name,
+          id: name,
         }))}
       />
       <DataPanel area="role" color="warn" title="action">

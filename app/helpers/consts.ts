@@ -16,9 +16,14 @@ export const ABILITY_SCORE_BONUS_VALUE = 2;
 
 export const TRAINED_SKILL_BONUS_VALUE = 5;
 
-export const initialScorePointsDistribution = Object.values(
-  CharacterAbility
-).reduce(
-  (acc, abilityName) => ({ ...acc, [abilityName]: 0 }),
-  {} as Record<CharacterAbility, typeof COST_BY_SCORE[number]>
-);
+export const initialScorePointsDistribution: Record<
+  CharacterAbility,
+  typeof COST_BY_SCORE[number]
+> = {
+  [CharacterAbility.Charisma]: 0,
+  [CharacterAbility.Constitution]: 0,
+  [CharacterAbility.Dexterity]: 0,
+  [CharacterAbility.Intelligence]: 0,
+  [CharacterAbility.Strength]: 0,
+  [CharacterAbility.Wisdom]: 0,
+} as const;
