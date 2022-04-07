@@ -4,15 +4,16 @@ import faunadb, {
   Paginate,
   Select,
   Lambda,
-  // Match,
-  // Index,
+  Match,
+  Index,
   Var,
   Map,
   // Let,
+  // Ref,
   Get,
 } from "faunadb";
 
-export default class FaunaCrud<T> {
+export default class FaunaCrud<T extends { name: string }> {
   private client: faunadb.Client;
   private collection: string;
 
@@ -31,6 +32,12 @@ export default class FaunaCrud<T> {
         Paginate(Documents(Collection(this.collection)), { size: 100 }),
         Lambda("ref", Select(["data"], Get(Var("ref"))))
       )
+    );
+  }
+
+  public getOneByName(name: T["name"]) {
+    return this.client.query<{ data: T }>(
+      Get(Match(Index(`${this.collection}_by_name`), name))
     );
   }
 }
