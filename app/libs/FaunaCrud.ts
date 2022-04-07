@@ -1,11 +1,13 @@
 import faunadb, {
+  Function as Fn,
   Collection,
   Documents,
   Paginate,
-  Select,
+  // Select,
   Lambda,
   Match,
   Index,
+  Call,
   Var,
   Map,
   Get,
@@ -13,19 +15,22 @@ import faunadb, {
   // Ref,
 } from "faunadb";
 
-import { CharacterRole, PowerSource } from "~/helpers/dataTypes";
-
-type Collections = "roles" | "power_sources";
-
-type DataTypes = CharacterRole | PowerSource;
+import {
+  CharacterRoleName,
+  PowerSourceName,
+  CharacterClass,
+  CharacterRole,
+  PowerSource,
+} from "~/helpers/dataTypes";
 
 interface QueryResponse<TData> {
   data: TData;
 }
 
-// TODO: find a way to infer TData based on collection
-export default class FaunaCrud<TData extends DataTypes> {
-  private client: faunadb.Client;
+type Collections = "character_roles" | "power_sources" | "character_class";
+
+class FaunaCrud<TData extends CharacterRole | PowerSource | CharacterClass> {
+  public client: faunadb.Client;
   private collection: Collections;
 
   constructor(collection: Collections) {
@@ -41,7 +46,7 @@ export default class FaunaCrud<TData extends DataTypes> {
     return this.client.query<QueryResponse<TData[]>>(
       Map(
         Paginate(Documents(Collection(this.collection)), { size: 100 }),
-        Lambda("ref", Select(["data"], Get(Var("ref"))))
+        Lambda("x", Call(Fn("extract"), Var("x")))
       )
     );
   }
@@ -49,6 +54,42 @@ export default class FaunaCrud<TData extends DataTypes> {
   public getOneByName(name: TData["name"]) {
     return this.client.query<QueryResponse<TData>>(
       Get(Match(Index(`${this.collection}_by_name`), name))
+    );
+  }
+}
+
+export class CharacterRoleCrud extends FaunaCrud<CharacterRole> {
+  constructor() {
+    super("character_roles");
+  }
+}
+
+export class PowerSourcesCrud extends FaunaCrud<PowerSource> {
+  constructor() {
+    super("power_sources");
+  }
+}
+
+export class CharacterClassCrud extends FaunaCrud<CharacterClass> {
+  constructor() {
+    super("character_class");
+  }
+
+  public getCharacterClassByRoleAndPowerSource(
+    mainRole: CharacterRoleName,
+    powerSource: PowerSourceName
+  ) {
+    return this.client.query<QueryResponse<CharacterClass[]>>(
+      Map(
+        Paginate(
+          Match(
+            Index("character_class_by_power_and_role"),
+            powerSource,
+            mainRole
+          )
+        ),
+        Lambda("x", Call(Fn("extract"), Var("x")))
+      )
     );
   }
 }

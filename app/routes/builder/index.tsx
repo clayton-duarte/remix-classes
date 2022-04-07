@@ -5,14 +5,14 @@ import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
 import { CharBuilderChoices, CharacterRole } from "~/helpers/dataTypes";
-import FaunaCrud from "~/libs/FaunaCrud";
+import { CharacterRoleCrud } from "~/libs/FaunaCrud";
 
 interface LoaderResponse {
   roleList: CharacterRole[];
 }
 
 export const loader = async () => {
-  const rolesClient = new FaunaCrud<CharacterRole>("roles");
+  const rolesClient = new CharacterRoleCrud();
   const { data: roleList } = await rolesClient.getMany();
 
   return json<LoaderResponse>({ roleList });
