@@ -11,7 +11,7 @@ interface LoaderResponse {
 }
 
 export const loader = async () => {
-  return json({ roleList: dbClient.fetchCharacterRoles() });
+  return json<LoaderResponse>({ roleList: dbClient.fetchCharacterRoles() });
 };
 
 export default function Page() {

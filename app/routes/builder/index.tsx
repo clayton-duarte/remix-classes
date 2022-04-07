@@ -4,15 +4,18 @@ import BuilderLayout from "~/components/BuilderLayout";
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
-import { CharacterRoleName, CharBuilderChoices } from "~/helpers/dataTypes";
-import dbClient from "~/helpers/dbClient";
+import { CharBuilderChoices, CharacterRole } from "~/helpers/dataTypes";
+import FaunaCrud from "~/libs/FaunaCrud";
 
 interface LoaderResponse {
-  roleList: CharacterRoleName[];
+  roleList: CharacterRole[];
 }
 
 export const loader = async () => {
-  return json({ roleList: dbClient.fetchCharacterRoles() });
+  const rolesClient = new FaunaCrud<CharacterRole>("roles");
+  const { data: roleList } = await rolesClient.getMany();
+
+  return json<LoaderResponse>({ roleList });
 };
 
 export default function Page() {
@@ -25,7 +28,7 @@ export default function Page() {
     <BuilderLayout>
       <Selector
         area="role"
-        data={roleList.map((roleName) => ({
+        data={roleList.map(({ name: roleName }) => ({
           link: builderDynamicRoute({
             characterRole: roleName,
             characterClassName,
