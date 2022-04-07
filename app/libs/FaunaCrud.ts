@@ -8,16 +8,27 @@ import faunadb, {
   Index,
   Var,
   Map,
+  Get,
   // Let,
   // Ref,
-  Get,
 } from "faunadb";
 
-export default class FaunaCrud<T extends { name: string }> {
-  private client: faunadb.Client;
-  private collection: string;
+import { CharacterRole, PowerSource } from "~/helpers/dataTypes";
 
-  constructor(collection: string) {
+type Collections = "roles" | "power_sources";
+
+type DataTypes = CharacterRole | PowerSource;
+
+interface QueryResponse<TData> {
+  data: TData;
+}
+
+// TODO: find a way to infer TData based on collection
+export default class FaunaCrud<TData extends DataTypes> {
+  private client: faunadb.Client;
+  private collection: Collections;
+
+  constructor(collection: Collections) {
     this.collection = collection;
 
     this.client = new faunadb.Client({
@@ -27,7 +38,7 @@ export default class FaunaCrud<T extends { name: string }> {
   }
 
   public getMany() {
-    return this.client.query<{ data: T[] }>(
+    return this.client.query<QueryResponse<TData[]>>(
       Map(
         Paginate(Documents(Collection(this.collection)), { size: 100 }),
         Lambda("ref", Select(["data"], Get(Var("ref"))))
@@ -35,8 +46,8 @@ export default class FaunaCrud<T extends { name: string }> {
     );
   }
 
-  public getOneByName(name: T["name"]) {
-    return this.client.query<{ data: T }>(
+  public getOneByName(name: TData["name"]) {
+    return this.client.query<QueryResponse<TData>>(
       Get(Match(Index(`${this.collection}_by_name`), name))
     );
   }
