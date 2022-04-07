@@ -20,6 +20,7 @@ import {
   PowerSourceName,
   CharacterClass,
   CharacterRole,
+  CharacterRace,
   PowerSource,
 } from "~/helpers/dataTypes";
 
@@ -27,9 +28,15 @@ interface QueryResponse<TData> {
   data: TData;
 }
 
-type Collections = "character_roles" | "power_sources" | "character_class";
+type Collections =
+  | "character_roles"
+  | "power_sources"
+  | "character_class"
+  | "character_race";
 
-class FaunaCrud<TData extends CharacterRole | PowerSource | CharacterClass> {
+class FaunaService<
+  TData extends CharacterRole | PowerSource | CharacterClass | CharacterRace
+> {
   public client: faunadb.Client;
   private collection: Collections;
 
@@ -58,19 +65,19 @@ class FaunaCrud<TData extends CharacterRole | PowerSource | CharacterClass> {
   }
 }
 
-export class CharacterRoleCrud extends FaunaCrud<CharacterRole> {
+export class CharacterRoleService extends FaunaService<CharacterRole> {
   constructor() {
     super("character_roles");
   }
 }
 
-export class PowerSourcesCrud extends FaunaCrud<PowerSource> {
+export class PowerSourcesService extends FaunaService<PowerSource> {
   constructor() {
     super("power_sources");
   }
 }
 
-export class CharacterClassCrud extends FaunaCrud<CharacterClass> {
+export class CharacterClassService extends FaunaService<CharacterClass> {
   constructor() {
     super("character_class");
   }
@@ -91,5 +98,11 @@ export class CharacterClassCrud extends FaunaCrud<CharacterClass> {
         Lambda("x", Call(Fn("extract"), Var("x")))
       )
     );
+  }
+}
+
+export class CharacterRaceService extends FaunaService<CharacterRace> {
+  constructor() {
+    super("character_race");
   }
 }

@@ -9,7 +9,7 @@ import {
   CharBuilderChoices,
 } from "~/helpers/dataTypes";
 import dbClient from "~/helpers/dbClient";
-import { CharacterClassCrud } from "~/libs/FaunaCrud";
+import { CharacterClassService } from "~/libs/FaunaService";
 
 interface LoaderResponse {
   characterClass: CharacterClass;
@@ -21,7 +21,7 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
     throw new Response("Not Found", { status: 404 });
   }
 
-  const characterClassClient = new CharacterClassCrud();
+  const characterClassClient = new CharacterClassService();
 
   const { data: characterClass } = await characterClassClient.getOneByName(
     params.characterClassName

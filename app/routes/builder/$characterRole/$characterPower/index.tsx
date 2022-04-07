@@ -8,7 +8,10 @@ import {
   CharacterClass,
   PowerSource,
 } from "~/helpers/dataTypes";
-import { CharacterClassCrud, PowerSourcesCrud } from "~/libs/FaunaCrud";
+import {
+  CharacterClassService,
+  PowerSourcesService,
+} from "~/libs/FaunaService";
 
 interface LoaderResponse {
   powerSource: PowerSource;
@@ -26,7 +29,7 @@ export const loader = async ({
     throw new Response("Not Found", { status: 404 });
   }
 
-  const characterClassClient = new CharacterClassCrud();
+  const characterClassClient = new CharacterClassService();
 
   const { data: characterClassList } =
     await characterClassClient.getCharacterClassByRoleAndPowerSource(
@@ -47,7 +50,7 @@ export const loader = async ({
     }
   }
 
-  const powerSourceClient = new PowerSourcesCrud();
+  const powerSourceClient = new PowerSourcesService();
 
   const { data: powerSource } = await powerSourceClient.getOneByName(
     params.characterPower

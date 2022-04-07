@@ -4,14 +4,14 @@ import BuilderLayout from "~/components/BuilderLayout";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
 import { CharacterRole, CharBuilderChoices } from "~/helpers/dataTypes";
-import { CharacterRoleCrud } from "~/libs/FaunaCrud";
+import { CharacterRoleService } from "~/libs/FaunaService";
 
 interface LoaderResponse {
   roleList: CharacterRole[];
 }
 
 export const loader = async () => {
-  const rolesClient = new CharacterRoleCrud();
+  const rolesClient = new CharacterRoleService();
   const { data: roleList } = await rolesClient.getMany();
 
   return json<LoaderResponse>({ roleList });

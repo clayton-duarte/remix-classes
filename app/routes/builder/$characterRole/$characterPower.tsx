@@ -8,7 +8,7 @@ import {
   CharacterRole,
   PowerSource,
 } from "~/helpers/dataTypes";
-import { PowerSourcesCrud, CharacterRoleCrud } from "~/libs/FaunaCrud";
+import { PowerSourcesService, CharacterRoleService } from "~/libs/FaunaService";
 
 interface LoaderResponse {
   characterRole: CharacterRole;
@@ -20,8 +20,8 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
     throw new Response("Not Found", { status: 404 });
   }
 
-  const powerSourceClient = new PowerSourcesCrud();
-  const rolesClient = new CharacterRoleCrud();
+  const powerSourceClient = new PowerSourcesService();
+  const rolesClient = new CharacterRoleService();
 
   const [{ data: characterRole }, { data: powerSourceList }] =
     await Promise.all([
