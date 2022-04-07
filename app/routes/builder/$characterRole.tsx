@@ -3,15 +3,18 @@ import { json, useLoaderData, Outlet, useParams } from "remix";
 import BuilderLayout from "~/components/BuilderLayout";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
-import { CharacterRoleName, CharBuilderChoices } from "~/helpers/dataTypes";
-import dbClient from "~/helpers/dbClient";
+import { CharacterRole, CharBuilderChoices } from "~/helpers/dataTypes";
+import FaunaCrud from "~/libs/FaunaCrud";
 
 interface LoaderResponse {
-  roleList: CharacterRoleName[];
+  roleList: CharacterRole[];
 }
 
 export const loader = async () => {
-  return json<LoaderResponse>({ roleList: dbClient.fetchCharacterRoles() });
+  const rolesClient = new FaunaCrud<CharacterRole>("roles");
+  const { data: roleList } = await rolesClient.getMany();
+
+  return json<LoaderResponse>({ roleList });
 };
 
 export default function Page() {
@@ -29,15 +32,15 @@ export default function Page() {
       <Selector
         area="role"
         active={characterRole}
-        data={roleList.map((role) => ({
+        data={roleList.map(({ name }) => ({
           link: builderDynamicRoute({
-            characterRole: role,
+            characterRole: name,
             characterClassName,
             characterRaceName,
             characterPower,
           }),
-          label: role,
-          id: role,
+          label: name,
+          id: name,
         }))}
       />
       <Outlet />

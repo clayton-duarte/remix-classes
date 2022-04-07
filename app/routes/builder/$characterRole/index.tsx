@@ -4,29 +4,35 @@ import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
 import {
-  CharacterRolesGlossary,
-  PowerSourceName,
   CharBuilderChoices,
+  PowerSourceName,
+  CharacterRole,
 } from "~/helpers/dataTypes";
 import dbClient from "~/helpers/dbClient";
+import FaunaCrud from "~/libs/FaunaCrud";
 
 interface LoaderResponse {
-  characterRolesGlossary: CharacterRolesGlossary;
+  characterRole: CharacterRole;
   powerList: PowerSourceName[];
 }
 
-export const loader = async () => {
+export const loader = async ({ params }: { params: CharBuilderChoices }) => {
+  if (!params.characterRole) {
+    throw new Response("Not Found", { status: 404 });
+  }
+
+  const rolesClient = new FaunaCrud<CharacterRole>("roles");
+  const { data } = await rolesClient.getOneByName(params.characterRole);
+
   return json<LoaderResponse>({
-    characterRolesGlossary: dbClient.fetchCharacterRolesGlossary(),
     powerList: dbClient.fetchCharacterPowerSources(),
+    characterRole: data,
   });
 };
 
 export default function Page() {
-  const { powerList, characterRolesGlossary } = useLoaderData<LoaderResponse>();
-
-  const { characterRole, characterClassName, characterRaceName } =
-    useParams<CharBuilderChoices>();
+  const { powerList, characterRole } = useLoaderData<LoaderResponse>();
+  const params = useParams<CharBuilderChoices>();
 
   return (
     <>
@@ -34,20 +40,16 @@ export default function Page() {
         area="power"
         data={powerList.map((power) => ({
           link: builderDynamicRoute({
+            ...params,
             characterPower: power,
-            characterClassName,
-            characterRaceName,
-            characterRole,
           }),
           label: power,
           id: power,
         }))}
       />
-      {characterRole && (
-        <DataPanel area="role">
-          {characterRolesGlossary[characterRole].description}
-        </DataPanel>
-      )}
+
+      <DataPanel area="role">{characterRole.description}</DataPanel>
+
       <DataPanel area="power" color="warn" title="action">
         Please select a "Source of Power" from the menu to know more about it.
       </DataPanel>
