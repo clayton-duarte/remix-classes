@@ -5,15 +5,14 @@ import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
 import {
   CharBuilderChoices,
-  PowerSourceName,
   CharacterRole,
+  PowerSource,
 } from "~/helpers/dataTypes";
-import dbClient from "~/helpers/dbClient";
 import FaunaCrud from "~/libs/FaunaCrud";
 
 interface LoaderResponse {
   characterRole: CharacterRole;
-  powerList: PowerSourceName[];
+  powerSourceList: PowerSource[];
 }
 
 export const loader = async ({ params }: { params: CharBuilderChoices }) => {
@@ -21,17 +20,23 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
     throw new Response("Not Found", { status: 404 });
   }
 
+  const powerSourceClient = new FaunaCrud<PowerSource>("power_sources");
   const rolesClient = new FaunaCrud<CharacterRole>("roles");
-  const { data } = await rolesClient.getOneByName(params.characterRole);
+
+  const [{ data: characterRole }, { data: powerSourceList }] =
+    await Promise.all([
+      rolesClient.getOneByName(params.characterRole),
+      powerSourceClient.getMany(),
+    ]);
 
   return json<LoaderResponse>({
-    powerList: dbClient.fetchCharacterPowerSources(),
-    characterRole: data,
+    powerSourceList,
+    characterRole,
   });
 };
 
 export default function Page() {
-  const { powerList, characterRole } = useLoaderData<LoaderResponse>();
+  const { powerSourceList, characterRole } = useLoaderData<LoaderResponse>();
   const params = useParams<CharBuilderChoices>();
 
   return (
@@ -39,13 +44,13 @@ export default function Page() {
       <Selector
         area="power"
         active={params.characterPower}
-        data={powerList.map((power) => ({
+        data={powerSourceList.map(({ name }) => ({
           link: builderDynamicRoute({
             ...params,
-            characterPower: power,
+            characterPower: name,
           }),
-          label: power,
-          id: power,
+          label: name,
+          id: name,
         }))}
       />
       {characterRole && (

@@ -11,14 +11,15 @@ import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
 import {
-  CharacterPowerSourceGlossary,
-  CharacterClass,
   CharBuilderChoices,
+  CharacterClass,
+  PowerSource,
 } from "~/helpers/dataTypes";
 import dbClient from "~/helpers/dbClient";
+import FaunaCrud from "~/libs/FaunaCrud";
 
 interface LoaderResponse {
-  characterPowerSourceGlossary: CharacterPowerSourceGlossary;
+  powerSource: PowerSource;
   classList: CharacterClass[];
 }
 
@@ -40,10 +41,8 @@ export const loader: LoaderFunction = async ({
 
   if (classList.length === 1) {
     const nextRoute = builderDynamicRoute({
+      ...params,
       characterClassName: classList[0].name,
-      characterRaceName: params.characterRaceName,
-      characterPower: params.characterPower,
-      characterRole: params.characterRole,
     });
 
     const url = new URL(request.url);
@@ -53,45 +52,39 @@ export const loader: LoaderFunction = async ({
     }
   }
 
+  const powerSourceClient = new FaunaCrud<PowerSource>("power_sources");
+
+  const { data: powerSource } = await powerSourceClient.getOneByName(
+    params.characterPower
+  );
+
   return json<LoaderResponse>({
-    characterPowerSourceGlossary: dbClient.fetchCharacterPowerSourcesGlossary(),
+    powerSource,
     classList,
   });
 };
 
 export default function Page() {
-  const { classList, characterPowerSourceGlossary } =
-    useLoaderData<LoaderResponse>();
-
-  const {
-    characterRole,
-    characterPower,
-    characterClassName,
-    characterRaceName,
-  } = useParams<CharBuilderChoices>();
+  const { classList, powerSource } = useLoaderData<LoaderResponse>();
+  const params = useParams<CharBuilderChoices>();
 
   return (
     <>
-      {characterPower && (
-        <DataPanel area="power">
-          {characterPowerSourceGlossary[characterPower].description}
-        </DataPanel>
-      )}
+      <DataPanel area="power">{powerSource.description}</DataPanel>
       {classList.length === 0 ? (
         <DataPanel area="class" color="error" title="error">
-          There are no {characterRole}/{characterPower} classes available
+          There are no {params.characterRole}/{params.characterPower} classes
+          available
         </DataPanel>
       ) : (
         <>
           <Selector
             area="class"
-            active={characterClassName}
+            active={params.characterClassName}
             data={classList.map(({ name }) => ({
               link: builderDynamicRoute({
+                ...params,
                 characterClassName: name,
-                characterRaceName,
-                characterPower,
-                characterRole,
               }),
               label: name,
               id: name,
