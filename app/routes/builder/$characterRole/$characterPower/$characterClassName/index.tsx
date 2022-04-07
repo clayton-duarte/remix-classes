@@ -2,18 +2,23 @@ import { json, useLoaderData, useParams } from "remix";
 
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
-import { builderDynamicRoute } from "~/helpers";
 import {
+  filterAndSortCharacterRacesByAbilityBonus,
+  builderDynamicRoute,
+} from "~/helpers";
+import {
+  CharBuilderChoices,
   CharacterClass,
   CharacterRace,
-  CharBuilderChoices,
 } from "~/helpers/dataTypes";
-import dbClient from "~/helpers/dbClient";
-import { CharacterClassService } from "~/libs/FaunaService";
+import {
+  CharacterClassService,
+  CharacterRaceService,
+} from "~/libs/FaunaService";
 
 interface LoaderResponse {
   characterClass: CharacterClass;
-  raceList: CharacterRace[];
+  characterRaceList: CharacterRace[];
 }
 
 export const loader = async ({ params }: { params: CharBuilderChoices }) => {
@@ -22,25 +27,29 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
   }
 
   const characterClassClient = new CharacterClassService();
+  const characterRaceListClient = new CharacterRaceService();
 
-  const { data: characterClass } = await characterClassClient.getOneByName(
-    params.characterClassName
-  );
+  const [{ data: characterClass }, { data: characterRaceList }] =
+    await Promise.all([
+      characterClassClient.getOneByName(params.characterClassName),
+      characterRaceListClient.getMany(),
+    ]);
 
   if (characterClass == null) {
     throw new Response("Not Found", { status: 404 });
   }
 
   return json<LoaderResponse>({
-    raceList: dbClient.fetchCharacterRacesByAbilityBonus(
+    characterClass,
+    characterRaceList: filterAndSortCharacterRacesByAbilityBonus(
+      characterRaceList,
       characterClass.keyAbilities
     ),
-    characterClass,
   });
 };
 
 export default function Page() {
-  const { raceList, characterClass } = useLoaderData<LoaderResponse>();
+  const { characterRaceList, characterClass } = useLoaderData<LoaderResponse>();
 
   const { characterRole, characterPower, characterClassName } =
     useParams<CharBuilderChoices>();
@@ -49,7 +58,7 @@ export default function Page() {
     <>
       <Selector
         area="race"
-        data={raceList.map(({ name, abilityBonus }) => ({
+        data={characterRaceList.map(({ name, abilityBonus }) => ({
           link: builderDynamicRoute({
             characterRaceName: name,
             characterClassName,

@@ -1,6 +1,10 @@
 import { useParams } from "remix";
 
-import { CharBuilderChoices } from "~/helpers/dataTypes";
+import {
+  CharBuilderChoices,
+  CharacterAbility,
+  CharacterRace,
+} from "~/helpers/dataTypes";
 
 function getOnlyValidRouteMember(
   routeParams: CharBuilderChoices
@@ -25,4 +29,31 @@ export function builderDynamicRoute(routeParams: CharBuilderChoices): string {
   const validPathMembers = getOnlyValidRouteMember(routeParams);
 
   return `/builder/${validPathMembers.join("/")}`;
+}
+
+export function filterAndSortCharacterRacesByAbilityBonus(
+  characterRacesList: CharacterRace[],
+  keyAbilities: CharacterAbility[]
+): CharacterRace[] {
+  const [coreAbility] = keyAbilities;
+
+  return Object.values(characterRacesList)
+    .reduce((filteredRaces, currentRace): CharacterRace[] => {
+      const withFilteredAbilities = {
+        ...currentRace,
+        abilityBonus: currentRace.abilityBonus.filter((ability) =>
+          keyAbilities.includes(ability)
+        ),
+      };
+
+      if (
+        withFilteredAbilities.abilityBonus.length > 0 &&
+        withFilteredAbilities.abilityBonus.includes(coreAbility)
+      ) {
+        filteredRaces.push(withFilteredAbilities);
+      }
+
+      return filteredRaces;
+    }, [] as CharacterRace[])
+    .sort(({ abilityBonus: a }, { abilityBonus: b }) => b.length - a.length);
 }

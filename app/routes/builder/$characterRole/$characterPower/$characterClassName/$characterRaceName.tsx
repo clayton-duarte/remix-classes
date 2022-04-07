@@ -2,18 +2,23 @@ import { useLoaderData, useParams, redirect, Outlet, json } from "remix";
 
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
-import { builderDynamicRoute } from "~/helpers";
+import {
+  filterAndSortCharacterRacesByAbilityBonus,
+  builderDynamicRoute,
+} from "~/helpers";
 import {
   CharacterClass,
   CharacterRace,
   CharBuilderChoices,
 } from "~/helpers/dataTypes";
-import dbClient from "~/helpers/dbClient";
-import { CharacterClassService } from "~/libs/FaunaService";
+import {
+  CharacterClassService,
+  CharacterRaceService,
+} from "~/libs/FaunaService";
 
 interface LoaderResponse {
   characterClass: CharacterClass;
-  raceList: CharacterRace[];
+  characterRaceList: CharacterRace[];
 }
 
 export const loader = async ({
@@ -28,20 +33,22 @@ export const loader = async ({
   }
 
   const characterClassClient = new CharacterClassService();
+  const characterRaceListClient = new CharacterRaceService();
 
-  const { data: characterClass } = await characterClassClient.getOneByName(
-    params.characterClassName
-  );
+  const [{ data: characterClass }, { data: characterRaceList }] =
+    await Promise.all([
+      characterClassClient.getOneByName(params.characterClassName),
+      characterRaceListClient.getMany(),
+    ]);
 
   if (characterClass == null) {
     throw new Response("Not Found", { status: 404 });
   }
 
-  const raceList = dbClient.fetchCharacterRacesByAbilityBonus(
-    characterClass.keyAbilities
-  );
-
-  if (raceList.find(({ name }) => name === params.characterRaceName) == null) {
+  if (
+    characterRaceList.find(({ name }) => name === params.characterRaceName) ==
+    null
+  ) {
     const nextRoute = builderDynamicRoute({
       characterClassName: params.characterClassName,
       characterPower: params.characterPower,
@@ -57,12 +64,15 @@ export const loader = async ({
 
   return json<LoaderResponse>({
     characterClass,
-    raceList,
+    characterRaceList: filterAndSortCharacterRacesByAbilityBonus(
+      characterRaceList,
+      characterClass.keyAbilities
+    ),
   });
 };
 
 export default function Page() {
-  const { raceList, characterClass } = useLoaderData<LoaderResponse>();
+  const { characterRaceList, characterClass } = useLoaderData<LoaderResponse>();
 
   const {
     characterRole,
@@ -76,7 +86,7 @@ export default function Page() {
       <Selector
         area="race"
         active={characterRaceName}
-        data={raceList.map(({ name: raceName, abilityBonus }) => ({
+        data={characterRaceList.map(({ name: raceName, abilityBonus }) => ({
           link: builderDynamicRoute({
             characterRaceName: raceName,
             characterClassName,
