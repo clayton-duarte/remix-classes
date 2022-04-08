@@ -1,9 +1,15 @@
+import { Theme } from "@emotion/react";
+
 export enum CharacterRoleName {
   Controller = "controller",
   Defender = "defender",
   Leader = "leader",
   Striker = "striker",
 }
+
+export type Colors = keyof Theme;
+
+export type StatusColors = keyof Pick<Theme, "error" | "warn" | "success">;
 
 export type CharacterRolesGlossary = {
   [key in CharacterRoleName]: {

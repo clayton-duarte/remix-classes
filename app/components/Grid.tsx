@@ -1,8 +1,9 @@
-import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import { Colors } from "~/helpers/dataTypes";
+
 interface GridProps {
-  border?: keyof Theme;
+  border?: Colors;
   template?: string;
   justify?: string;
   align?: string;

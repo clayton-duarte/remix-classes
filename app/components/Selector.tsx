@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useNavigate } from "remix";
+
+import { Colors, StatusColors } from "~/helpers/dataTypes";
 
 const StyledTitle = styled.h3<{ area: string }>`
   grid-area: ${({ area }) => area};
@@ -48,7 +49,7 @@ const StyledButton = styled.button<{ isSelected: boolean }>`
   }
 `;
 
-const Badge = styled.span<{ color: keyof Theme }>`
+const Badge = styled.span<{ color: Colors }>`
   color: ${({ theme }) => theme.white};
   border-top: 0.25rem solid ${({ theme, color }) => theme[color]};
   border-right: 0.25rem solid ${({ theme, color }) => theme[color]};
@@ -59,7 +60,17 @@ const Badge = styled.span<{ color: keyof Theme }>`
   top: 0;
 `;
 
-const badgeColorMap: (keyof Theme)[] = ["error", "error", "warn", "success"];
+function getBadgeColor(matches: number): StatusColors {
+  if (matches < 1) {
+    return "error";
+  }
+
+  if (matches < 2) {
+    return "warn";
+  }
+
+  return "success";
+}
 
 export default function Selector({
   active = "",
@@ -106,7 +117,7 @@ export default function Selector({
                 >
                   {label}
                 </StyledButton>
-                {badge && <Badge color={badgeColorMap[badge]} />}
+                {badge && <Badge color={getBadgeColor(badge)} />}
               </StyledListItem>
             ))}
           </>

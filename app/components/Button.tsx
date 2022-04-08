@@ -1,7 +1,8 @@
-import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const StyledButton = styled.button<{ color?: keyof Theme }>`
+import { Colors } from "~/helpers/dataTypes";
+
+const StyledButton = styled.button<{ color?: Colors }>`
   background: ${({ theme, color }) => theme[color ?? "primary"]};
   color: ${({ theme }) => theme.white};
   padding: 0.5rem 1.5rem;

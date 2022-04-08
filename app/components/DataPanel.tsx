@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
 
-import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const StyledPanel = styled.div<{ area?: string; color: keyof Theme }>`
+import { Colors } from "~/helpers/dataTypes";
+
+const StyledPanel = styled.div<{ area?: string; color: Colors }>`
   border: 0.125rem solid ${({ theme, color }) => theme[color]};
   ${({ area }) => area && `grid-area: ${area}-data`};
   grid-template-columns: 1fr;
@@ -19,7 +20,7 @@ const StyledWrapper = styled.div`
   gap: 1rem;
 `;
 
-const StyledLegend = styled.legend<{ color: keyof Theme }>`
+const StyledLegend = styled.legend<{ color: Colors }>`
   color: ${({ theme, color }) =>
     color === "bg" ? theme.secondary : theme.white};
   background: ${({ theme, color }) => theme[color]};
@@ -33,7 +34,7 @@ export default function DataPanel({
   area,
 }: {
   children: ReactNode;
-  color?: keyof Theme;
+  color?: Colors;
   title?: string;
   area?: string;
 }) {

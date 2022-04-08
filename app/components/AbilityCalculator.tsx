@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 
-import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useLoaderData } from "remix";
 
@@ -20,10 +19,11 @@ import {
   CharacterRace,
   SkillGlossary,
   SkillName,
+  Colors,
 } from "~/helpers/dataTypes";
 import useCharCalculator from "~/hooks/useCharCalculator";
 
-const StyledAbilityLabel = styled.label<{ color: keyof Theme }>`
+const StyledAbilityLabel = styled.label<{ color: Colors }>`
   color: ${({ theme, color }) => theme[color]};
   text-transform: uppercase;
   justify-self: start;

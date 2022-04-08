@@ -7,11 +7,12 @@ import {
   useEffect,
 } from "react";
 
-import { Theme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { BiX } from "react-icons/bi";
 
-const ToasterWrapper = styled.div<{ color: keyof Theme }>`
+import { Colors, StatusColors } from "~/helpers/dataTypes";
+
+const ToasterWrapper = styled.div<{ color: Colors }>`
   box-shadow: 0 0 1rem 0.125rem ${({ theme }) => theme.black}33;
   border: 0.125rem solid ${({ theme, color }) => theme[color]};
   background: ${({ theme }) => theme.white};
@@ -30,7 +31,7 @@ const ContentWrapper = styled.div`
   padding: 0.5rem;
 `;
 
-const TitleWrapper = styled.legend<{ color: keyof Theme }>`
+const TitleWrapper = styled.legend<{ color: Colors }>`
   color: ${({ theme, color }) => (color === "bg" ? theme.black : theme.white)};
   background: ${({ theme, color }) => theme[color]};
   justify-content: space-between;
@@ -51,7 +52,7 @@ const IconButton = styled.button`
 
 interface ToasterState {
   content: ReactNode;
-  status: keyof Pick<Theme, "error" | "warn" | "success">;
+  status: StatusColors;
   onClose?: (...args: unknown[]) => void;
   dismissible?: boolean;
   title?: string;
