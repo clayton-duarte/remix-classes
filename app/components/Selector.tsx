@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import styled from "@emotion/styled";
-import { useNavigate } from "remix";
+import { useNavigate, useTransition } from "remix";
 
 import { Colors, StatusColors } from "~/helpers/types";
 
@@ -11,14 +11,23 @@ const StyledTitle = styled.h3<{ area: string }>`
   display: grid;
 `;
 
-const StyledList = styled.ul<{ area: string }>`
+const StyledList = styled.ul<{
+  isOpen: boolean;
+  items: number;
+  area: string;
+}>`
   border: 2px solid ${({ theme }) => theme.bg};
   grid-area: ${({ area }) => area};
+  transition: 0.3s ease;
   overflow: hidden;
-  padding: 0.25rem;
   display: grid;
+  padding: 2px;
   gap: 0.25rem;
   margin: 0;
+  max-height: ${({ isOpen, items }) =>
+    isOpen && items > 0
+      ? `calc(${items} * (1.2 * 1rem + .5rem + .25rem))`
+      : "calc(1.2 * 1rem + .5rem)"};
 `;
 
 const StyledListItem = styled.li`
@@ -31,9 +40,9 @@ const StyledListItem = styled.li`
   margin: 0;
 `;
 
-const StyledButton = styled.button<{ isSelected: boolean }>`
-  background: ${({ theme, isSelected }) =>
-    isSelected ? theme.bg : theme.white};
+const StyledButton = styled.button<{ isActive: boolean; isLoading: boolean }>`
+  background: ${({ theme, isActive }) => (isActive ? theme.bg : theme.white)};
+  opacity: ${({ isLoading, isActive }) => (!isActive && isLoading ? 0 : 1)};
   color: ${({ theme }) => theme.primary};
   font-family: "Cinzel", serif;
   text-transform: capitalize;
@@ -88,9 +97,11 @@ export default function Selector({
   active?: string;
   title?: string;
 }) {
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
   const [isOpen, setIsOpen] = useState<boolean>(!active);
+  const transition = useTransition();
   const navigate = useNavigate();
+  const isLoading = transition.state !== "idle";
+  const justOneOption = data.length === 1;
 
   useEffect(() => {
     setIsOpen(!active);
@@ -105,27 +116,41 @@ export default function Selector({
   return (
     <>
       <StyledTitle area={`${area}-title`}>{title ?? area}:</StyledTitle>
-      <StyledList area={`${area}-select`}>
-        {!isMobile || isOpen ? (
-          <>
-            {data.map(({ id, link, label, badge }) => (
+      <StyledList area={`${area}-select`} items={data.length} isOpen={isOpen}>
+        {data
+          .sort((a, b) => Number(b.id === active) - Number(a.id === active))
+          .map(({ id, link, label, badge }) => {
+            const isActive = id === active;
+
+            return (
               <StyledListItem key={id}>
                 <StyledButton
-                  onClick={() => navigate(link)}
-                  isSelected={id === active}
-                  disabled={id === active}
+                  onClick={() => {
+                    if (isActive) {
+                      setIsOpen(!isOpen);
+                    } else {
+                      navigate(link);
+                    }
+                  }}
+                  disabled={isLoading || justOneOption}
+                  isLoading={isLoading}
+                  isActive={isActive}
                 >
-                  {label}
+                  {isLoading ? "loading..." : label}
                 </StyledButton>
                 {badge && <Badge color={getBadgeColor(badge)} />}
               </StyledListItem>
-            ))}
-          </>
-        ) : (
-          <StyledButton isSelected onClick={() => setIsOpen(true)}>
-            {active}
-          </StyledButton>
-        )}
+            );
+          })}
+        {/* 
+        <StyledButton
+          onClick={() => setIsOpen(true)}
+          disabled={isLoading}
+          ref={buttonRef}
+          isSelected
+        >
+          {isLoading ? "loading..." : active}
+        </StyledButton> */}
       </StyledList>
     </>
   );
