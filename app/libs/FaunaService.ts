@@ -1,18 +1,23 @@
 import faunadb, {
   Function as Fn,
+  Intersection,
+  // Difference,
   Collection,
   Documents,
   Paginate,
-  // Select,
+  Select,
   Lambda,
+  // Filter,
+  // Equals,
   Match,
   Index,
+  Merge,
+  Union,
   Call,
   Var,
   Map,
   Get,
-  // Let,
-  // Ref,
+  Let,
 } from "faunadb";
 
 import {
@@ -22,6 +27,7 @@ import {
   CharacterRole,
   CharacterRace,
   PowerSource,
+  CharacterAbility,
 } from "~/helpers/dataTypes";
 
 interface QueryResponse<TData> {
@@ -104,5 +110,42 @@ export class CharacterClassService extends FaunaService<CharacterClass> {
 export class CharacterRaceService extends FaunaService<CharacterRace> {
   constructor() {
     super("character_race");
+  }
+
+  public getCharacterRaceByAbilityBonus(abilityBonuses: CharacterAbility[]) {
+    const [coreAbility] = abilityBonuses;
+
+    return this.client.query<QueryResponse<CharacterRace[]>>(
+      Map(
+        Paginate(
+          Intersection(
+            // required
+            Match(Index("character_race_by_ability_bonus"), coreAbility),
+            // optionals
+            Union(
+              abilityBonuses.map((ability) =>
+                Match(Index("character_race_by_ability_bonus"), ability)
+              )
+            )
+          )
+        ),
+        Lambda(
+          "ref",
+          Let(
+            {
+              doc: Get(Var("ref")),
+              data: Merge(Select(["data"], Var("doc")), {
+                // filters out unrelated abilities
+                abilityBonus: Intersection(
+                  Select(["data", "abilityBonus"], Var("doc")),
+                  abilityBonuses
+                ),
+              }),
+            },
+            Var("data")
+          )
+        )
+      )
+    );
   }
 }

@@ -3,7 +3,7 @@ import { useLoaderData, useParams, redirect, Outlet, json } from "remix";
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import {
-  filterAndSortCharacterRacesByAbilityBonus,
+  sortCharacterRacesByAbilityBonusLength,
   builderDynamicRoute,
 } from "~/helpers";
 import {
@@ -33,17 +33,21 @@ export const loader = async ({
   }
 
   const characterClassClient = new CharacterClassService();
-  const characterRaceListClient = new CharacterRaceService();
 
-  const [{ data: characterClass }, { data: characterRaceList }] =
-    await Promise.all([
-      characterClassClient.getOneByName(params.characterClassName),
-      characterRaceListClient.getMany(),
-    ]);
+  const { data: characterClass } = await characterClassClient.getOneByName(
+    params.characterClassName
+  );
 
   if (characterClass == null) {
     throw new Response("Not Found", { status: 404 });
   }
+
+  const characterRaceListClient = new CharacterRaceService();
+
+  const { data: characterRaceList } =
+    await characterRaceListClient.getCharacterRaceByAbilityBonus(
+      characterClass.keyAbilities
+    );
 
   if (
     characterRaceList.find(({ name }) => name === params.characterRaceName) ==
@@ -64,10 +68,8 @@ export const loader = async ({
 
   return json<LoaderResponse>({
     characterClass,
-    characterRaceList: filterAndSortCharacterRacesByAbilityBonus(
-      characterRaceList,
-      characterClass.keyAbilities
-    ),
+    characterRaceList:
+      sortCharacterRacesByAbilityBonusLength(characterRaceList),
   });
 };
 

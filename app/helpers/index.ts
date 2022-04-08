@@ -31,29 +31,10 @@ export function builderDynamicRoute(routeParams: CharBuilderChoices): string {
   return `/builder/${validPathMembers.join("/")}`;
 }
 
-export function filterAndSortCharacterRacesByAbilityBonus(
-  characterRacesList: CharacterRace[],
-  keyAbilities: CharacterAbility[]
+export function sortCharacterRacesByAbilityBonusLength(
+  characterRacesList: CharacterRace[]
 ): CharacterRace[] {
-  const [coreAbility] = keyAbilities;
-
-  return Object.values(characterRacesList)
-    .reduce((filteredRaces, currentRace): CharacterRace[] => {
-      const withFilteredAbilities = {
-        ...currentRace,
-        abilityBonus: currentRace.abilityBonus.filter((ability) =>
-          keyAbilities.includes(ability)
-        ),
-      };
-
-      if (
-        withFilteredAbilities.abilityBonus.length > 0 &&
-        withFilteredAbilities.abilityBonus.includes(coreAbility)
-      ) {
-        filteredRaces.push(withFilteredAbilities);
-      }
-
-      return filteredRaces;
-    }, [] as CharacterRace[])
-    .sort(({ abilityBonus: a }, { abilityBonus: b }) => b.length - a.length);
+  return characterRacesList.sort(
+    ({ abilityBonus: a }, { abilityBonus: b }) => b.length - a.length
+  );
 }

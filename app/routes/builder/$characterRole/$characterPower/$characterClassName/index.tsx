@@ -3,7 +3,7 @@ import { json, useLoaderData, useParams } from "remix";
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import {
-  filterAndSortCharacterRacesByAbilityBonus,
+  sortCharacterRacesByAbilityBonusLength,
   builderDynamicRoute,
 } from "~/helpers";
 import {
@@ -27,13 +27,21 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
   }
 
   const characterClassClient = new CharacterClassService();
+
+  const { data: characterClass } = await characterClassClient.getOneByName(
+    params.characterClassName
+  );
+
+  if (characterClass == null) {
+    throw new Response("Not Found", { status: 404 });
+  }
+
   const characterRaceListClient = new CharacterRaceService();
 
-  const [{ data: characterClass }, { data: characterRaceList }] =
-    await Promise.all([
-      characterClassClient.getOneByName(params.characterClassName),
-      characterRaceListClient.getMany(),
-    ]);
+  const { data: characterRaceList } =
+    await characterRaceListClient.getCharacterRaceByAbilityBonus(
+      characterClass.keyAbilities
+    );
 
   if (characterClass == null) {
     throw new Response("Not Found", { status: 404 });
@@ -41,10 +49,8 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
 
   return json<LoaderResponse>({
     characterClass,
-    characterRaceList: filterAndSortCharacterRacesByAbilityBonus(
-      characterRaceList,
-      characterClass.keyAbilities
-    ),
+    characterRaceList:
+      sortCharacterRacesByAbilityBonusLength(characterRaceList),
   });
 };
 
