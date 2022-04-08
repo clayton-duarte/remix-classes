@@ -16,10 +16,10 @@ import faunadb, {
 import { json, useParams, useLoaderData, redirect } from "remix";
 import { Link } from "remix";
 
-import { characterAbilityGlossary } from "~/helpers/dataTypes";
+// import { characterAbilityGlossary } from "~/helpers/dataTypes";
 
 export const loader = () => {
-  const formatted = Object.values(characterAbilityGlossary);
+  // const formatted = Object.values(characterAbilityGlossary);
 
   // const client = new faunadb.Client({
   //   secret: process.env.FAUNA_ADMIN_KEY ?? "",
@@ -36,7 +36,7 @@ export const loader = () => {
   //   )
   // );
 
-  console.log(">>>>>>>>>>>>>>>>>>>>>", formatted);
+  // console.log(">>>>>>>>>>>>>>>>>>>>>", formatted);
 
   return json({});
 };
