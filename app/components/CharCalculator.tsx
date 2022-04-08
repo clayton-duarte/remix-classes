@@ -29,7 +29,7 @@ export default function CharacterSkills(): JSX.Element {
   const { reset } = useCharCalculator();
 
   const { characterAbilities } = useLoaderData<{
-    characterAbilities: CharacterAbility[];
+    characterAbilities: CharacterAbility["name"][];
   }>();
 
   return (

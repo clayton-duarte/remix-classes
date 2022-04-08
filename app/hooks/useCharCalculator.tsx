@@ -40,7 +40,7 @@ function getInitialAbilityBonusSelection(
     characterClass: CharacterClass;
     characterRace: CharacterRace;
   },
-  callback: Dispatch<CharacterAbility[]>
+  callback: Dispatch<CharacterAbility["name"][]>
 ): void {
   if (characterRace.abilityBonus.length === ABILITY_BONUS_LIMIT) {
     return callback(characterRace.abilityBonus);
@@ -63,8 +63,8 @@ interface CharCalculatorCtxType {
   setTrainedSkills: Dispatch<SkillName[]>;
   scorePointsDistribution: typeof initialScorePointsDistribution;
   setScorePointsDistribution: Dispatch<typeof initialScorePointsDistribution>;
-  selectedAbilityBonus: CharacterAbility[];
-  setSelectedAbilityBonus: Dispatch<CharacterAbility[]>;
+  selectedAbilityBonus: CharacterAbility["name"][];
+  setSelectedAbilityBonus: Dispatch<CharacterAbility["name"][]>;
 }
 
 const CharCalculatorCtx = createContext<CharCalculatorCtxType>(
@@ -87,7 +87,7 @@ export function CharCalculatorProvider({ children }: { children: ReactNode }) {
 
   const [selectedAbilityBonus, setSelectedAbilityBonus] = useStorage(
     "selectedAbilityBonus"
-  )<CharacterAbility[]>([]);
+  )<CharacterAbility["name"][]>([]);
 
   useEffect(() => {
     getInitialAbilityBonusSelection(
@@ -182,7 +182,7 @@ export default function useCharCalculator() {
     return setTrainedSkills(removeItemFromByIndex(trainedSkills, checkedIndex));
   };
 
-  const toggleAbility = (keyAbility: CharacterAbility) => {
+  const toggleAbility = (keyAbility: CharacterAbility["name"]) => {
     const checkedIndex = selectedAbilityBonus.indexOf(keyAbility);
 
     if (checkedIndex < 0 && selectedAbilityBonus.length < ABILITY_BONUS_LIMIT) {

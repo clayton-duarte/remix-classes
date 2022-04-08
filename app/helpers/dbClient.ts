@@ -14,7 +14,7 @@ import {
   CharacterRace,
   CharacterRaceName,
   PowerSourceName,
-  CharacterAbility,
+  CharacterAbilityName,
   SkillGlossary,
   skillGlossary,
   CharacterRole,
@@ -137,8 +137,8 @@ class DbClient {
     return skillGlossary;
   }
 
-  public fetchCharacterAbilities(): CharacterAbility[] {
-    return Object.values(CharacterAbility);
+  public fetchCharacterAbilities(): CharacterAbilityName[] {
+    return Object.values(CharacterAbilityName);
   }
 
   public fetchCharacterRoles(): CharacterRoleName[] {
@@ -197,7 +197,7 @@ class DbClient {
   }
 
   public fetchCharacterRacesByAbilityBonus(
-    keyAbilities: CharacterAbility[]
+    keyAbilities: CharacterAbilityName[]
   ): CharacterRace[] {
     const [coreAbility] = keyAbilities;
 

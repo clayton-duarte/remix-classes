@@ -1,4 +1,4 @@
-import { CharacterAbility } from "~/helpers/dataTypes";
+import { CharacterAbilityName } from "~/helpers/dataTypes";
 
 export const SCORE_POINTS_TO_DISTRIBUTE = 20;
 
@@ -17,13 +17,13 @@ export const ABILITY_SCORE_BONUS_VALUE = 2;
 export const TRAINED_SKILL_BONUS_VALUE = 5;
 
 export const initialScorePointsDistribution: Record<
-  CharacterAbility,
+  CharacterAbilityName,
   typeof COST_BY_SCORE[number]
 > = {
-  [CharacterAbility.Charisma]: 0,
-  [CharacterAbility.Constitution]: 0,
-  [CharacterAbility.Dexterity]: 0,
-  [CharacterAbility.Intelligence]: 0,
-  [CharacterAbility.Strength]: 0,
-  [CharacterAbility.Wisdom]: 0,
+  [CharacterAbilityName.Charisma]: 0,
+  [CharacterAbilityName.Constitution]: 0,
+  [CharacterAbilityName.Dexterity]: 0,
+  [CharacterAbilityName.Intelligence]: 0,
+  [CharacterAbilityName.Strength]: 0,
+  [CharacterAbilityName.Wisdom]: 0,
 } as const;

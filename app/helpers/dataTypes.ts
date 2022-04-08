@@ -88,7 +88,7 @@ export const characterPowerSourceGlossary: CharacterPowerSourceGlossary = {
   },
 };
 
-export enum CharacterAbility {
+export enum CharacterAbilityName {
   Strength = "strength",
   Constitution = "constitution",
   Dexterity = "dexterity",
@@ -96,6 +96,51 @@ export enum CharacterAbility {
   Wisdom = "wisdom",
   Charisma = "charisma",
 }
+
+export interface CharacterAbility {
+  name: CharacterAbilityName;
+  description: string;
+  sort: number;
+}
+
+export const characterAbilityGlossary: {
+  [key in CharacterAbilityName]: {
+    description: string;
+    sort: number;
+    name: key;
+  };
+} = {
+  [CharacterAbilityName.Strength]: {
+    name: CharacterAbilityName.Strength,
+    description: "",
+    sort: 0,
+  },
+  [CharacterAbilityName.Constitution]: {
+    name: CharacterAbilityName.Constitution,
+    description: "",
+    sort: 1,
+  },
+  [CharacterAbilityName.Dexterity]: {
+    name: CharacterAbilityName.Dexterity,
+    description: "",
+    sort: 2,
+  },
+  [CharacterAbilityName.Intelligence]: {
+    name: CharacterAbilityName.Intelligence,
+    description: "",
+    sort: 3,
+  },
+  [CharacterAbilityName.Wisdom]: {
+    name: CharacterAbilityName.Wisdom,
+    description: "",
+    sort: 4,
+  },
+  [CharacterAbilityName.Charisma]: {
+    name: CharacterAbilityName.Charisma,
+    description: "",
+    sort: 5,
+  },
+};
 
 export enum SkillName {
   Acrobatics = "acrobatics",
@@ -120,7 +165,7 @@ export enum SkillName {
 export type SkillGlossary = {
   [key in SkillName]: {
     name: key;
-    keyAbility: CharacterAbility;
+    keyAbility: CharacterAbilityName;
   };
 };
 
@@ -129,71 +174,71 @@ export type Skill = SkillGlossary[SkillName];
 export const skillGlossary: SkillGlossary = {
   [SkillName.Acrobatics]: {
     name: SkillName.Acrobatics,
-    keyAbility: CharacterAbility.Dexterity,
+    keyAbility: CharacterAbilityName.Dexterity,
   },
   [SkillName.Arcana]: {
     name: SkillName.Arcana,
-    keyAbility: CharacterAbility.Intelligence,
+    keyAbility: CharacterAbilityName.Intelligence,
   },
   [SkillName.Athletics]: {
     name: SkillName.Athletics,
-    keyAbility: CharacterAbility.Strength,
+    keyAbility: CharacterAbilityName.Strength,
   },
   [SkillName.Bluff]: {
     name: SkillName.Bluff,
-    keyAbility: CharacterAbility.Charisma,
+    keyAbility: CharacterAbilityName.Charisma,
   },
   [SkillName.Diplomacy]: {
     name: SkillName.Diplomacy,
-    keyAbility: CharacterAbility.Charisma,
+    keyAbility: CharacterAbilityName.Charisma,
   },
   [SkillName.Dungeoneering]: {
     name: SkillName.Dungeoneering,
-    keyAbility: CharacterAbility.Dexterity,
+    keyAbility: CharacterAbilityName.Dexterity,
   },
   [SkillName.Endurance]: {
     name: SkillName.Endurance,
-    keyAbility: CharacterAbility.Constitution,
+    keyAbility: CharacterAbilityName.Constitution,
   },
   [SkillName.Heal]: {
     name: SkillName.Heal,
-    keyAbility: CharacterAbility.Wisdom,
+    keyAbility: CharacterAbilityName.Wisdom,
   },
   [SkillName.History]: {
     name: SkillName.History,
-    keyAbility: CharacterAbility.Intelligence,
+    keyAbility: CharacterAbilityName.Intelligence,
   },
   [SkillName.Insight]: {
     name: SkillName.Insight,
-    keyAbility: CharacterAbility.Wisdom,
+    keyAbility: CharacterAbilityName.Wisdom,
   },
   [SkillName.Intimidate]: {
     name: SkillName.Intimidate,
-    keyAbility: CharacterAbility.Charisma,
+    keyAbility: CharacterAbilityName.Charisma,
   },
   [SkillName.Nature]: {
     name: SkillName.Nature,
-    keyAbility: CharacterAbility.Wisdom,
+    keyAbility: CharacterAbilityName.Wisdom,
   },
   [SkillName.Perception]: {
     name: SkillName.Perception,
-    keyAbility: CharacterAbility.Wisdom,
+    keyAbility: CharacterAbilityName.Wisdom,
   },
   [SkillName.Religion]: {
     name: SkillName.Religion,
-    keyAbility: CharacterAbility.Intelligence,
+    keyAbility: CharacterAbilityName.Intelligence,
   },
   [SkillName.Stealth]: {
     name: SkillName.Stealth,
-    keyAbility: CharacterAbility.Dexterity,
+    keyAbility: CharacterAbilityName.Dexterity,
   },
   [SkillName.Streetwise]: {
     name: SkillName.Streetwise,
-    keyAbility: CharacterAbility.Charisma,
+    keyAbility: CharacterAbilityName.Charisma,
   },
   [SkillName.Thievery]: {
     name: SkillName.Thievery,
-    keyAbility: CharacterAbility.Dexterity,
+    keyAbility: CharacterAbilityName.Dexterity,
   },
 };
 
@@ -228,7 +273,7 @@ export type CharacterClassGlossary = {
     name: key;
     powerSource: PowerSourceName;
     mainRole: CharacterRoleName;
-    keyAbilities: CharacterAbility[];
+    keyAbilities: CharacterAbilityName[];
     skillChoices: number;
     trainedSkills: SkillName[];
     skillList: SkillName[];
@@ -259,9 +304,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Religion,
     ],
     keyAbilities: [
-      CharacterAbility.Wisdom,
-      CharacterAbility.Strength,
-      CharacterAbility.Charisma,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Charisma,
     ],
   },
   [CharacterClassName.Fighter]: {
@@ -281,10 +326,10 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Streetwise,
     ],
     keyAbilities: [
-      CharacterAbility.Strength,
-      CharacterAbility.Dexterity,
-      CharacterAbility.Constitution,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterClassName.Paladin]: {
@@ -307,9 +352,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Religion,
     ],
     keyAbilities: [
-      CharacterAbility.Strength,
-      CharacterAbility.Charisma,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Charisma,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterClassName.Ranger]: {
@@ -332,9 +377,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Perception,
     ],
     keyAbilities: [
-      CharacterAbility.Strength,
-      CharacterAbility.Dexterity,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterClassName.Rogue]: {
@@ -360,9 +405,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Thievery,
     ],
     keyAbilities: [
-      CharacterAbility.Dexterity,
-      CharacterAbility.Strength,
-      CharacterAbility.Charisma,
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Charisma,
     ],
   },
   [CharacterClassName.Warlock]: {
@@ -386,9 +431,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Thievery,
     ],
     keyAbilities: [
-      CharacterAbility.Charisma,
-      CharacterAbility.Constitution,
-      CharacterAbility.Intelligence,
+      CharacterAbilityName.Charisma,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Intelligence,
     ],
   },
   [CharacterClassName.Warlord]: {
@@ -409,9 +454,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Intimidate,
     ],
     keyAbilities: [
-      CharacterAbility.Strength,
-      CharacterAbility.Intelligence,
-      CharacterAbility.Charisma,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Intelligence,
+      CharacterAbilityName.Charisma,
     ],
   },
   [CharacterClassName.Wizard]: {
@@ -434,9 +479,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Religion,
     ],
     keyAbilities: [
-      CharacterAbility.Intelligence,
-      CharacterAbility.Wisdom,
-      CharacterAbility.Dexterity,
+      CharacterAbilityName.Intelligence,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Dexterity,
     ],
   },
   [CharacterClassName.Avenger]: {
@@ -460,9 +505,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Streetwise,
     ],
     keyAbilities: [
-      CharacterAbility.Wisdom,
-      CharacterAbility.Dexterity,
-      CharacterAbility.Intelligence,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Intelligence,
     ],
   },
   [CharacterClassName.Barbarian]: {
@@ -484,9 +529,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Perception,
     ],
     keyAbilities: [
-      CharacterAbility.Strength,
-      CharacterAbility.Constitution,
-      CharacterAbility.Charisma,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Charisma,
     ],
   },
   [CharacterClassName.Bard]: {
@@ -516,9 +561,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Streetwise,
     ],
     keyAbilities: [
-      CharacterAbility.Charisma,
-      CharacterAbility.Intelligence,
-      CharacterAbility.Constitution,
+      CharacterAbilityName.Charisma,
+      CharacterAbilityName.Intelligence,
+      CharacterAbilityName.Constitution,
     ],
   },
   [CharacterClassName.Druid]: {
@@ -542,9 +587,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Perception,
     ],
     keyAbilities: [
-      CharacterAbility.Wisdom,
-      CharacterAbility.Dexterity,
-      CharacterAbility.Constitution,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Constitution,
     ],
   },
   [CharacterClassName.Invoker]: {
@@ -567,9 +612,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Religion,
     ],
     keyAbilities: [
-      CharacterAbility.Wisdom,
-      CharacterAbility.Constitution,
-      CharacterAbility.Intelligence,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Intelligence,
     ],
   },
   [CharacterClassName.Shaman]: {
@@ -594,9 +639,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Religion,
     ],
     keyAbilities: [
-      CharacterAbility.Wisdom,
-      CharacterAbility.Constitution,
-      CharacterAbility.Intelligence,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Intelligence,
     ],
   },
   [CharacterClassName.Sorcerer]: {
@@ -621,9 +666,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Nature,
     ],
     keyAbilities: [
-      CharacterAbility.Charisma,
-      CharacterAbility.Dexterity,
-      CharacterAbility.Strength,
+      CharacterAbilityName.Charisma,
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Strength,
     ],
   },
   [CharacterClassName.Warden]: {
@@ -646,9 +691,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Perception,
     ],
     keyAbilities: [
-      CharacterAbility.Strength,
-      CharacterAbility.Constitution,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterClassName.Ardent]: {
@@ -672,9 +717,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Streetwise,
     ],
     keyAbilities: [
-      CharacterAbility.Charisma,
-      CharacterAbility.Constitution,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Charisma,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterClassName.Battlemind]: {
@@ -698,9 +743,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Intimidate,
     ],
     keyAbilities: [
-      CharacterAbility.Constitution,
-      CharacterAbility.Wisdom,
-      CharacterAbility.Charisma,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Charisma,
     ],
   },
   [CharacterClassName.Monk]: {
@@ -726,9 +771,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Thievery,
     ],
     keyAbilities: [
-      CharacterAbility.Dexterity,
-      CharacterAbility.Strength,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterClassName.Psion]: {
@@ -752,9 +797,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Perception,
     ],
     keyAbilities: [
-      CharacterAbility.Intelligence,
-      CharacterAbility.Charisma,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Intelligence,
+      CharacterAbilityName.Charisma,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterClassName.Runepriest]: {
@@ -778,9 +823,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Thievery,
     ],
     keyAbilities: [
-      CharacterAbility.Strength,
-      CharacterAbility.Constitution,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterClassName.Seeker]: {
@@ -805,9 +850,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Stealth,
     ],
     keyAbilities: [
-      CharacterAbility.Wisdom,
-      CharacterAbility.Strength,
-      CharacterAbility.Dexterity,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Dexterity,
     ],
   },
   [CharacterClassName.SwordMage]: {
@@ -830,9 +875,9 @@ export const characterClassesGlossary: CharacterClassGlossary = {
       SkillName.Intimidate,
     ],
     keyAbilities: [
-      CharacterAbility.Intelligence,
-      CharacterAbility.Strength,
-      CharacterAbility.Constitution,
+      CharacterAbilityName.Intelligence,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Constitution,
     ],
   },
 };
@@ -862,7 +907,7 @@ export enum CharacterRaceName {
 export type CharacterRacesGlossary = {
   [key in CharacterRaceName]: {
     name: key;
-    abilityBonus: CharacterAbility[];
+    abilityBonus: CharacterAbilityName[];
     description: string;
     book: string;
     page: number;
@@ -878,7 +923,10 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description:
       "Proud, honorable warriors, born from the blood of an ancient dragon god.",
     name: CharacterRaceName.Dragonborn,
-    abilityBonus: [CharacterAbility.Charisma, CharacterAbility.Strength],
+    abilityBonus: [
+      CharacterAbilityName.Charisma,
+      CharacterAbilityName.Strength,
+    ],
   },
   [CharacterRaceName.Dwarf]: {
     book: "Player's Handbook 1",
@@ -886,7 +934,10 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description:
       "Masters of stone and iron, dauntless and unyielding in the face of adversity.",
     name: CharacterRaceName.Dwarf,
-    abilityBonus: [CharacterAbility.Constitution, CharacterAbility.Wisdom],
+    abilityBonus: [
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Wisdom,
+    ],
   },
   [CharacterRaceName.Eladrin]: {
     book: "Player's Handbook 1",
@@ -894,14 +945,17 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description:
       "Graceful warriors and wizards at home in the eldritch twilight of the Feywild.",
     name: CharacterRaceName.Eladrin,
-    abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Intelligence],
+    abilityBonus: [
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Intelligence,
+    ],
   },
   [CharacterRaceName.Elf]: {
     book: "Player's Handbook 1",
     page: 40,
     description: "Quick, wary archers who freely roam the forests and wilds.",
     name: CharacterRaceName.Elf,
-    abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Wisdom],
+    abilityBonus: [CharacterAbilityName.Dexterity, CharacterAbilityName.Wisdom],
   },
   [CharacterRaceName.HalfElf]: {
     book: "Player's Handbook 1",
@@ -909,7 +963,10 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description:
       "Born heroes and leaders who combine the best features of humans and elves.",
     name: CharacterRaceName.HalfElf,
-    abilityBonus: [CharacterAbility.Constitution, CharacterAbility.Charisma],
+    abilityBonus: [
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Charisma,
+    ],
   },
   [CharacterRaceName.Halfling]: {
     book: "Player's Handbook 1",
@@ -917,7 +974,10 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description:
       "Quick and resourceful wanderers, small in stature but great in courage.",
     name: CharacterRaceName.Halfling,
-    abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Charisma],
+    abilityBonus: [
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Charisma,
+    ],
   },
   [CharacterRaceName.Human]: {
     book: "Player's Handbook 1",
@@ -926,12 +986,12 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
       "Ambitious, driven, pragmatic. A race of heroes, and also a race of villains.",
     name: CharacterRaceName.Human,
     abilityBonus: [
-      CharacterAbility.Dexterity,
-      CharacterAbility.Charisma,
-      CharacterAbility.Constitution,
-      CharacterAbility.Intelligence,
-      CharacterAbility.Strength,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Charisma,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Intelligence,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterRaceName.Tiefling]: {
@@ -940,7 +1000,10 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description:
       "Heirs of a shattered empire who live in the shadows and do not fear the dark.",
     name: CharacterRaceName.Tiefling,
-    abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Charisma],
+    abilityBonus: [
+      CharacterAbilityName.Intelligence,
+      CharacterAbilityName.Charisma,
+    ],
   },
   [CharacterRaceName.Deva]: {
     book: "Player's Handbook 2",
@@ -948,7 +1011,10 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description:
       "Immortal spirits who embody virtue, born and reborn to mortal life in the world.",
     name: CharacterRaceName.Deva,
-    abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Wisdom],
+    abilityBonus: [
+      CharacterAbilityName.Intelligence,
+      CharacterAbilityName.Wisdom,
+    ],
   },
   [CharacterRaceName.Gnome]: {
     book: "Player's Handbook 2",
@@ -956,7 +1022,10 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description:
       "Slight, sly tricksters of the Feywild who excel at avoiding notice.",
     name: CharacterRaceName.Gnome,
-    abilityBonus: [CharacterAbility.Intelligence, CharacterAbility.Charisma],
+    abilityBonus: [
+      CharacterAbilityName.Intelligence,
+      CharacterAbilityName.Charisma,
+    ],
   },
   [CharacterRaceName.Goliath]: {
     book: "Player's Handbook 2",
@@ -964,14 +1033,20 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description:
       "Tribal nomads of the mountains, strong as the rock and proud as the peak.",
     name: CharacterRaceName.Goliath,
-    abilityBonus: [CharacterAbility.Strength, CharacterAbility.Constitution],
+    abilityBonus: [
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Constitution,
+    ],
   },
   [CharacterRaceName.HalfOrc]: {
     book: "Player's Handbook 2",
     page: 14,
     description: "Fierce warriors who combine human resolve with orc savagery.",
     name: CharacterRaceName.HalfOrc,
-    abilityBonus: [CharacterAbility.Strength, CharacterAbility.Dexterity],
+    abilityBonus: [
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Dexterity,
+    ],
   },
   [CharacterRaceName.Shifter]: {
     book: "Player's Handbook 2",
@@ -980,9 +1055,9 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
       "Ferocious heirs of the wild, the perfect fusion of civilized race and wild beast.",
     name: CharacterRaceName.Shifter,
     abilityBonus: [
-      CharacterAbility.Strength,
-      CharacterAbility.Dexterity,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterRaceName.Githzerai]: {
@@ -991,9 +1066,9 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description: "Ascetic and disciplined, masters of body and mind.",
     name: CharacterRaceName.Githzerai,
     abilityBonus: [
-      CharacterAbility.Wisdom,
-      CharacterAbility.Dexterity,
-      CharacterAbility.Intelligence,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Intelligence,
     ],
   },
   [CharacterRaceName.Minotaur]: {
@@ -1003,9 +1078,9 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
       "Caught between savagery and civilization, these warriors struggle against the beast within.",
     name: CharacterRaceName.Minotaur,
     abilityBonus: [
-      CharacterAbility.Strength,
-      CharacterAbility.Constitution,
-      CharacterAbility.Wisdom,
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Wisdom,
     ],
   },
   [CharacterRaceName.Shardmind]: {
@@ -1015,9 +1090,9 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
       "Raw psionic energy barely contained in a body of gleaming crystalline shards.",
     name: CharacterRaceName.Shardmind,
     abilityBonus: [
-      CharacterAbility.Intelligence,
-      CharacterAbility.Wisdom,
-      CharacterAbility.Charisma,
+      CharacterAbilityName.Intelligence,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Charisma,
     ],
   },
   [CharacterRaceName.Wilden]: {
@@ -1027,9 +1102,9 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
       "Nature's guardians-hunters and destroyers - keepers of ancient knowledge.",
     name: CharacterRaceName.Wilden,
     abilityBonus: [
-      CharacterAbility.Wisdom,
-      CharacterAbility.Constitution,
-      CharacterAbility.Dexterity,
+      CharacterAbilityName.Wisdom,
+      CharacterAbilityName.Constitution,
+      CharacterAbilityName.Dexterity,
     ],
   },
   [CharacterRaceName.Drow]: {
@@ -1037,7 +1112,10 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     page: 8,
     description: "Graceful and deadly, at home in the depths of darkness.",
     name: CharacterRaceName.Drow,
-    abilityBonus: [CharacterAbility.Dexterity, CharacterAbility.Charisma],
+    abilityBonus: [
+      CharacterAbilityName.Dexterity,
+      CharacterAbilityName.Charisma,
+    ],
   },
   [CharacterRaceName.Genasi]: {
     book: "Forgotten Realms Player's Guide",
@@ -1045,7 +1123,10 @@ export const characterRacesGlossary: CharacterRacesGlossary = {
     description:
       "Energy embodied, chaos and order united - a race of inherent flexibility, passion and diversity.",
     name: CharacterRaceName.Genasi,
-    abilityBonus: [CharacterAbility.Strength, CharacterAbility.Intelligence],
+    abilityBonus: [
+      CharacterAbilityName.Strength,
+      CharacterAbilityName.Intelligence,
+    ],
   },
 };
 

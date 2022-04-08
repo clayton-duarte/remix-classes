@@ -34,7 +34,7 @@ const StyledAbilityLabel = styled.label<{ color: Colors }>`
 export default function AbilityCalculator({
   keyAbility,
 }: {
-  keyAbility: CharacterAbility;
+  keyAbility: CharacterAbility["name"];
 }): JSX.Element {
   const {
     scorePointsDistribution,
@@ -45,7 +45,7 @@ export default function AbilityCalculator({
   } = useCharCalculator();
 
   const { characterClass, characterRace, skillGlossary } = useLoaderData<{
-    characterAbilities: CharacterAbility[];
+    characterAbilities: CharacterAbility["name"][];
     characterClass: CharacterClass;
     characterRace: CharacterRace;
     skillGlossary: SkillGlossary;
@@ -71,7 +71,7 @@ export default function AbilityCalculator({
         ...acc,
         [keyAbility]: [...currentList, name],
       };
-    }, {} as { [key in CharacterAbility]: SkillName[] });
+    }, {} as { [key in CharacterAbility["name"]]: SkillName[] });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

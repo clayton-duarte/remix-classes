@@ -17,7 +17,7 @@ import {
 } from "~/libs/FaunaService";
 
 interface LoaderResponse {
-  characterAbilities: CharacterAbility[];
+  characterAbilities: CharacterAbility["name"][];
   characterClass: CharacterClass;
   characterRace: CharacterRace;
   skillGlossary: SkillGlossary;

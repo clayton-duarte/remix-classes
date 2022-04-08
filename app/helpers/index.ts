@@ -1,10 +1,6 @@
 import { useParams } from "remix";
 
-import {
-  CharBuilderChoices,
-  CharacterAbility,
-  CharacterRace,
-} from "~/helpers/dataTypes";
+import { CharBuilderChoices, CharacterRace } from "~/helpers/dataTypes";
 
 function getOnlyValidRouteMember(
   routeParams: CharBuilderChoices

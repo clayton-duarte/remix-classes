@@ -49,7 +49,7 @@ export default function AbilityPointSelector({
   baseScore,
   ability,
 }: {
-  ability: CharacterAbility;
+  ability: CharacterAbility["name"];
   baseScore: number;
 }): JSX.Element {
   const { setScorePointsDistribution, scorePointsDistribution, sumOfPoints } =
