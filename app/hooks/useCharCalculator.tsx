@@ -13,12 +13,12 @@ import {
   initialScorePointsDistribution,
   SCORE_POINTS_TO_DISTRIBUTE,
   ABILITY_BONUS_LIMIT,
+  SkillName,
 } from "~/helpers/consts";
 import {
   CharacterAbility,
   CharacterClass,
   CharacterRace,
-  SkillName,
 } from "~/helpers/types";
 import useCalculatorWarn from "~/hooks/useCalculatorWarn";
 import useStorage from "~/hooks/useStorage";

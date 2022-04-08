@@ -12,12 +12,12 @@ import {
   ABILITY_BONUS_LIMIT,
   BASE_ABILITY_SCORE,
   SCORE_COSTS,
+  SkillName,
 } from "~/helpers/consts";
 import {
   CharacterAbility,
   CharacterClass,
   CharacterRace,
-  SkillName,
   Colors,
   Skill,
 } from "~/helpers/types";

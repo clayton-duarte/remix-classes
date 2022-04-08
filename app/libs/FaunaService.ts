@@ -21,10 +21,9 @@ import faunadb, {
   Let,
 } from "faunadb";
 
+import { CharacterRoleName, PowerSourceName } from "~/helpers/consts";
 import {
-  CharacterRoleName,
   CharacterAbility,
-  PowerSourceName,
   CharacterClass,
   CharacterRole,
   CharacterRace,

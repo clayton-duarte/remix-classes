@@ -3,8 +3,8 @@ import { useLoaderData } from "remix";
 
 import BonusCheckbox from "~/components/BonusCheckbox";
 import ModifierLabel from "~/components/ModifierLabel";
-import { TRAINED_SKILL_BONUS_VALUE } from "~/helpers/consts";
-import { CharacterClass, SkillName } from "~/helpers/types";
+import { TRAINED_SKILL_BONUS_VALUE, SkillName } from "~/helpers/consts";
+import { CharacterClass } from "~/helpers/types";
 import useCharCalculator from "~/hooks/useCharCalculator";
 
 const StyledHelperText = styled.span`
