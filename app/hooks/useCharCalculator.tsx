@@ -72,10 +72,16 @@ const CharCalculatorCtx = createContext<CharCalculatorCtxType>(
 );
 
 export function CharCalculatorProvider({ children }: { children: ReactNode }) {
-  const { characterClass, characterRace } = useLoaderData<{
-    characterClass: CharacterClass;
-    characterRace: CharacterRace;
-  }>();
+  const { characterClass, characterRace } = useLoaderData<
+    Partial<{
+      characterClass: CharacterClass;
+      characterRace: CharacterRace;
+    }>
+  >();
+
+  if (!characterClass || !characterRace) {
+    throw new Error("Page loader is missing data");
+  }
 
   const [trainedSkills, setTrainedSkills] = useStorage("trainedSkills")(
     characterClass.trainedSkills
@@ -151,10 +157,12 @@ export default function useCharCalculator() {
     trainedSkills,
   } = useContext(CharCalculatorCtx);
 
-  const { characterClass, characterRace } = useLoaderData<{
-    characterClass: CharacterClass;
-    characterRace: CharacterRace;
-  }>();
+  const { characterClass, characterRace } = useLoaderData<
+    Partial<{
+      characterClass: CharacterClass;
+      characterRace: CharacterRace;
+    }>
+  >();
 
   const sumOfPoints = useMemo(() => {
     return Object.values(scorePointsDistribution ?? {}).reduce(
@@ -162,6 +170,10 @@ export default function useCharCalculator() {
       0 as number
     );
   }, [scorePointsDistribution]);
+
+  if (!characterClass || !characterRace) {
+    throw new Error("Page loader is missing data");
+  }
 
   const hasSkillChoices = characterClass.skillChoices - trainedSkills.length;
   const bonusesToSelect = ABILITY_BONUS_LIMIT - selectedAbilityBonus.length;

@@ -7,20 +7,21 @@ import {
   CharacterAbility,
   CharacterClass,
   CharacterRace,
-  SkillGlossary,
+  Skill,
 } from "~/helpers/dataTypes";
-import dbClient from "~/helpers/dbClient";
 import { CharCalculatorProvider } from "~/hooks/useCharCalculator";
 import {
+  CharacterAbilitiesService,
+  CharacterSkillsService,
   CharacterClassService,
   CharacterRaceService,
 } from "~/libs/FaunaService";
 
 interface LoaderResponse {
-  characterAbilities: CharacterAbility["name"][];
+  characterAbilityList: CharacterAbility[];
   characterClass: CharacterClass;
   characterRace: CharacterRace;
-  skillGlossary: SkillGlossary;
+  skillList: Skill[];
 }
 
 export const loader = async ({ params }: { params: CharBuilderChoices }) => {
@@ -30,21 +31,28 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
     });
   }
 
+  const characterAbilityListClient = new CharacterAbilitiesService();
   const characterClassClient = new CharacterClassService();
-  const characterRaceListClient = new CharacterRaceService();
+  const characterRaceClient = new CharacterRaceService();
+  const skillListClient = new CharacterSkillsService();
 
-  const [{ data: characterClass }, { data: characterRace }] = await Promise.all(
-    [
-      characterClassClient.getOneByName(params.characterClassName),
-      characterRaceListClient.getOneByName(params.characterRaceName),
-    ]
-  );
+  const [
+    { data: characterAbilityList },
+    { data: characterClass },
+    { data: characterRace },
+    { data: skillList },
+  ] = await Promise.all([
+    characterAbilityListClient.getAll(),
+    characterClassClient.getOneByName(params.characterClassName),
+    characterRaceClient.getOneByName(params.characterRaceName),
+    skillListClient.getAll(),
+  ]);
 
   return json<LoaderResponse>({
-    characterAbilities: dbClient.fetchCharacterAbilities(),
-    skillGlossary: dbClient.fetchSkillGlossary(),
+    characterAbilityList,
     characterClass,
     characterRace,
+    skillList,
   });
 };
 

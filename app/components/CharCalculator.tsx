@@ -28,19 +28,25 @@ const ParentCalculatorWrapper = styled.div`
 export default function CharacterSkills(): JSX.Element {
   const { reset } = useCharCalculator();
 
-  const { characterAbilities } = useLoaderData<{
-    characterAbilities: CharacterAbility["name"][];
-  }>();
+  const { characterAbilityList } = useLoaderData<
+    Partial<{
+      characterAbilityList: CharacterAbility[];
+    }>
+  >();
+
+  if (!characterAbilityList) {
+    throw new Error("Page loader is missing data");
+  }
 
   return (
     <>
       <ParentCalculatorWrapper>
         <DataPanel color="secondary" title="Abilities/Skills">
           <CalculatorWrapper>
-            {characterAbilities.map((keyAbility) => (
+            {characterAbilityList.map(({ name }) => (
               <AbilityCalculator
-                key={`${keyAbility}-ability-calculator`}
-                keyAbility={keyAbility}
+                key={`${name}-ability-calculator`}
+                keyAbility={name}
               />
             ))}
           </CalculatorWrapper>

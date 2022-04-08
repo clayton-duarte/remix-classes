@@ -34,9 +34,15 @@ export default function SkillCalculator({
 }) {
   const { trainedSkills, toggleSkill } = useCharCalculator();
 
-  const { characterClass } = useLoaderData<{
-    characterClass: CharacterClass;
-  }>();
+  const { characterClass } = useLoaderData<
+    Partial<{
+      characterClass: CharacterClass;
+    }>
+  >();
+
+  if (!characterClass) {
+    throw new Error("Page loader is missing data");
+  }
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
   const isClassSkill = characterClass.trainedSkills.includes(skillName);

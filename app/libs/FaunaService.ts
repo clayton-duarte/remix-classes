@@ -5,6 +5,7 @@ import faunadb, {
   Collection,
   Documents,
   Paginate,
+  Distinct,
   Select,
   Lambda,
   // Filter,
@@ -22,12 +23,13 @@ import faunadb, {
 
 import {
   CharacterRoleName,
+  CharacterAbility,
   PowerSourceName,
   CharacterClass,
   CharacterRole,
   CharacterRace,
   PowerSource,
-  CharacterAbility,
+  Skill,
 } from "~/helpers/dataTypes";
 
 interface QueryResponse<TData> {
@@ -38,13 +40,21 @@ type Collections =
   | "character_roles"
   | "power_sources"
   | "character_class"
-  | "character_race";
+  | "character_race"
+  | "character_skills"
+  | "character_abilities";
 
 class FaunaService<
-  TData extends CharacterRole | PowerSource | CharacterClass | CharacterRace
+  TData extends
+    | CharacterRole
+    | PowerSource
+    | CharacterClass
+    | CharacterRace
+    | Skill
+    | CharacterAbility
 > {
   public client: faunadb.Client;
-  private collection: Collections;
+  public collection: Collections;
 
   constructor(collection: Collections) {
     this.collection = collection;
@@ -55,7 +65,7 @@ class FaunaService<
     });
   }
 
-  public getMany() {
+  public getAll() {
     return this.client.query<QueryResponse<TData[]>>(
       Map(
         Paginate(Documents(Collection(this.collection)), { size: 100 }),
@@ -112,7 +122,9 @@ export class CharacterRaceService extends FaunaService<CharacterRace> {
     super("character_race");
   }
 
-  public getCharacterRaceByAbilityBonus(abilityBonuses: CharacterAbility[]) {
+  public getCharacterRaceByAbilityBonus(
+    abilityBonuses: CharacterAbility["name"][]
+  ) {
     const [coreAbility] = abilityBonuses;
 
     return this.client.query<QueryResponse<CharacterRace[]>>(
@@ -147,5 +159,23 @@ export class CharacterRaceService extends FaunaService<CharacterRace> {
         )
       )
     );
+  }
+}
+
+export class CharacterSkillsService extends FaunaService<Skill> {
+  constructor() {
+    super("character_skills");
+  }
+
+  public getAllSkillAbilities() {
+    return this.client.query<QueryResponse<CharacterAbility["name"][]>>(
+      Paginate(Distinct(Match(Index("character_skills_abilities"))))
+    );
+  }
+}
+
+export class CharacterAbilitiesService extends FaunaService<CharacterAbility> {
+  constructor() {
+    super("character_abilities");
   }
 }

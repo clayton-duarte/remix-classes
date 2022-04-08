@@ -17,9 +17,9 @@ import {
   CharacterAbility,
   CharacterClass,
   CharacterRace,
-  SkillGlossary,
   SkillName,
   Colors,
+  Skill,
 } from "~/helpers/dataTypes";
 import useCharCalculator from "~/hooks/useCharCalculator";
 
@@ -44,12 +44,17 @@ export default function AbilityCalculator({
     toggleAbility,
   } = useCharCalculator();
 
-  const { characterClass, characterRace, skillGlossary } = useLoaderData<{
-    characterAbilities: CharacterAbility["name"][];
-    characterClass: CharacterClass;
-    characterRace: CharacterRace;
-    skillGlossary: SkillGlossary;
-  }>();
+  const { characterClass, characterRace, skillList } = useLoaderData<
+    Partial<{
+      characterClass: CharacterClass;
+      characterRace: CharacterRace;
+      skillList: Skill[];
+    }>
+  >();
+
+  if (!characterClass || !characterRace || !skillList) {
+    throw new Error("Page loader is missing data");
+  }
 
   const isAbilitySelected = selectedAbilityBonus.includes(keyAbility);
   const classAbilityIndex = characterClass.keyAbilities.indexOf(keyAbility);
@@ -64,7 +69,7 @@ export default function AbilityCalculator({
     selectedAbilityBonus.length === ABILITY_BONUS_LIMIT;
 
   const skillByAbilityMap = useMemo(() => {
-    return Object.values(skillGlossary).reduce((acc, { keyAbility, name }) => {
+    return skillList.reduce((acc, { keyAbility, name }) => {
       const currentList = acc[keyAbility] ?? [];
 
       return {

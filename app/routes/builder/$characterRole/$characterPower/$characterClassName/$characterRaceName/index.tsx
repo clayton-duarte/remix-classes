@@ -8,24 +8,21 @@ import Grid from "~/components/Grid";
 import { ABILITY_BONUS_LIMIT } from "~/helpers/consts";
 import {
   CharBuilderChoices,
-  CharacterAbility,
   CharacterClass,
   CharacterRace,
-  SkillGlossary,
-  SkillName,
+  Skill,
 } from "~/helpers/dataTypes";
-import dbClient from "~/helpers/dbClient";
 import useStorage from "~/hooks/useStorage";
 import {
+  CharacterSkillsService,
   CharacterClassService,
   CharacterRaceService,
 } from "~/libs/FaunaService";
 
 interface LoaderResponse {
-  characterAbilities: CharacterAbility[];
   characterClass: CharacterClass;
   characterRace: CharacterRace;
-  skillGlossary: SkillGlossary;
+  skillList: Skill[];
 }
 
 export const loader = async ({ params }: { params: CharBuilderChoices }) => {
@@ -36,20 +33,23 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
   }
 
   const characterClassClient = new CharacterClassService();
-  const characterRaceListClient = new CharacterRaceService();
+  const characterRaceClient = new CharacterRaceService();
+  const skillListClient = new CharacterSkillsService();
 
-  const [{ data: characterClass }, { data: characterRace }] = await Promise.all(
-    [
-      characterClassClient.getOneByName(params.characterClassName),
-      characterRaceListClient.getOneByName(params.characterRaceName),
-    ]
-  );
+  const [
+    { data: characterClass },
+    { data: characterRace },
+    { data: skillList },
+  ] = await Promise.all([
+    characterClassClient.getOneByName(params.characterClassName),
+    characterRaceClient.getOneByName(params.characterRaceName),
+    skillListClient.getAll(),
+  ]);
 
   return json<LoaderResponse>({
-    characterAbilities: dbClient.fetchCharacterAbilities(),
-    skillGlossary: dbClient.fetchSkillGlossary(),
     characterClass,
     characterRace,
+    skillList,
   });
 };
 
@@ -58,7 +58,7 @@ export default function Page() {
   const [, setCharChoices] = useStorage("charChoices")(params);
   const navigate = useNavigate();
 
-  const { characterRace, characterClass, skillGlossary } =
+  const { characterRace, characterClass, skillList } =
     useLoaderData<LoaderResponse>();
 
   const humanizedAbilityList = useMemo(() => {
@@ -72,31 +72,30 @@ export default function Page() {
   }, [characterRace.abilityBonus]);
 
   const humanizedSkillList = useMemo(() => {
-    const formatSkillOption = (skill: SkillName) =>
-      `${skill.charAt(0).toUpperCase()}${skill.slice(1)} (${skillGlossary[
-        skill
-      ].keyAbility
-        .slice(0, 3)
+    const formatSkillOption = (skillName: Skill["name"]) =>
+      `${skillName.charAt(0).toUpperCase()}${skillName.slice(1)} (${skillList
+        .find(({ name }) => name === skillName)
+        ?.keyAbility.slice(0, 3)
         .toUpperCase()});`;
 
     return characterClass.skillList
-      .map((skill) => {
-        const formattedSkill = formatSkillOption(skill);
+      .map((skillName) => {
+        const formattedSkill = formatSkillOption(skillName);
 
-        if (characterClass.trainedSkills.includes(skill)) {
+        if (characterClass.trainedSkills.includes(skillName)) {
           return (
-            <li key={`${skill}-list-item`}>
+            <li key={`${skillName}-list-item`}>
               <strong>{formattedSkill}</strong>
             </li>
           );
         }
 
-        return <li key={`${skill}-list-item`}>{formattedSkill}</li>;
+        return <li key={`${skillName}-list-item`}>{formattedSkill}</li>;
       })
       .map((skill) => {
         return skill;
       });
-  }, [characterClass.skillList, characterClass.trainedSkills, skillGlossary]);
+  }, [characterClass.skillList, characterClass.trainedSkills, skillList]);
 
   return (
     <>
