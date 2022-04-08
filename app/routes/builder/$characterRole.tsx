@@ -12,7 +12,7 @@ interface LoaderResponse {
 
 export const loader = async () => {
   const rolesClient = new CharacterRoleService();
-  const { data: roleList } = await rolesClient.getMany();
+  const { data: roleList } = await rolesClient.getAll();
 
   return json<LoaderResponse>({ roleList });
 };

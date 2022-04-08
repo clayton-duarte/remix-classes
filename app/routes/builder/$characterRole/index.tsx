@@ -26,7 +26,7 @@ export const loader = async ({ params }: { params: CharBuilderChoices }) => {
   const [{ data: characterRole }, { data: powerSourceList }] =
     await Promise.all([
       rolesClient.getOneByName(params.characterRole),
-      powerSourceClient.getMany(),
+      powerSourceClient.getAll(),
     ]);
 
   return json<LoaderResponse>({
