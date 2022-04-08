@@ -4,7 +4,7 @@ import { useLoaderData } from "remix";
 import AbilityCalculator from "~/components/AbilityCalculator";
 import Button from "~/components/Button";
 import DataPanel from "~/components/DataPanel";
-import { CharacterAbility } from "~/helpers/dataTypes";
+import { CharacterAbility } from "~/helpers/types";
 import useCharCalculator from "~/hooks/useCharCalculator";
 
 const CalculatorWrapper = styled.div`

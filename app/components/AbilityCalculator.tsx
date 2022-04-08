@@ -20,7 +20,7 @@ import {
   SkillName,
   Colors,
   Skill,
-} from "~/helpers/dataTypes";
+} from "~/helpers/types";
 import useCharCalculator from "~/hooks/useCharCalculator";
 
 const StyledAbilityLabel = styled.label<{ color: Colors }>`

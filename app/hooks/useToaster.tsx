@@ -10,7 +10,7 @@ import {
 import styled from "@emotion/styled";
 import { BiX } from "react-icons/bi";
 
-import { Colors, StatusColors } from "~/helpers/dataTypes";
+import { Colors, StatusColors } from "~/helpers/types";
 
 const ToasterWrapper = styled.div<{ color: Colors }>`
   box-shadow: 0 0 1rem 0.125rem ${({ theme }) => theme.black}33;

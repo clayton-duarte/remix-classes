@@ -3,7 +3,7 @@ import { json, useLoaderData, Outlet, useParams } from "remix";
 import BuilderLayout from "~/components/BuilderLayout";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
-import { CharacterRole, CharBuilderChoices } from "~/helpers/dataTypes";
+import { CharacterRole, CharBuilderChoices } from "~/helpers/types";
 import { CharacterRoleService } from "~/libs/FaunaService";
 
 interface LoaderResponse {

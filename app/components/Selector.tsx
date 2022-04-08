@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { useNavigate } from "remix";
 
-import { Colors, StatusColors } from "~/helpers/dataTypes";
+import { Colors, StatusColors } from "~/helpers/types";
 
 const StyledTitle = styled.h3<{ area: string }>`
   grid-area: ${({ area }) => area};

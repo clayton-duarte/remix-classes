@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 import { COST_BY_SCORE, SCORE_POINTS_TO_DISTRIBUTE } from "~/helpers/consts";
-import { CharacterAbility } from "~/helpers/dataTypes";
+import { CharacterAbility } from "~/helpers/types";
 import useCharCalculator from "~/hooks/useCharCalculator";
 
 const StyledWrapper = styled.div<{ percent: number }>`

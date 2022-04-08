@@ -11,7 +11,7 @@ import {
   CharacterClass,
   CharacterRace,
   Skill,
-} from "~/helpers/dataTypes";
+} from "~/helpers/types";
 import useStorage from "~/hooks/useStorage";
 import {
   CharacterSkillsService,

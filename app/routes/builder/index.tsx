@@ -4,7 +4,7 @@ import BuilderLayout from "~/components/BuilderLayout";
 import DataPanel from "~/components/DataPanel";
 import Selector from "~/components/Selector";
 import { builderDynamicRoute } from "~/helpers";
-import { CharBuilderChoices, CharacterRole } from "~/helpers/dataTypes";
+import { CharBuilderChoices, CharacterRole } from "~/helpers/types";
 import { CharacterRoleService } from "~/libs/FaunaService";
 
 interface LoaderResponse {

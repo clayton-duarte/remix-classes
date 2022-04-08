@@ -7,7 +7,7 @@ import {
   CharBuilderChoices,
   CharacterClass,
   PowerSource,
-} from "~/helpers/dataTypes";
+} from "~/helpers/types";
 import {
   CharacterClassService,
   PowerSourcesService,

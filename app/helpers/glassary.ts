@@ -5,7 +5,7 @@ import {
   CharacterRoleName,
   PowerSourceName,
   SkillName,
-} from "~/helpers/dataTypes";
+} from "~/helpers/types";
 
 export const characterRolesGlossary = {
   [CharacterRoleName.Controller]: {

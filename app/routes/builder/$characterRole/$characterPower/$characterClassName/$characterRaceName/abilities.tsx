@@ -8,7 +8,7 @@ import {
   CharacterClass,
   CharacterRace,
   Skill,
-} from "~/helpers/dataTypes";
+} from "~/helpers/types";
 import { CharCalculatorProvider } from "~/hooks/useCharCalculator";
 import {
   CharacterAbilitiesService,

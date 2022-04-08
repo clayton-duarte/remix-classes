@@ -19,7 +19,7 @@ import {
   CharacterClass,
   CharacterRace,
   SkillName,
-} from "~/helpers/dataTypes";
+} from "~/helpers/types";
 import useCalculatorWarn from "~/hooks/useCalculatorWarn";
 import useStorage from "~/hooks/useStorage";
 

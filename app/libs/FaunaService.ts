@@ -30,7 +30,7 @@ import {
   CharacterRace,
   PowerSource,
   Skill,
-} from "~/helpers/dataTypes";
+} from "~/helpers/types";
 
 interface QueryResponse<TData> {
   data: TData;

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { Colors } from "~/helpers/dataTypes";
+import { Colors } from "~/helpers/types";
 
 interface GridProps {
   border?: Colors;

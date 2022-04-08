@@ -7,7 +7,7 @@ import {
   CharBuilderChoices,
   CharacterRole,
   PowerSource,
-} from "~/helpers/dataTypes";
+} from "~/helpers/types";
 import { PowerSourcesService, CharacterRoleService } from "~/libs/FaunaService";
 
 interface LoaderResponse {

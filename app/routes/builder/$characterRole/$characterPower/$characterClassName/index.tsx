@@ -10,7 +10,7 @@ import {
   CharBuilderChoices,
   CharacterClass,
   CharacterRace,
-} from "~/helpers/dataTypes";
+} from "~/helpers/types";
 import {
   CharacterClassService,
   CharacterRaceService,
