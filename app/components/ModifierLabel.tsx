@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 const ModifierLabel = styled.span<{ small?: boolean }>`
   transform: scale(${({ small }) => (small ? 1 : 1.25)});
-  border: 0.125rem solid ${({ theme }) => theme.bg};
+  border: 2px solid ${({ theme }) => theme.bg};
   font-family: "Cinzel", serif;
   border-radius: 1rem;
   place-items: center;

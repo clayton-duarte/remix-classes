@@ -14,6 +14,7 @@ const CalculatorWrapper = styled.div`
   display: grid;
   gap: 1rem;
   @media all and (max-width: 768px) {
+    grid-template-columns: 1fr auto;
     gap: 0.25rem 0.5rem;
   }
 `;

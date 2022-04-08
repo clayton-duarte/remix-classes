@@ -18,7 +18,6 @@ const BuilderLayout = styled.section`
   @media all and (max-width: 768px) {
     grid-template-columns: auto 1fr;
     align-items: center;
-    gap: 0.5rem;
     grid-template-areas:
       "role-title role-select"
       "role-data role-data"

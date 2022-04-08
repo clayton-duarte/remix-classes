@@ -59,7 +59,6 @@ export default function AbilityCalculator({
   const isAbilitySelected = selectedAbilityBonus.includes(keyAbility);
   const classAbilityIndex = characterClass.keyAbilities.indexOf(keyAbility);
   const isRacialAbilityBonus = characterRace.abilityBonus.includes(keyAbility);
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
   const racialBonus = isAbilitySelected ? ABILITY_SCORE_BONUS_VALUE : 0;
 
   const dontNeedToSelect =
@@ -89,6 +88,19 @@ export default function AbilityCalculator({
 
   return (
     <>
+      <StyledAbilityLabel
+        htmlFor={`${keyAbility}-ability-checkbox`}
+        color={
+          classAbilityIndex < 0
+            ? "black"
+            : classAbilityIndex === 0
+            ? "success"
+            : "warn"
+        }
+      >
+        {/* {isMobile ? keyAbility.slice(0, 3) : keyAbility} */}
+        {keyAbility}
+      </StyledAbilityLabel>
       <BonusCheckbox
         onChange={() => toggleAbility(keyAbility)}
         id={`${keyAbility}-ability-checkbox`}
@@ -100,18 +112,6 @@ export default function AbilityCalculator({
           dontNeedToSelect // there's no other possible combination
         }
       />
-      <StyledAbilityLabel
-        htmlFor={`${keyAbility}-ability-checkbox`}
-        color={
-          classAbilityIndex < 0
-            ? "black"
-            : classAbilityIndex === 0
-            ? "success"
-            : "warn"
-        }
-      >
-        {isMobile ? keyAbility.slice(0, 3) : keyAbility}
-      </StyledAbilityLabel>
       <AbilityStepper
         baseScore={BASE_ABILITY_SCORE + racialBonus}
         ability={keyAbility}

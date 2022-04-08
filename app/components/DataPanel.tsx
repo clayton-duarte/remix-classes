@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import { Colors } from "~/helpers/types";
 
 const StyledPanel = styled.div<{ area?: string; color: Colors }>`
-  border: 0.125rem solid ${({ theme, color }) => theme[color]};
+  border: 2px solid ${({ theme, color }) => theme[color]};
   ${({ area }) => area && `grid-area: ${area}-data`};
   grid-template-columns: 1fr;
   align-items: center;
@@ -25,6 +25,8 @@ const StyledLegend = styled.legend<{ color: Colors }>`
     color === "bg" ? theme.secondary : theme.white};
   background: ${({ theme, color }) => theme[color]};
   padding: 0.5rem;
+  display: grid;
+  margin: 0;
 `;
 
 export default function DataPanel({

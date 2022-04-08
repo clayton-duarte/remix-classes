@@ -27,7 +27,6 @@ const RootLayout = styled.main`
 const HeaderLayout = styled.header`
   background: ${({ theme }) => theme.primary};
   color: ${({ theme }) => theme.white};
-  grid-template-columns: auto 1fr;
   justify-content: flex-start;
   position: sticky;
   display: grid;
@@ -35,10 +34,6 @@ const HeaderLayout = styled.header`
   z-index: 999;
   gap: 1rem;
   top: 0;
-  @media all and (max-width: 768px) {
-    grid-template-columns: auto;
-    grid-template-rows: auto auto;
-  }
 `;
 
 const ContentLayout = styled.article`
@@ -83,6 +78,9 @@ function Layout({ children }: { children: ReactNode }) {
             font-weight: 400;
             font-size: 16px;
             margin: 0;
+            @media screen and (max-width: 768px) {
+              font-size: 20px;
+            }
           }
 
           button {

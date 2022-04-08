@@ -12,7 +12,7 @@ const StyledTitle = styled.h3<{ area: string }>`
 `;
 
 const StyledList = styled.ul<{ area: string }>`
-  border: 0.125rem solid ${({ theme }) => theme.bg};
+  border: 2px solid ${({ theme }) => theme.bg};
   grid-area: ${({ area }) => area};
   overflow: hidden;
   padding: 0.25rem;

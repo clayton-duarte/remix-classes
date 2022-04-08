@@ -13,8 +13,8 @@ import { BiX } from "react-icons/bi";
 import { Colors, StatusColors } from "~/helpers/types";
 
 const ToasterWrapper = styled.div<{ color: Colors }>`
-  box-shadow: 0 0 1rem 0.125rem ${({ theme }) => theme.black}33;
-  border: 0.125rem solid ${({ theme, color }) => theme[color]};
+  box-shadow: 0 0 1rem 2px ${({ theme }) => theme.black}33;
+  border: 2px solid ${({ theme, color }) => theme[color]};
   background: ${({ theme }) => theme.white};
   width: calc(100% - 2rem);
   align-items: center;

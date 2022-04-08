@@ -17,8 +17,10 @@ const StyledSkillLabel = styled.label`
   text-transform: capitalize;
   justify-self: stretch;
   font-size: 0.75rem;
+  padding-left: 1rem;
   font-weight: 700;
   @media all and (max-width: 768px) {
+    padding-left: 0;
     background-image: linear-gradient(
       ${({ theme }) => `90deg, ${theme.white} , ${theme.bg}`}
     );
@@ -44,7 +46,6 @@ export default function SkillCalculator({
     throw new Error("Page loader is missing data");
   }
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 769;
   const isClassSkill = characterClass.trainedSkills.includes(skillName);
   const canLearnSkill = characterClass.skillList.includes(skillName);
   const skillChoiceLimit = characterClass.skillChoices;
@@ -53,7 +54,9 @@ export default function SkillCalculator({
 
   return (
     <>
-      {isMobile && <span />}
+      <StyledSkillLabel htmlFor={`skill-${skillName}-checkbox`}>
+        {skillName}
+      </StyledSkillLabel>
       <BonusCheckbox
         onChange={() => toggleSkill(skillName)}
         id={`skill-${skillName}-checkbox`}
@@ -64,22 +67,11 @@ export default function SkillCalculator({
           isClassSkill // there's no other possible combination
         }
       />
-      {!isMobile && (
-        <StyledSkillLabel htmlFor={`skill-${skillName}-checkbox`}>
-          {skillName}
-        </StyledSkillLabel>
-      )}
-      {isMobile ? (
-        <StyledSkillLabel htmlFor={`skill-${skillName}-checkbox`}>
-          {skillName}
-        </StyledSkillLabel>
-      ) : (
-        <StyledHelperText>
-          {`${Number(
-            isSkillSelected ? TRAINED_SKILL_BONUS_VALUE : 0
-          )} from training +${abilityModifier} ability bonus`}
-        </StyledHelperText>
-      )}
+      <StyledHelperText>
+        {`${Number(
+          isSkillSelected ? TRAINED_SKILL_BONUS_VALUE : 0
+        )} from training +${abilityModifier} ability bonus`}
+      </StyledHelperText>
       <ModifierLabel small>
         {Number(abilityModifier) +
           Number(isSkillSelected ? TRAINED_SKILL_BONUS_VALUE : 0)}
